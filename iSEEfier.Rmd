@@ -1,0 +1,93 @@
+---
+title: "iSEEfier"
+author: "Najla Abassi"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r}
+library("iSEE")
+sce <- readRDS("~/Projects/NA04-kevin-scRNA-Tcells/Projekt_Kevin/sce_merged_corrected_without_doublets.RDS")
+
+iSEE(sce)
+```
+
+
+```{r}
+# this function creates the initial config for an iSEE instance to explore your marker gene list
+# not all panels are useful for visualizing gene expression
+
+iSEEfier <- function(panel.name, feature.list, reddim.type=NULL,panel.width=4L) {
+  initial <- list()
+  feature.list <- as.list(feature.list)
+  panel.width <- as.integer(panel.width)
+  if ("ReducedDimensionPlot" %in% panel.name) {
+    for (j in feature.list) {
+      initial[[paste0("ReducedDimensionPlot", which(feature.list == j))]] <- new("ReducedDimensionPlot",
+                                                                                 Type = reddim.type,
+                                                                                 ColorBy = "Feature name",
+                                                                                 ColorByFeatureName = j,
+                                                                                 PanelWidth = panel.width)
+    }
+    }
+  if ("FeatureAssayPlot" %in% panel.name) {
+    for (i in feature.list) {
+      initial[[paste0("FeatureAssayPlot", which(feature.list == i))]] <- new("FeatureAssayPlot",
+                                                                             XAxis = "Column data",
+                                                                             XAxisColumnData = "clusters.mnn",
+                                                                             YAxisFeatureName = i,
+                                                                             PanelWidth = panel.width)
+    }
+    }
+  if ("ComplexHeatmapPlot" %in% panel.name) {
+    initial[["ComplexHeatmapPlot1"]] <- new("ComplexHeatmapPlot",
+                                            CustomRowsText = paste(feature.list, collapse = "\n"),
+                                            ColumnData = "clusters.mnn",
+                                            PanelWidth = panel.width)
+  }
+  
+  if ("ColumnDataPlot" %in% panel.name) {
+    for (l in feature.list) {
+      initial[[paste0("ColumnDataPlot", which(feature.list == l))]] <- new("ColumnDataPlot",
+                                                                           YAxis = "group",
+                                                                           XAxisColumnData = "clusters.mnn",
+                                                                           ColorBy = "Feature name",
+                                                                           ColorByFeatureName = l,
+                                                                           PanelWidth = panel.width)
+    }
+    }
+  
+  return(initial)
+  
+}
+
+
+
+
+# list of features
+naive <- c("CD28", "CD27", "IL7R", "CCR7", "SELL", "PTPRC", "PRF1", "GZMB") # maybe if i use the sce with merged fb i can look at the exp of cd45RA and cd45RO separately
+stem_memory <- c("CCR7", "SELL","PTPRC", "CD28", "CD27")
+central_memory <- c("CCR7", "SELL", "CD28", "CD27", "EOMES", "PTPRC")
+effector_memory <- c("CCR7", "TOX", "EOMES", "SELL", "PTPRC")
+effector <- c("CCR7", "SELL", "PRF1", "GZMB", "EOMES", "PTPRC")
+cd8_treg <- c("FOXP3","IL2RA","TGFB1") 
+senescent <- c("CD28", "CD27", "B3GAT1", "KLRG1", "PTPRC", "TIGIT", "GZMB")
+exhausted <- c("PDCD1", "CTLA4", "HAVCR2", "LAG3", "TOX", "TIGIT")
+nk_t<- c("NCAM1")
+
+
+my_reddim.type <- "TSNE"
+my_panel.name <- c("ReducedDimensionPlot","FeatureAssayPlot","ComplexHeatmapPlot","ColumnDataPlot")
+
+
+initial <- iSEEfier(my_panel.name, naive, my_reddim.type)
+iSEE(sce, initial = initial)
+
+```
+
+```{r}
+
+```
+
+
+
