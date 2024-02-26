@@ -13,49 +13,86 @@ iSEE(sce)
 ```
 
 
+just gonna type some thoughts...
+let's get rid of the list of panels: i.e. the user doesn't choose how they want to visualize but rather give them a general view with different panels all at once; they decide what to keep
+
+- decide what are the relevant panel:
+
++ reduced dim
++ rowdata tab (eventually we can put multiple tables that can feed them to plot 2 features against each other interactively)
++ feature assay plot
++ coldata plot (maybe when selected we feed it to the TSNE plots colored by expression?, not by default)
++ complex heatmap
+
+i like the idea of having a panel that holds records of ur genes list --> but we gotta add another panel??? but i use iSEE and probably this wont't be my way to go
+
+this function assumes that your gene list contains at least 2 genes; maybe fix this aspect so that even with 1 gene we can use it
+we ll give the user to choice between TSNE and UMAP from the beginning, if they don't specify, it's pca, or maybe should we set it to tsne?
+
++ panel width, this one is basically for all panels, is it interesting to have it seperate for eaach panel? sera-t-il plus interessant d exprimer la largeur en fonction du nombre de genes? par exp un multiple de 3 , width = 4 so that we get in each row 1 gene
+
+what about the order of panels?
+
+
 ```{r}
 # this function creates the initial config for an iSEE instance to explore your marker gene list
-# not all panels are useful for visualizing gene expression
 
-iSEEfier <- function(panel.name, feature.list, reddim.type=NULL,panel.width=4L) {
+
+iSEEfier <- function(feature.list, reddim.type=NULL, panel.width=4L) {
   initial <- list()
   feature.list <- as.list(feature.list)
   panel.width <- as.integer(panel.width)
-  if ("ReducedDimensionPlot" %in% panel.name) {
-    for (j in feature.list) {
-      initial[[paste0("ReducedDimensionPlot", which(feature.list == j))]] <- new("ReducedDimensionPlot",
-                                                                                 Type = reddim.type,
-                                                                                 ColorBy = "Feature name",
-                                                                                 ColorByFeatureName = j,
-                                                                                 PanelWidth = panel.width)
-    }
-    }
-  if ("FeatureAssayPlot" %in% panel.name) {
-    for (i in feature.list) {
-      initial[[paste0("FeatureAssayPlot", which(feature.list == i))]] <- new("FeatureAssayPlot",
-                                                                             XAxis = "Column data",
-                                                                             XAxisColumnData = "clusters.mnn",
-                                                                             YAxisFeatureName = i,
-                                                                             PanelWidth = panel.width)
-    }
-    }
-  if ("ComplexHeatmapPlot" %in% panel.name) {
-    initial[["ComplexHeatmapPlot1"]] <- new("ComplexHeatmapPlot",
-                                            CustomRowsText = paste(feature.list, collapse = "\n"),
-                                            ColumnData = "clusters.mnn",
-                                            PanelWidth = panel.width)
+  
+  for (j in feature.list) {
+    initial[[paste0("ReducedDimensionPlot", which(feature.list == j))]] <- new("ReducedDimensionPlot",
+                                                                               Type = reddim.type,
+                                                                               ColorBy = "Feature name",
+                                                                               ColorByFeatureName = j,
+                                                                               PanelWidth = panel.width)
+    
+    initial[[paste0("FeatureAssayPlot", which(feature.list == j))]] <- new("FeatureAssayPlot",
+                                                                           XAxis = "Column data",
+                                                                           XAxisColumnData = "clusters.mnn",
+                                                                           YAxisFeatureName = j,
+                                                                           PanelWidth = panel.width)
+    
+    initial[[paste0("RowDataTable1", which(feature.list == j))]] <- new("RowDataTable",
+                                                                        Selected = j,
+                                                                        Search = j,
+                                                                        PanelWidth = panel.width)
   }
   
-  if ("ColumnDataPlot" %in% panel.name) {
-    for (l in feature.list) {
-      initial[[paste0("ColumnDataPlot", which(feature.list == l))]] <- new("ColumnDataPlot",
-                                                                           YAxis = "group",
-                                                                           XAxisColumnData = "clusters.mnn",
-                                                                           ColorBy = "Feature name",
-                                                                           ColorByFeatureName = l,
-                                                                           PanelWidth = panel.width)
-    }
-    }
+  
+  initial[[paste0("FeatureAssayPlot", length(feature.list) + 1)]] <- new("FeatureAssayPlot", 
+                                      XAxis = "Feature name", 
+                                      XAxisFeatureName = feature.list[[1]],
+                                      YAxisFeatureName = feature.list[[2]],
+                                      PanelWidth = panel.width)
+  
+  
+  initial[["ColumnDataPlot1"]] <- new("ColumnDataPlot",
+                                      XAxis = "Column data",
+                                      YAxis = "group",
+                                      XAxisColumnData = "clusters.mnn",
+                                      ColorBy = "Column data",
+                                      ColorByColumnData = "clusters.mnn",
+                                      PanelWidth = panel.width) 
+  
+  initial[[paste0("ReducedDimensionPlot", length(feature.list) + 1)]] <- new("ReducedDimensionPlot",
+                                                                             Type = reddim.type,
+                                                                             ColorByColumnData = "clusters.mnn",
+                                                                            ColorBy = "Column data",
+                                                                               ColumnSelectionSource = paste0("FeatureAssayPlot", length(feature.list) + 1),
+                                                                               PanelWidth = panel.width)
+  
+  
+  initial[["ComplexHeatmapPlot1"]] <- new("ComplexHeatmapPlot",
+                                          CustomRowsText = paste(feature.list, collapse = "\n"),
+                                          ColumnData = "clusters.mnn",
+                                          PanelWidth = panel.width)
+  
+  
+  
   
   return(initial)
   
@@ -77,15 +114,18 @@ nk_t<- c("NCAM1")
 
 
 my_reddim.type <- "TSNE"
-my_panel.name <- c("ReducedDimensionPlot","FeatureAssayPlot","ComplexHeatmapPlot","ColumnDataPlot")
 
+# create initial with iSEEfier
+initial <- iSEEfier(cd8_treg,my_reddim.type)
 
-initial <- iSEEfier(my_panel.name, naive, my_reddim.type)
 iSEE(sce, initial = initial)
 
 ```
 
+
+
 ```{r}
+
 
 ```
 
