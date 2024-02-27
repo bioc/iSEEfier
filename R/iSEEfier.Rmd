@@ -7,7 +7,7 @@ output: html_document
 
 ```{r}
 library("iSEE")
-sce <- readRDS("~/Projects/NA04-kevin-scRNA-Tcells/Projekt_Kevin/sce_merged_corrected_without_doublets.RDS")
+sce <- readRDS("~/Projects/NA04-kevin-scRNA-Tcells/Projekt_Kevin/sce_ex_fb.RDS")
 
 iSEE(sce)
 ```
@@ -27,7 +27,7 @@ let's get rid of the list of panels: i.e. the user doesn't choose how they want 
 i like the idea of having a panel that holds records of ur genes list --> but we gotta add another panel??? but i use iSEE and probably this wont't be my way to go
 
 this function assumes that your gene list contains at least 2 genes; maybe fix this aspect so that even with 1 gene we can use it
-we ll give the user to choice between TSNE and UMAP from the beginning, if they don't specify, it's pca, or maybe should we set it to tsne?
+we ll give the user to choice between TSNE and UMAP from the beginning, if they don't specify, it's pca, or mnn or whatever u have, or maybe should we set it to tsne?
 
 + panel width, this one is basically for all panels, is it interesting to have it seperate for eaach panel? sera-t-il plus interessant d exprimer la largeur en fonction du nombre de genes? par exp un multiple de 3 , width = 4 so that we get in each row 1 gene
 
@@ -100,15 +100,14 @@ iSEEfier <- function(feature.list, reddim.type=NULL, panel.width=4L) {
 
 
 
-
-# list of features
-naive <- c("CD28", "CD27", "IL7R", "CCR7", "SELL", "PTPRC", "PRF1", "GZMB") # maybe if i use the sce with merged fb i can look at the exp of cd45RA and cd45RO separately
-stem_memory <- c("CCR7", "SELL","PTPRC", "CD28", "CD27")
-central_memory <- c("CCR7", "SELL", "CD28", "CD27", "EOMES", "PTPRC")
-effector_memory <- c("CCR7", "TOX", "EOMES", "SELL", "PTPRC")
-effector <- c("CCR7", "SELL", "PRF1", "GZMB", "EOMES", "PTPRC")
+# eg of list of features
+naive <- c("CD28", "CD27", "IL7R", "CCR7", "SELL", "CD45RO", "CD45RA", "PRF1", "GZMB") 
+stem_memory <- c("CCR7", "SELL","CD45RO", "CD45RA", "CD28", "CD27")
+central_memory <- c("CCR7", "SELL", "CD28", "CD27", "EOMES", "CD45RO", "CD45RA")
+effector_memory <- c("CCR7", "TOX", "EOMES", "SELL", "CD45RO", "CD45RA")
+effector <- c("CCR7", "SELL", "PRF1", "GZMB", "EOMES", "CD45RO", "CD45RA")
 cd8_treg <- c("FOXP3","IL2RA","TGFB1") 
-senescent <- c("CD28", "CD27", "B3GAT1", "KLRG1", "PTPRC", "TIGIT", "GZMB")
+senescent <- c("CD28", "CD27", "B3GAT1", "KLRG1", "CD45RA", "TIGIT", "GZMB")
 exhausted <- c("PDCD1", "CTLA4", "HAVCR2", "LAG3", "TOX", "TIGIT")
 nk_t<- c("NCAM1")
 
