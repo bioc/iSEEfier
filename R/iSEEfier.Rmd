@@ -29,7 +29,7 @@ i like the idea of having a panel that holds records of ur genes list --> but we
 this function assumes that your gene list contains at least 2 genes; maybe fix this aspect so that even with 1 gene we can use it
 we ll give the user to choice between TSNE and UMAP from the beginning, if they don't specify, it's pca, or mnn or whatever u have, or maybe should we set it to tsne?
 
-+ panel width, this one is basically for all panels, is it interesting to have it seperate for eaach panel? sera-t-il plus interessant d exprimer la largeur en fonction du nombre de genes? par exp un multiple de 3 , width = 4 so that we get in each row 1 gene
++ panel width, this one is basically for all panels, is it interesting to have it separate for eaach panel? sera-t-il plus interessant d exprimer la largeur en fonction du nombre de genes? par exp un multiple de 3 , width = 4 so that we get in each row 1 gene
 
 what about the order of panels?
 
