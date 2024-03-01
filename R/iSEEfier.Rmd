@@ -36,6 +36,8 @@ Can I actually change panel names??
 
 Let's think what can be the default value for clusters and conditions? how to fetch the name of the 1st coldata? should the sce be a parameter?? or is there a better solution?
 
+clusters: can be clusters or cell types..
+
 
 ```{r}
 # this function creates the initial config for an iSEE instance to explore your marker gene list
