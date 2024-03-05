@@ -40,7 +40,7 @@ clusters: can be clusters or cell types..
 
 
 ```{r}
-# this function creates the initial config for an iSEE instance to explore your marker gene list
+# this function creates the initial config for an iSEE instance to better explore your marker gene list
 # feature.list: a character vector
 # reddim.type: a character string with the name of the reduced dimension: PCA,MNN,TSNE,UMAP..
 # panel.width: an integer
@@ -48,20 +48,26 @@ clusters: can be clusters or cell types..
 # conditions : a character string of the groups/conditions (as it appears in the colData)
 
 
-iSEEfier <- function(sce, feature.list,panel.width, reddim.type, clusters, conditions) {
+iSEEfier <- function(sce,
+                     feature.list,
+                     reddim.type = "TSNE",
+                     clusters = colnames(colData(sce))[1],
+                     conditions = colnames(colData(sce))[1]) {
   initial <- list()
   feature.list <- as.list(feature.list)
-  clusters <- as.character(colnames(colData(sce))[1])
-  conditions <- as.character(colnames(colData(sce))[1])
-  panel.width <- as.integer(4)
-  reddim.type="TSNE"
+  clusters <- as.character(clusters)
+  condition <- as.character(conditions)
+  
+  
+  print(paste("Input clusters:", clusters))
+  print(paste("Input conditions:", conditions))
+
 
   
   initial[["ColumnDataPlot1"]] <- new("ColumnDataPlot",
                                       YAxis = clusters,
                                       ColorBy = "Column data",
-                                      ColorByColumnData = clusters,
-                                      PanelWidth = panel.width
+                                      ColorByColumnData = clusters
                                       )
   
   for (j in feature.list) {
@@ -69,21 +75,20 @@ iSEEfier <- function(sce, feature.list,panel.width, reddim.type, clusters, condi
                                                                                Type = reddim.type,
                                                                                ColorBy = "Feature name",
                                                                                ColorByFeatureName = j,
-                                                                               ColumnSelectionSource = "ColumnDataPlot1",
-                                                                               PanelWidth = panel.width
+                                                                               ColumnSelectionSource = "ColumnDataPlot1"
                                                                               )
     
     initial[[paste0("FeatureAssayPlot", which(feature.list == j))]] <- new("FeatureAssayPlot",
                                                                            XAxis = "Column data",
                                                                            XAxisColumnData = clusters,
                                                                            YAxisFeatureName = j,
-                                                                           PanelWidth = panel.width
+                                                                           ColorBy = "Column data",
+                                                                           ColorByColumnData = clusters
                                                                           )
     
     initial[[paste0("RowDataTable", which(feature.list == j))]] <- new("RowDataTable",
                                                                         Selected = j,
-                                                                        Search = j,
-                                                                       PanelWidth = panel.width
+                                                                        Search = j
                                                                       )
   }
   
@@ -91,8 +96,7 @@ iSEEfier <- function(sce, feature.list,panel.width, reddim.type, clusters, condi
     initial[[paste0("FeatureAssayPlot", length(feature.list) + 1)]] <- new("FeatureAssayPlot", 
                                       XAxis = "Feature name", 
                                       XAxisFeatureName = feature.list[[1]],
-                                      YAxisFeatureName = feature.list[[2]],
-                                      PanelWidth = panel.width
+                                      YAxisFeatureName = feature.list[[2]]
                                      )
   }
   
@@ -104,15 +108,13 @@ iSEEfier <- function(sce, feature.list,panel.width, reddim.type, clusters, condi
                                                                             ColorBy = "Column data",
                                                                                ColumnSelectionSource = paste0("FeatureAssayPlot", length(feature.list) + 1),
                                                                             FacetColumnBy = "Column data",
-                                                                            FacetColumnByColData = conditions,
-                                                                            PanelWidth = panel.width
+                                                                            FacetColumnByColData = condition
                                                                               )
   
   
   initial[["ComplexHeatmapPlot1"]] <- new("ComplexHeatmapPlot",
                                           CustomRowsText = paste(feature.list, collapse = "\n"),
-                                          ColumnData = clusters,
-                                          PanelWidth = panel.width
+                                          ColumnData = clusters
                                          )
   
   
@@ -139,10 +141,13 @@ test <- c("IL2RA","TOX")
 my_reddim.type <- "UMAP"
 my_clusters <- "clusters.mnn"
 my_conditions <- "group"
-my_panel.width <- 6L
+my_panel.width <- 5
 
 # create initial with iSEEfier
-initial <- iSEEfier(sce,senescent, my_clusters,my_conditions,my_panel.width)
+initial <- iSEEfier(sce = sce,feature.list = effector, clusters = my_clusters, conditions = my_conditions)
+#for some reason i had to explicitly write feature.list = test and not only test, same for the rest of the param
+# i also got rid of the panel.width param because it's giving me errors
+
 
 iSEE(sce, initial = initial)
 
