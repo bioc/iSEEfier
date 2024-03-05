@@ -24,7 +24,7 @@ let's get rid of the list of panels: i.e. the user doesn't choose how they want 
 + coldata plot (maybe when selected we feed it to the TSNE plots colored by expression?, not by default)
 + complex heatmap
 
-i like the idea of having a panel that holds records of ur genes list --> but we gotta add another panel??? but i use iSEE and probably this wont't be my way to go
+gotta add the "whiteboard" panel
 
 we ll give the user to choice between TSNE and UMAP from the beginning, if they don't specify, it's pca, or mnn or whatever u have, or maybe should we set it to tsne? --> made it by default TSNE, input from my exp with kevin
 
@@ -45,20 +45,24 @@ clusters: can be clusters or cell types..
 # reddim.type: a character string with the name of the reduced dimension: PCA,MNN,TSNE,UMAP..
 # panel.width: an integer
 # clusters: a character string with the name of the clusters (as it appears in the colData)
-# conditions : a charater string of the groups/conditions (as it appears in the colData)
+# conditions : a character string of the groups/conditions (as it appears in the colData)
 
 
-iSEEfier <- function(sce, feature.list, reddim.type="TSNE", panel.width=4L, clusters = colnames(colData(sce))[1], conditions = colnames(colData(sce))[1]) {
+iSEEfier <- function(sce, feature.list,panel.width, reddim.type, clusters, conditions) {
   initial <- list()
   feature.list <- as.list(feature.list)
-  panel.width <- as.integer(panel.width)
-  
+  clusters <- as.character(colnames(colData(sce))[1])
+  conditions <- as.character(colnames(colData(sce))[1])
+  panel.width <- as.integer(4)
+  reddim.type="TSNE"
+
   
   initial[["ColumnDataPlot1"]] <- new("ColumnDataPlot",
                                       YAxis = clusters,
                                       ColorBy = "Column data",
                                       ColorByColumnData = clusters,
-                                      PanelWidth = panel.width)
+                                      PanelWidth = panel.width
+                                      )
   
   for (j in feature.list) {
     initial[[paste0("ReducedDimensionPlot", which(feature.list == j))]] <- new("ReducedDimensionPlot",
@@ -66,18 +70,21 @@ iSEEfier <- function(sce, feature.list, reddim.type="TSNE", panel.width=4L, clus
                                                                                ColorBy = "Feature name",
                                                                                ColorByFeatureName = j,
                                                                                ColumnSelectionSource = "ColumnDataPlot1",
-                                                                               PanelWidth = panel.width)
+                                                                               PanelWidth = panel.width
+                                                                              )
     
     initial[[paste0("FeatureAssayPlot", which(feature.list == j))]] <- new("FeatureAssayPlot",
                                                                            XAxis = "Column data",
                                                                            XAxisColumnData = clusters,
                                                                            YAxisFeatureName = j,
-                                                                           PanelWidth = panel.width)
+                                                                           PanelWidth = panel.width
+                                                                          )
     
     initial[[paste0("RowDataTable", which(feature.list == j))]] <- new("RowDataTable",
                                                                         Selected = j,
                                                                         Search = j,
-                                                                        PanelWidth = panel.width)
+                                                                       PanelWidth = panel.width
+                                                                      )
   }
   
   if (length(feature.list) > 1) {
@@ -85,7 +92,8 @@ iSEEfier <- function(sce, feature.list, reddim.type="TSNE", panel.width=4L, clus
                                       XAxis = "Feature name", 
                                       XAxisFeatureName = feature.list[[1]],
                                       YAxisFeatureName = feature.list[[2]],
-                                      PanelWidth = panel.width)
+                                      PanelWidth = panel.width
+                                     )
   }
   
   
@@ -97,13 +105,15 @@ iSEEfier <- function(sce, feature.list, reddim.type="TSNE", panel.width=4L, clus
                                                                                ColumnSelectionSource = paste0("FeatureAssayPlot", length(feature.list) + 1),
                                                                             FacetColumnBy = "Column data",
                                                                             FacetColumnByColData = conditions,
-                                                                               PanelWidth = panel.width)
+                                                                            PanelWidth = panel.width
+                                                                              )
   
   
   initial[["ComplexHeatmapPlot1"]] <- new("ComplexHeatmapPlot",
                                           CustomRowsText = paste(feature.list, collapse = "\n"),
                                           ColumnData = clusters,
-                                          PanelWidth = panel.width)
+                                          PanelWidth = panel.width
+                                         )
   
   
   
@@ -132,7 +142,7 @@ my_conditions <- "group"
 my_panel.width <- 6L
 
 # create initial with iSEEfier
-initial <- iSEEfier(sce,test, my_clusters,my_conditions)
+initial <- iSEEfier(sce,senescent, my_clusters,my_conditions,my_panel.width)
 
 iSEE(sce, initial = initial)
 
