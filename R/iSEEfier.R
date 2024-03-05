@@ -1,3 +1,20 @@
+#' iSEEfier
+#'
+#' @param sce SingleCellExperiment object
+#' @param feature.list A character vector containing a list of genes
+#' @param reddim.type A string vector containing the dimensionality reduction type
+#' @param clusters A character string containing the name of the clusters (as listed in the colData of the sce)
+#' @param conditions A character string of the groups/conditions (as it appears in the colData of the sce)
+#'
+#' @return A list of "Panel" objects specifying the initial state of iSEE instance
+#' @export
+#'
+#' @examples
+#' sce <- 
+#' gene_list <- c("IL7R", "CCR7", "B3GAT1", "PDCD1")
+#' cluster <- "clusters"
+#' condition <- "group"
+#' initial <- iSEEfier(sce = sce, feature.list = gene_list, clusters = cluster, conditions = condition)
 iSEEfier <- function(sce,
                      feature.list,
                      reddim.type = "TSNE",
