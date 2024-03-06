@@ -14,7 +14,7 @@
 #' @examples
 #' sce <- scRNAseq::RichardTCellData()
 #' sce <- scuttle::logNormCounts(sce)
-#' sce <- BiocSingular::runPCA(sce, ncomponents=5)
+#' sce <- BiocSingular::runPCA(sce)
 #' sce <- scater::runTSNE(sce)
 #' gene_list <- c("ENSMUSG00000026581", "ENSMUSG00000005087", "ENSMUSG00000015437")
 #' cluster <- "stimulus"
