@@ -19,9 +19,9 @@ iSEEfier(
 
 \item{reddim.type}{A string vector containing the dimensionality reduction type}
 
-\item{clusters}{A character string containing the name of the clusters (as listed in the colData of the sce)}
+\item{clusters}{A character string containing the name of the clusters/cell-type/state (as listed in the colData of the sce)}
 
-\item{conditions}{A character string of the groups/conditions (as it appears in the colData of the sce)}
+\item{conditions}{A character string of the groups/conditions.. (as it appears in the colData of the sce)}
 }
 \value{
 A list of "Panel" objects specifying the initial state of iSEE instance
@@ -30,9 +30,12 @@ A list of "Panel" objects specifying the initial state of iSEE instance
 iSEEfier
 }
 \examples{
-sce <- 
-gene_list <- c("IL7R", "CCR7", "B3GAT1", "PDCD1")
-cluster <- "clusters"
-condition <- "group"
+sce <- scRNAseq::RichardTCellData()
+sce <- scuttle::logNormCounts(sce)
+sce <- BiocSingular::runPCA(sce, ncomponents=5)
+sce <- scater::runTSNE(sce)
+gene_list <- c("ENSMUSG00000026581", "ENSMUSG00000005087", "ENSMUSG00000015437")
+cluster <- "stimulus"
+condition <- "single cell quality"
 initial <- iSEEfier(sce = sce, feature.list = gene_list, clusters = cluster, conditions = condition)
 }
