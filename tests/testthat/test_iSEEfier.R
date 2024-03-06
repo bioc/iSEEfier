@@ -1,12 +1,12 @@
 test_that("test iSEEfier",{
-  sce <- scRNAseq::RichardTCellData()
-  sce <- scuttle::logNormCounts(sce)
-  sce <- BiocSingular::runPCA(sce)
+  sce <- scRNAseq::ReprocessedAllenData(assays = "tophat_counts")
+  sce <- scuttle::logNormCounts(sce, exprs_values="tophat_counts")
+  sce <- scater::runPCA(sce)
   sce <- scater::runTSNE(sce)
   initial <- iSEEfier(sce = sce,
-                      feature.list = c("ENSMUSG00000026581", #SELL
-                                       "ENSMUSG00000005087"), #CD44
-                      clusters = "stimulus",
-                      conditions = "single cell quality")
+                      feature.list = c("IL2rb",
+                                       "Klre1"),
+                      clusters = "Primary.Type",
+                      conditions = "Secondary.Type")
   expect_true(class(initial)== "list")
 })
