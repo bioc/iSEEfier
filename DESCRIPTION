@@ -15,8 +15,12 @@ Imports:
     methods,
     SummarizedExperiment
 Suggests:
+    knitr,
+    rmarkdown,
     scater,
     scRNAseq,
     scuttle,
+    BiocStyle,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
+VignetteBuilder: knitr
