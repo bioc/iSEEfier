@@ -15,6 +15,7 @@
 #' @importClassesFrom iSEE FeatureAssayPlot
 #' @importClassesFrom iSEE RowDataTable
 #' @importClassesFrom iSEE ComplexHeatmapPlot
+#' @importClassesFrom iSEEu MarkdownBoard
 #' 
 #'
 #' @examples
@@ -86,6 +87,9 @@ iSEEfier <- function(sce,
                                           CustomRowsText = paste(feature.list, collapse = "\n"),
                                           ColumnData = clusters
   )
+  
+  initial[["MarkdownBoard1"]] <- new("MarkdownBoard", Content = "# Placeholder\n\nFill me with text!",
+                                     PanelWidth = 3L)
   
   return(initial)
   
