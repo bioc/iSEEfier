@@ -1,10 +1,12 @@
-#' iSEEfier
+#' iSEEfier: Create an initial state of an iSEE instance for gene expression visualization
+#' 
+#' `iSEEfier()` defines the initial setup of an iSEE instance, recommending tailored visual elements to effortlessly illustrate the expression of a gene list in a single view.
 #'
 #' @param sce SingleCellExperiment object
 #' @param feature.list A character vector containing a list of genes
 #' @param reddim.type A string vector containing the dimensionality reduction type
-#' @param clusters A character string containing the name of the clusters/cell-type/state (as listed in the colData of the sce)
-#' @param conditions A character string of the groups/conditions.. (as it appears in the colData of the sce)
+#' @param clusters A character string containing the name of the clusters/cell-type/state...(as listed in the colData of the sce)
+#' @param conditions A character string of the groups/conditions...(as it appears in the colData of the sce)
 #'
 #' @return A list of "Panel" objects specifying the initial state of iSEE instance
 #' @export iSEEfier
