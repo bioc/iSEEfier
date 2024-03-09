@@ -38,6 +38,4 @@ gene_list <- c("ENSMUSG00000026581", "ENSMUSG00000005087", "ENSMUSG00000015437")
 cluster <- "stimulus"
 condition <- "single cell quality"
 initial <- iSEEfier(sce = sce, feature.list = gene_list, clusters = cluster, conditions = condition)
-
-
 }
