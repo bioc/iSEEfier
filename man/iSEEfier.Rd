@@ -9,7 +9,7 @@ iSEEfier(
   feature.list,
   reddim.type = "TSNE",
   clusters = colnames(colData(sce))[1],
-  conditions = colnames(colData(sce))[1]
+  groups = colnames(colData(sce))[1]
 )
 }
 \arguments{
@@ -21,7 +21,7 @@ iSEEfier(
 
 \item{clusters}{A character string containing the name of the clusters/cell-type/state...(as listed in the colData of the sce)}
 
-\item{conditions}{A character string of the groups/conditions...(as it appears in the colData of the sce)}
+\item{groups}{A character string of the groups/conditions...(as it appears in the colData of the sce)}
 }
 \value{
 A list of "Panel" objects specifying the initial state of iSEE instance
@@ -36,6 +36,6 @@ sce <- scater::runPCA(sce)
 sce <- scater::runTSNE(sce)
 gene_list <- c("ENSMUSG00000026581", "ENSMUSG00000005087", "ENSMUSG00000015437")
 cluster <- "stimulus"
-condition <- "single cell quality"
-initial <- iSEEfier(sce = sce, feature.list = gene_list, clusters = cluster, conditions = condition)
+group <- "single cell quality"
+initial <- iSEEfier(sce = sce, feature.list = gene_list, clusters = cluster, groups = group)
 }
