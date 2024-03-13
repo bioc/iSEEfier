@@ -6,7 +6,7 @@
 #' @param feature.list A character vector containing a list of genes
 #' @param reddim.type A string vector containing the dimensionality reduction type
 #' @param clusters A character string containing the name of the clusters/cell-type/state...(as listed in the colData of the sce)
-#' @param conditions A character string of the groups/conditions...(as it appears in the colData of the sce)
+#' @param groups A character string of the groups/conditions...(as it appears in the colData of the sce)
 #'
 #' @return A list of "Panel" objects specifying the initial state of iSEE instance
 #' @export iSEEfier
@@ -27,17 +27,17 @@
 #' sce <- scater::runTSNE(sce)
 #' gene_list <- c("ENSMUSG00000026581", "ENSMUSG00000005087", "ENSMUSG00000015437")
 #' cluster <- "stimulus"
-#' condition <- "single cell quality"
-#' initial <- iSEEfier(sce = sce, feature.list = gene_list, clusters = cluster, conditions = condition)
+#' group <- "single cell quality"
+#' initial <- iSEEfier(sce = sce, feature.list = gene_list, clusters = cluster, groups = group)
 iSEEfier <- function(sce,
                      feature.list,
                      reddim.type = "TSNE",
                      clusters = colnames(colData(sce))[1],
-                     conditions = colnames(colData(sce))[1]) {
+                     groups = colnames(colData(sce))[1]) {
   initial <- list()
   feature.list <- as.list(feature.list)
   clusters <- as.character(clusters)
-  condition <- as.character(conditions)
+  group <- as.character(groups)
   
   initial[["ColumnDataPlot1"]] <- new("ColumnDataPlot",
                                       YAxis = clusters,
@@ -50,7 +50,8 @@ iSEEfier <- function(sce,
                                                                                Type = reddim.type,
                                                                                ColorBy = "Feature name",
                                                                                ColorByFeatureName = j,
-                                                                               ColumnSelectionSource = "ColumnDataPlot1"
+                                                                               ColumnSelectionSource = "ColumnDataPlot1",
+                                                                               SelectionAlpha = 0.05
     )
     
     initial[[paste0("FeatureAssayPlot", which(feature.list == j))]] <- new("FeatureAssayPlot",
@@ -81,7 +82,8 @@ iSEEfier <- function(sce,
                                                                              ColorBy = "Column data",
                                                                              ColumnSelectionSource = paste0("FeatureAssayPlot", length(feature.list) + 1),
                                                                              FacetColumnBy = "Column data",
-                                                                             FacetColumnByColData = condition
+                                                                             FacetColumnByColData = group,
+                                                                             SelectionAlpha = 0.05
   )
   
   
