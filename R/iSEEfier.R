@@ -39,17 +39,13 @@ iSEEfier <- function(sce,
   clusters <- as.character(clusters)
   group <- as.character(groups)
   
-  initial[["ColumnDataPlot1"]] <- new("ColumnDataPlot",
-                                      YAxis = clusters,
-                                      ColorBy = "Column data",
-                                      ColorByColumnData = clusters
-  )
   
   for (j in feature.list) {
     initial[[paste0("ReducedDimensionPlot", which(feature.list == j))]] <- new("ReducedDimensionPlot",
                                                                                Type = reddim.type,
                                                                                ColorBy = "Feature name",
                                                                                ColorByFeatureName = j,
+                                                                               ColorByFeatureSource = paste0("RowDataTable", which(feature.list == j)),
                                                                                ColumnSelectionSource = "ColumnDataPlot1",
                                                                                SelectionAlpha = 0.05
     )
@@ -58,6 +54,7 @@ iSEEfier <- function(sce,
                                                                            XAxis = "Column data",
                                                                            XAxisColumnData = clusters,
                                                                            YAxisFeatureName = j,
+                                                                           YAxisFeatureSource = paste0("RowDataTable", which(feature.list == j)),
                                                                            ColorBy = "Column data",
                                                                            ColorByColumnData = clusters
     )
@@ -91,6 +88,15 @@ iSEEfier <- function(sce,
                                           CustomRowsText = paste(feature.list, collapse = "\n"),
                                           ColumnData = clusters
   )
+  
+  initial[["ColumnDataPlot1"]] <- new("ColumnDataPlot",
+                                      YAxis = clusters,
+                                      ColorBy = "Column data",
+                                      ColorByColumnData = clusters
+  )
+  
+  initial[["DynamicMarkerTable1"]] <- new("DynamicMarkerTable",
+                                          ColumnSelectionSource = "ReducedDimensionPlot1")
   
   initial[["MarkdownBoard1"]] <- new("MarkdownBoard", Content = "# Placeholder\n\nFill me with text!",
                                      PanelWidth = 3L)
