@@ -16,9 +16,9 @@ iSEEnrich(
 
 \item{collection}{A character vector specifying the gene set collections of interest (GO,KEGG)}
 
-\item{gene_identifer}{A character string specifying the identifier to use to extract gene IDs for the organism package}
+\item{organism}{A character string of the org.*.eg.db package to use to extract mappings of gene sets to gene IDs.}
 
-\item{organsim}{A character string of the org.*.eg.db package to use to extract mappings of gene sets to gene IDs.}
+\item{gene_identifer}{A character string specifying the identifier to use to extract gene IDs for the organism package}
 }
 \value{
 A list of "Panel" objects specifying the initial state of iSEE instance
