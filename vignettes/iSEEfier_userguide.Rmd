@@ -17,31 +17,20 @@ knitr::opts_chunk$set(
   error    = FALSE,
   warning  = FALSE,
   eval     = TRUE,
-  message  = FALSE,
+  message  = FALSE
 )
 ```
 
 # Introduction {#introduction}
 
-This vignette describes how to use `r BiocStyle::Biocpkg("iSEEfier")` package to configure various initial states of iSEE instances, in order to simplify the task of visualizing RNAseq data in BiocStyle::Biocpkg("iSEE").
+This vignette describes how to use `r BiocStyle::Biocpkg("iSEEfier")` package to configure various initial states of iSEE instances, in order to simplify the task of visualizing RNAseq data in `r BiocStyle::Biocpkg("iSEE")`.
 
-In order to use `r BiocStyle::Biocpkg("iSEEfier")`, the following inputs are required:
-
--   `sce` : A SingleCellExperiment object
-
--   `feature.list` : A character vector containing a list of genes
-
--   `reddim.type` : A string vector containing the dimensionality reduction type
-
--   `clusters` : A character string containing the name of the clusters/cell-type/state...(as listed in the colData of the sce)
-
--   `groups` : A character string of the groups/conditions...(as it appears in the colData of the sce)
+In order to use `r BiocStyle::Biocpkg("iSEEfier")`, a `SingleCellExperiment` object is required.
 
 In the remainder of this vignette, we will illustrate the main features of `r BiocStyle::Biocpkg("iSEEfier")` on a publicly available dataset from Zhao et al., 2020 "Single-cell RNA sequencing reveals the heterogeneity of liver-resident immune cells in human", published in Nature Cell Discovery, April 2020 [@Zhao2020] [doi:10.1038/s41421-020-0157-z](https://doi.org/10.1038/s41421-020-0157-z).
 
-The data is made available via the `r BiocStyle::Biocpkg("scRNAseq")` Bioconductor package
-
-[DESCRIBE THE DATA; SAMPLES, TISSUE, CELL TYPES, WHAT DO WE WANT TO DO...]
+The data is made available via the `r BiocStyle::Biocpkg("scRNAseq")` Bioconductor package.
+This data was retrieved from 3 adult donors who underwent liver transplantation, where each donor provided 3 tissue samples (blood, spleen and liver).
 
 # Getting started {#gettingstarted}
 
@@ -72,7 +61,7 @@ iSEEfier(sce = sce_obj,
          groups =  group)
 ```
 
-To configure the initial state of our iSEE instance using `iSEEfier`, we need the five components mentioned above as parameters:
+To configure the initial state of our iSEE instance using `iSEEfier`, we need five parameters:
 
 1.  `sce` : A `SingleCellExperiment` object. This object stores information of different quantifications (counts, log-expression...), dimensionality reduction coordinates (t-SNE, UMAP...), as well as some metadata related to the samples.
 
@@ -108,19 +97,19 @@ rownames(sce) <- rowData(sce)$Symbol
 
 We can also directly load the the preprocessed object
 
-```{r eval=FALSE}
-sce <- readRDS("./data/haoImmuneLiverData_processed.RDS")
+```{r save-sce, eval=FALSE}
+# sce <- readRDS("./data/ZhaoImmuneLiverData_processed.RDS") #maybe dont with RDS?
 ```
 
-Now our `sce` is ready, we can move on to the next argument. [INSERT AIM OF THE VISUALIZATION]
+Now our `sce` is ready, we can move on to the next argument.
 
-2.  `feature.list` : which is a list of feature of interest
+2.  `feature.list` : which is a list of genes of interest. Let's say we would like to visualize the expression of some genes that were identified as unique to liver-derived immune cells.
 
 ```{r genelist}
-gene_list <- c("SELL", "TNFRSF18", "CD3D", "FCGR3A")
+gene_list <- c("GZMA", "KLRB1", "MT2A", "MT1X","CCL4", "IER2", "NKG7")
 ```
 
-3.  `reddim.type` : In this example we decided to plot our data as a t-SNE plot
+3.  `reddim.type` : In this example we decided to plot our data as a t-SNE plot.
 
 ```{r reddim-type}
 reddim_type <- "TSNE"
@@ -138,21 +127,55 @@ cluster <- "sample" #the name should match what's in the colData names
 cell_types <- "broad" #the name should match what's in the colData names
 ```
 
-Now all the elements are ready to be transferred into `iSEEfier()`
+At this point, all the elements are ready to be transferred into `iSEEfier()`
 
-```{r initial}
+```{r initial1}
 initial <- iSEEfier(sce = sce,
                     feature.list = gene_list,
                     clusters = cluster,
-                    conditions = cell_types)
+                    groups = cell_types)
 ```
 
-Now we are one step away from visualizing our list of gene of interest. All that's left to do is to run `iSEE` with the initial state created with `iSEEfier`
+Now we are one step away from visualizing our list of genes of interest. All that's left to do is to run `iSEE` with the initial state created with `iSEEfier`
 
-```{r iSEEviz}
+```{r iSEEviz1, eval=FALSE}
+library("iSEE")
 iSEE(sce= sce, initial= initial)
 ```
 
 # Create an initial state for feature sets exploration using `iSEEnrich()`
+
+Sometimes it is interesting to look at some specific feature sets and the associated genes. That's when the utility of iSEEnrich becomes apparent.
+We will need 4 elements to explore feature sets of interest:
+
+- `sce`	: A SingleCellExperiment object
+
+- `collection`	: A character vector specifying the gene set collections of interest (it is possible to use GO or KEGG terms)
+
+- `gene_identifer`	: A character string specifying the identifier to use to extract gene IDs for the organism package. This can be **"ENS"** for ENSEMBL ids, **"SYMBOL"** for gene names...
+
+- `organsim`	: A character string of the `org.*.eg.db` package to use to extract mappings of gene sets to gene IDs.
+
+```{r set-param}
+GO_collection <- "GO"
+Hs_organism <- "org.Hs.eg.db"
+gene_id <- "SYMBOL"
+```
+
+Now let's create this initial setup for `iSEE` using `iSEEnrich()`
+
+```{r initial2}
+results <- iSEEnrich(sce = sce,
+                     collection = GO_collection,
+                     organism = Hs_organism, 
+                     gene_identifer = gene_id)
+```
+
+To start the iSEE instance we run:
+
+```{r iSEEviz2,  eval=FALSE}
+iSEE(results$sce1, initial = results$initial)
+```
+
 
 # Session info {.unnumbered}
