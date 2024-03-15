@@ -74,7 +74,7 @@ iSEEinit(sce = sce_obj,
          dynamicMarkerTable = FALSE)
 ```
 
-To configure the initial state of our iSEE instance using `iSEEfier`, we need five parameters:
+To configure the initial state of our iSEE instance using `iSEEinit()`, we need five parameters:
 
 1.  `sce` : A `SingleCellExperiment` object. This object stores information of different quantifications (counts, log-expression...), dimensionality reduction coordinates (t-SNE, UMAP...), as well as some metadata related to the samples and features.
 
@@ -100,12 +100,6 @@ library("scater")
 sce <- runPCA(sce)
 sce <- runTSNE(sce)
 sce <- runUMAP(sce)
-```
-
-We can also directly load the the preprocessed object
-
-```{r save-sce, eval=FALSE}
-#> sce <- readRDS("./data/ZhaoImmuneLiverData_processed.RDS") #maybe dont with RDS?
 ```
 
 Now our `sce` is ready, we can move on to the next argument.
@@ -148,7 +142,7 @@ initial1 <- iSEEinit(sce = sce,
                     dynamicMarkerTable = TRUE)
 ```
 
-Now we are one step away from visualizing our list of genes of interest. All that's left to do is to run `iSEE` with the initial state created with `iSEEinit`
+Now we are one step away from visualizing our list of genes of interest. All that's left to do is to run `iSEE` with the initial state created with `iSEEinit()`
 
 ```{r iSEEviz1, eval=FALSE}
 library("iSEE")
