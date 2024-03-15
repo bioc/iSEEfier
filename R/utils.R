@@ -116,6 +116,42 @@ iSEEconfigviewer <- function(initial) {
 }
 
 
+iSEEnetworkviewer <- function(initial) {
+
+  panel_widths <- vapply(initial,
+                         function(arg) {
+                           arg@PanelWidth
+                         },
+                         FUN.VALUE = numeric(1))
+
+  # check: max value should be 12 (but it is a given through iSEE)
+
+  panel_types <- vapply(initial, class, character(1))
+
+  # need to have SIMPLIFIED configs
+  panel_ids <- names(initial)
+
+  panel_links <- vapply(initial,
+                        function(arg) {
+                          arg@ColumnSelectionSource
+                        },
+                        FUN.VALUE = character(1))
+  panel_edges <- panel_links[panel_links != "---"]
+
+  graph_nodes_df <- data.frame(
+    name = panel_ids
+  )
+
+  graph_edges_df <- data.frame(
+    from = names(panel_edges),
+    to = panel_edges
+  )
+
+  g <- graph_from_data_frame(graph_edges_df, vertices = graph_nodes_df)
+  V(g)$color <- iSEE_panel_colors[panel_types]
+
+  return(g)
+}
 
 
 
