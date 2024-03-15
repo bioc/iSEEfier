@@ -1,0 +1,19 @@
+iSEE_panel_colors <- c(
+  ReducedDimensionPlot = "#3565AA",
+  FeatureAssayPlot = "#7BB854",
+  SampleAssayPlot = "#07A274",
+  ColumnDataPlot = "#DB0230",
+  ColumnDataTable = "#B00258",
+  RowDataPlot = "#F2B701",
+  RowDataTable = "#E47E04",
+  ComplexHeatmapPlot = "#440154FF",
+  AggregatedDotPlot = "#703737FF",
+  MarkdownBoard = "black",
+  DynamicMarkerTable = "#B73CE4",
+  DynamicReducedDimensionPlot = "#0F0F0F",
+  FeatureSetTable = "#BB00FF",
+  GeneSetTable = "#BB00FF",
+  LogFCLogFCPlot = "#770055",
+  MAPlot = "#666600",
+  VolcanoPlot = "#DEAE10"
+)
