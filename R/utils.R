@@ -30,6 +30,25 @@
 #' @seealso [view_initial_network()]
 #'
 #' @examples
+#' ## Load a dataset and preprocess this quickly
+#' sce <- scRNAseq::RichardTCellData()
+#' sce <- scuttle::logNormCounts(sce)
+#' sce <- scater::runPCA(sce)
+#' sce <- scater::runTSNE(sce)
+#' ## Select some features and aspects to focus on
+#' gene_list <- c("ENSMUSG00000026581", "ENSMUSG00000005087", "ENSMUSG00000015437")
+#' cluster <- "stimulus"
+#' group <- "single cell quality"
+#' initial <- iSEEinit(sce = sce,
+#'                     feature.list = gene_list,
+#'                     clusters = cluster,
+#'                     groups = group)
+#'
+#' view_initial_tiles (initial)
+#'
+#' ## Continue your exploration directly within iSEE!
+#' if (interactive())
+#'   iSEE(sce, initial = initial)
 view_initial_tiles <- function(initial) {
 
   panel_widths <- vapply(initial,
@@ -174,6 +193,28 @@ view_initial_tiles <- function(initial) {
 #' @seealso [view_initial_tiles()]
 #'
 #' @examples
+#' ## Load a dataset and preprocess this quickly
+#' sce <- scRNAseq::RichardTCellData()
+#' sce <- scuttle::logNormCounts(sce)
+#' sce <- scater::runPCA(sce)
+#' sce <- scater::runTSNE(sce)
+#' ## Select some features and aspects to focus on
+#' gene_list <- c("ENSMUSG00000026581", "ENSMUSG00000005087", "ENSMUSG00000015437")
+#' cluster <- "stimulus"
+#' group <- "single cell quality"
+#' initial <- iSEEinit(sce = sce,
+#'                     feature.list = gene_list,
+#'                     clusters = cluster,
+#'                     groups = group)
+#'
+#' g_init <- view_initial_network(initial)
+#' g_init
+#'
+#' view_initial_network(initial, plot_format = "visNetwork")
+#'
+#' ## Continue your exploration directly within iSEE!
+#' if (interactive())
+#'   iSEE(sce, initial = initial)
 view_initial_network <- function(initial,
                               plot_format = c("igraph", "visNetwork", "none")) {
 
@@ -271,6 +312,33 @@ view_initial_network <- function(initial,
 #' @export
 #'
 #' @examples
+#' ## Load a dataset and preprocess this quickly
+#' sce <- scRNAseq::RichardTCellData()
+#' sce <- scuttle::logNormCounts(sce)
+#' sce <- scater::runPCA(sce)
+#' sce <- scater::runTSNE(sce)
+#' ## Select some features and aspects to focus on
+#' gene_list_1 <- c("ENSMUSG00000026581")
+#' gene_list_2 <- c("ENSMUSG00000005087", "ENSMUSG00000015437")
+#' cluster <- "stimulus"
+#' group <- "single cell quality"
+#' initial1 <- iSEEinit(sce = sce,
+#'                      feature.list = gene_list_1,
+#'                      clusters = cluster,
+#'                      groups = group)
+#' initial2 <- iSEEinit(sce = sce,
+#'                      feature.list = gene_list_2,
+#'                      clusters = cluster,
+#'                      groups = group)
+#' initials_merged <- glue_initials(initial1,
+#'                                  initial2)
+#' view_initial_tiles(initial1)
+#' view_initial_tiles(initial2)
+#' view_initial_tiles(initials_merged)
+#'
+#' ## Continue your exploration directly within iSEE!
+#' if (interactive())
+#'   iSEE(sce, initial = initial_merged)
 glue_initials <- function(...,
                          remove_duplicate_panels = TRUE,
                          verbose = TRUE,

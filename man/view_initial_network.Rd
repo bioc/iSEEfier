@@ -34,6 +34,30 @@ This function is particularly useful with mid-to-large \code{initial} objects, a
 they can be quickly generated in a programmatic manner via the \code{iSEEinit()}
 provided in this package.
 }
+\examples{
+## Load a dataset and preprocess this quickly
+sce <- scRNAseq::RichardTCellData()
+sce <- scuttle::logNormCounts(sce)
+sce <- scater::runPCA(sce)
+sce <- scater::runTSNE(sce)
+## Select some features and aspects to focus on
+gene_list <- c("ENSMUSG00000026581", "ENSMUSG00000005087", "ENSMUSG00000015437")
+cluster <- "stimulus"
+group <- "single cell quality"
+initial <- iSEEinit(sce = sce,
+                    feature.list = gene_list,
+                    clusters = cluster,
+                    groups = group)
+
+g_init <- view_initial_network(initial)
+g_init
+
+view_initial_network(initial, plot_format = "visNetwork")
+
+## Continue your exploration directly within iSEE!
+if (interactive())
+  iSEE(sce, initial = initial)
+}
 \seealso{
 \code{\link[=view_initial_tiles]{view_initial_tiles()}}
 }

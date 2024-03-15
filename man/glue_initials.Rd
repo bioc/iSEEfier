@@ -50,3 +50,32 @@ the only caveat of having to think of how the \emph{transmissions} between panel
 will be handled; nevertheless, most users might not even need to face this
 situation.
 }
+\examples{
+## Load a dataset and preprocess this quickly
+sce <- scRNAseq::RichardTCellData()
+sce <- scuttle::logNormCounts(sce)
+sce <- scater::runPCA(sce)
+sce <- scater::runTSNE(sce)
+## Select some features and aspects to focus on
+gene_list_1 <- c("ENSMUSG00000026581")
+gene_list_2 <- c("ENSMUSG00000005087", "ENSMUSG00000015437")
+cluster <- "stimulus"
+group <- "single cell quality"
+initial1 <- iSEEinit(sce = sce,
+                     feature.list = gene_list_1,
+                     clusters = cluster,
+                     groups = group)
+initial2 <- iSEEinit(sce = sce,
+                     feature.list = gene_list_2,
+                     clusters = cluster,
+                     groups = group)
+initials_merged <- glue_initials(initial1,
+                                 initial2)
+view_initial_tiles(initial1)
+view_initial_tiles(initial2)
+view_initial_tiles(initials_merged)
+
+## Continue your exploration directly within iSEE!
+if (interactive())
+  iSEE(sce, initial = initial_merged)
+}
