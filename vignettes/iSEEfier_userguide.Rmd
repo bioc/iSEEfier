@@ -26,3 +26,8 @@ library(iSEEfier)
 
 
 # Session info {-}
+
+```{r}
+sessionInfo()
+```
+
