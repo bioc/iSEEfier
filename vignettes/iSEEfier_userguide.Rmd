@@ -177,5 +177,8 @@ To start the iSEE instance we run:
 iSEE(results$sce1, initial = results$initial)
 ```
 
-
 # Session info {.unnumbered}
+
+```{r}
+sessionInfo()
+```
