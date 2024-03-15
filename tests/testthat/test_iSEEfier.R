@@ -7,6 +7,6 @@ test_that("test iSEEfier",{
                       feature.list = c("IL2rb",
                                        "Klre1"),
                       clusters = "Primary.Type",
-                      conditions = "Secondary.Type")
+                      groups = "Secondary.Type")
   expect_true(class(initial)== "list")
 })
