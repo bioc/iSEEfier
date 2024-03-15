@@ -9,7 +9,9 @@ iSEEinit(
   feature.list,
   reddim.type = "TSNE",
   clusters = colnames(colData(sce))[1],
-  groups = colnames(colData(sce))[1]
+  groups = colnames(colData(sce))[1],
+  markdownboard = FALSE,
+  dynamicMarkerTable = FALSE
 )
 }
 \arguments{
@@ -22,6 +24,10 @@ iSEEinit(
 \item{clusters}{A character string containing the name of the clusters/cell-type/state...(as listed in the colData of the sce)}
 
 \item{groups}{A character string of the groups/conditions...(as it appears in the colData of the sce)}
+
+\item{markdownboard}{A logical indicating whether or not to include the MarkdownBoard panel in the initial configuration}
+
+\item{dynamicMarkerTable}{A logical indicating whether or not the DynamicMarkerTable and linked panels should be included in the initial configuration}
 }
 \value{
 A list of "Panel" objects specifying the initial state of iSEE instance
