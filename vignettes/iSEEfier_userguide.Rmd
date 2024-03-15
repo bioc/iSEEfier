@@ -1,6 +1,17 @@
 ---
 title: >
  The `iSEEfier` User's Guide
+author:
+- name: Najla Abassi
+  affiliation: 
+  - Institute of Medical Biostatistics, Epidemiology and Informatics (IMBEI), Mainz
+  email: najla.abassi@uni-mainz.de
+- name: Federico Marini
+  affiliation: 
+  - Institute of Medical Biostatistics, Epidemiology and Informatics (IMBEI), Mainz
+  - Research Center for Immunotherapy (FZI), Mainz
+  email: marinif@uni-mainz.de
+date: "`r BiocStyle::doc_date()`"
 output: 
   BiocStyle::html_document:
     toc: true
@@ -9,6 +20,7 @@ vignette: >
   %\VignetteIndexEntry{iSEEfier_userguide}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  %\VignettePackage{iSEEfier}
 ---
 
 ```{r, include = FALSE}
@@ -48,12 +60,12 @@ Once installed, the package can be loaded and attached to the current workspace 
 library("iSEEfier")
 ```
 
-# Create an initial state for gene expression visualization using `iSEEfier()`
+# Create an initial state for gene expression visualization using `iSEEinit()`
 
 When we have all input elements ready, we can create an iSEE initial state by running:
 
 ```{r runfunc, eval=FALSE}
-iSEEfier(sce = sce_obj,
+iSEEinit(sce = sce_obj,
          feature.list = feature_list,
          reddim.type = reduced_dim,
          clusters = cluster,
@@ -123,33 +135,33 @@ cluster <- "label" #the name should match what's in the colData names
 group <- "strain" #the name should match what's in the colData names
 ```
 
-At this point, all the elements are ready to be transferred into `iSEEfier()`
+At this point, all the elements are ready to be transferred into `iSEEinit()`
 
 ```{r initial1}
-initial1 <- iSEEfier(sce = sce,
+initial1 <- iSEEinit(sce = sce,
                     feature.list = gene_list,
                     clusters = cluster,
                     groups = group)
 ```
 
-Now we are one step away from visualizing our list of genes of interest. All that's left to do is to run `iSEE` with the initial state created with `iSEEfier`
+Now we are one step away from visualizing our list of genes of interest. All that's left to do is to run `iSEE` with the initial state created with `iSEEinit`
 
 ```{r iSEEviz1, eval=FALSE}
 library("iSEE")
 iSEE(sce, initial= initial1)
 ```
 
-This instance, generated with `iSEEfier()`, returns a combination of panels, linked to each other, with the goal of visualizing the expression of certain marker genes in each cell population/group:
+This instance, generated with `iSEEinit()`, returns a combination of panels, linked to each other, with the goal of visualizing the expression of certain marker genes in each cell population/group:
 
 -  A `ReducedDimensionPlot`, `FeatureAssayPlot` and `RowDataTable` for each single gene.
 
-- A `ComplexHeatmapPlot`
+- A `ComplexHeatmapPlot` with all genes in `feature.list`
 
-- `DynamicMarkerTable`
+- A `DynamicMarkerTable` that identifies marker genes from a sample selection.
 
-- `ColumnDataPlot`
+- A `ColumnDataPlot`
 
-- `MarkdownBoard```
+- A `MarkdownBoard`
 
 # Create an initial state for feature sets exploration using `iSEEnrich()`
 
@@ -189,7 +201,7 @@ iSEE(results$sce1, initial = results$initial)
 
 Previously, we successfully generated two distinct initial configurations for iSEE. However, understanding the expected content of our iSEE instances is not always straightforward. That's when we can use `iSEEconfigviewer()`.
 
-We only need as an input the initial configuration to obtain a graphical visualization of the expected the corresponding iSEE insantance:
+We only need as an input the initial configuration to obtain a graphical visualization of the expected the corresponding iSEE instance:
 
 ```{r panelgraph}
 library(ggplot2)

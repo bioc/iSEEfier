@@ -2,6 +2,7 @@
 % Please edit documentation in R/iSEEfier-pkg.R
 \docType{package}
 \name{iSEEfier-pkg}
+\alias{iSEEfier}
 \alias{iSEEfier-package}
 \alias{iSEEfier-pkg}
 \title{iSEEfier: a very convenient way to fire up your iSEE instance}
