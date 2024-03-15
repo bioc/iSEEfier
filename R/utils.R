@@ -150,12 +150,17 @@ iSEEnetworkviewer <- function(initial) {
     name = panel_ids
   )
 
-  graph_edges_df <- data.frame(
-    from = names(panel_edges),
-    to = panel_edges
-  )
+  if (length(panel_edges) > 0) {
+    graph_edges_df <- data.frame(
+      from = names(panel_edges),
+      to = panel_edges
+    )
+    g <- graph_from_data_frame(graph_edges_df, vertices = graph_nodes_df)
+  } else {
+    g <- graph.empty(n = length(panel_ids))
+    V(g)$name <- panel_ids
+  }
 
-  g <- graph_from_data_frame(graph_edges_df, vertices = graph_nodes_df)
   V(g)$color <- iSEE_panel_colors[panel_types]
 
   return(g)
