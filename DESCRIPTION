@@ -1,9 +1,16 @@
 Package: iSEEfier
 Title: Create an initial state of an iSEE instance to visualize RNA-seq data
 Version: 0.1.0
-Authors@R: 
-    person("Najla", "Abassi", , "najla.abassi@uni-mainz.de", role = c("cre"),
-           comment = c(ORCID = "0000-0001-8357-0938"))
+Authors@R:
+    c(
+    person("Najla", "Abassi", , "najla.abassi@uni-mainz.de", role = c("aut"),
+           comment = c(ORCID = "0000-0001-8357-0938")
+           ),
+    person(
+            given = "Federico", family = "Marini", role = c("aut", "cre"), 
+            email = "marinif@uni-mainz.de", comment = c(ORCID = "0000-0003-3252-7758")
+            )
+    )
 Description: Enhance the visualization of gene expression in RNA-seq data using iSEE, making it more intuitive and straightforward by creating various initial states. This will save time defining the appropriate panels and settings from a default iSEE instance.
 License: MIT + file LICENSE
 Encoding: UTF-8
