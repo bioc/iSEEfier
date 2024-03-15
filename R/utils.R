@@ -58,7 +58,6 @@ view_initial_tiles <- function(initial) {
                          FUN.VALUE = numeric(1))
 
   # check: max value should be 12 (but it is a given through iSEE)
-
   panel_types <- vapply(initial, class, character(1))
 
   total_tiles <- sum(panel_widths)
@@ -117,31 +116,12 @@ view_initial_tiles <- function(initial) {
     panel_vector[(abs_pos + 1):(cur_row * 12)] <- NA
   }
 
-  # waffled_matrix <- matrix(data = tiles_vector,
-                           # nrow = nr_rows, byrow = TRUE)
 
   waffled_matrix_long <- expand.grid(seq_len(12), seq_len(cur_row))
-  # waffled_matrix_long <- expand.grid(seq_len(12), seq_len(nr_rows))
   waffled_matrix_long$Var1 <- as.factor(waffled_matrix_long$Var1)
   waffled_matrix_long$Var2 <- as.factor(waffled_matrix_long$Var2)
   waffled_matrix_long$panel_color <- tiles_vector
   waffled_matrix_long$panel_type <- panel_vector
-
-  # waffled_matrix_long$panel_name <- panel_types
-
-
-  # p <- ggplot(waffled_matrix_long,
-  #             aes(x=.data$Var1,
-  #                 y=.data$Var2)) +
-  #   geom_tile(aes(fill = I(panel_color)), col = "white") +
-  #   scale_y_discrete(limits = rev(levels(waffled_matrix_long$Var2))) +
-  #   theme_void() +
-  #   scale_fill_manual(
-  #     values = c("ReducedDimensionPlot" = "#3565AA")
-  #     # values = iSEE_panel_colors
-  #     # labels = names(iSEE_panel_colors)
-  #   )
-
 
   p <- ggplot(na.omit(waffled_matrix_long),
               aes(x = .data$Var1,
@@ -227,7 +207,6 @@ view_initial_network <- function(initial,
                          FUN.VALUE = numeric(1))
 
   # check: max value should be 12 (but it is a given through iSEE)
-
   panel_types <- vapply(initial, class, character(1))
 
   # need to have SIMPLIFIED configs

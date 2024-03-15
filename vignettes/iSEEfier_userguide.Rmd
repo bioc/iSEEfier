@@ -222,7 +222,6 @@ g1
 
 initial2 <- results$initial
 g2 <- view_initial_network(initial2, plot_format = "visNetwork")
-
 ```
 
 # Merge different initial configurations with `glue_initials()`
