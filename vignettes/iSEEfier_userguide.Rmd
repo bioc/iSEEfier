@@ -1,6 +1,17 @@
 ---
 title: >
  The `iSEEfier` User's Guide
+author:
+- name: Najla Abassi
+  affiliation: 
+  - Institute of Medical Biostatistics, Epidemiology and Informatics (IMBEI), Mainz
+  email: najla.abassi@uni-mainz.de
+- name: Federico Marini
+  affiliation: 
+  - Institute of Medical Biostatistics, Epidemiology and Informatics (IMBEI), Mainz
+  - Research Center for Immunotherapy (FZI), Mainz
+  email: marinif@uni-mainz.de
+date: "`r BiocStyle::doc_date()`"
 output: 
   BiocStyle::html_document:
     toc: true
@@ -9,6 +20,7 @@ vignette: >
   %\VignetteIndexEntry{iSEEfier_userguide}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  %\VignettePackage{iSEEfier}
 ---
 
 ```{r, include = FALSE}
