@@ -254,7 +254,7 @@ glue_initials <- function(...,
             length(glued_configs),
             " different panels. Enjoy!\n",
             "If you want to obtain a preview of the panels configuration, ",
-            "you can call `iSEEconfigviewer()` on the output of this function"
+            "you can call `view_initial_tiles()` on the output of this function"
     )
   }
 
