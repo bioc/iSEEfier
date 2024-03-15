@@ -7,6 +7,8 @@
 #' @param reddim.type A string vector containing the dimensionality reduction type
 #' @param clusters A character string containing the name of the clusters/cell-type/state...(as listed in the colData of the sce)
 #' @param groups A character string of the groups/conditions...(as it appears in the colData of the sce)
+#' @param markdownboard A logical indicating whether or not to include the MarkdownBoard panel in the initial configuration
+#' @param dynamicMarkerTable A logical indicating whether or not the DynamicMarkerTable and linked panels should be included in the initial configuration
 #'
 #' @return A list of "Panel" objects specifying the initial state of iSEE instance
 #' @export
