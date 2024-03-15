@@ -6,7 +6,7 @@
 #' @export
 #'
 #' @examples
-iSEEconfigviewer <- function(initial) {
+view_initial_tiles <- function(initial) {
 
   panel_widths <- vapply(initial,
                          function(arg) {
@@ -124,7 +124,7 @@ iSEEconfigviewer <- function(initial) {
 #' @export
 #'
 #' @examples
-iSEEnetworkviewer <- function(initial,
+view_initial_network <- function(initial,
                               plot_format = c("igraph", "visNetwork", "none")) {
 
   plot_format <- match.arg(plot_format, c("igraph", "visNetwork", "none"))
@@ -192,7 +192,7 @@ iSEEnetworkviewer <- function(initial,
 #' @export
 #'
 #' @examples
-glue_configs <- function(...,
+glue_initials <- function(...,
                          remove_duplicate_panels = TRUE,
                          verbose = TRUE,
                          custom_panels_allowed = NULL) {
