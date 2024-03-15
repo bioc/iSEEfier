@@ -1,6 +1,6 @@
-#' iSEEfier: Create an initial state of an iSEE instance for gene expression visualization
+#' iSEEinit: Create an initial state of an iSEE instance for gene expression visualization
 #' 
-#' `iSEEfier()` defines the initial setup of an iSEE instance, recommending tailored visual elements to effortlessly illustrate the expression of a gene list in a single view.
+#' `iSEEinit()` defines the initial setup of an iSEE instance, recommending tailored visual elements to effortlessly illustrate the expression of a gene list in a single view.
 #'
 #' @param sce SingleCellExperiment object
 #' @param feature.list A character vector containing a list of genes
@@ -9,7 +9,7 @@
 #' @param groups A character string of the groups/conditions...(as it appears in the colData of the sce)
 #'
 #' @return A list of "Panel" objects specifying the initial state of iSEE instance
-#' @export iSEEfier
+#' @export
 #' @importFrom methods new
 #' @importFrom SummarizedExperiment colData
 #' @importClassesFrom iSEE ColumnDataPlot
@@ -28,8 +28,8 @@
 #' gene_list <- c("ENSMUSG00000026581", "ENSMUSG00000005087", "ENSMUSG00000015437")
 #' cluster <- "stimulus"
 #' group <- "single cell quality"
-#' initial <- iSEEfier(sce = sce, feature.list = gene_list, clusters = cluster, groups = group)
-iSEEfier <- function(sce,
+#' initial <- iSEEinit(sce = sce, feature.list = gene_list, clusters = cluster, groups = group)
+iSEEinit <- function(sce,
                      feature.list,
                      reddim.type = "TSNE",
                      clusters = colnames(colData(sce))[1],

@@ -48,12 +48,12 @@ Once installed, the package can be loaded and attached to the current workspace 
 library("iSEEfier")
 ```
 
-# Create an initial state for gene expression visualization using `iSEEfier()`
+# Create an initial state for gene expression visualization using `iSEEinit()`
 
 When we have all input elements ready, we can create an iSEE initial state by running:
 
 ```{r runfunc, eval=FALSE}
-iSEEfier(sce = sce_obj,
+iSEEinit(sce = sce_obj,
          feature.list = feature_list,
          reddim.type = reduced_dim,
          clusters = cluster,
@@ -123,23 +123,23 @@ cluster <- "label" #the name should match what's in the colData names
 group <- "strain" #the name should match what's in the colData names
 ```
 
-At this point, all the elements are ready to be transferred into `iSEEfier()`
+At this point, all the elements are ready to be transferred into `iSEEinit()`
 
 ```{r initial1}
-initial1 <- iSEEfier(sce = sce,
+initial1 <- iSEEinit(sce = sce,
                     feature.list = gene_list,
                     clusters = cluster,
                     groups = group)
 ```
 
-Now we are one step away from visualizing our list of genes of interest. All that's left to do is to run `iSEE` with the initial state created with `iSEEfier`
+Now we are one step away from visualizing our list of genes of interest. All that's left to do is to run `iSEE` with the initial state created with `iSEEinit`
 
 ```{r iSEEviz1, eval=FALSE}
 library("iSEE")
 iSEE(sce, initial= initial1)
 ```
 
-This instance, generated with `iSEEfier()`, returns a combination of panels, linked to each other, with the goal of visualizing the expression of certain marker genes in each cell population/group:
+This instance, generated with `iSEEinit()`, returns a combination of panels, linked to each other, with the goal of visualizing the expression of certain marker genes in each cell population/group:
 
 -  A `ReducedDimensionPlot`, `FeatureAssayPlot` and `RowDataTable` for each single gene.
 
