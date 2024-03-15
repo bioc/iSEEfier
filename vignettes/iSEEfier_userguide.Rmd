@@ -153,7 +153,7 @@ iSEE(sce, initial= initial1)
 
 This instance, generated with `iSEEinit()`, returns a combination of panels, linked to each other, with the goal of visualizing the expression of certain marker genes in each cell population/group:
 
--  A `ReducedDimensionPlot`, `FeatureAssayPlot` and `RowDataTable` for each single gene.
+- A `ReducedDimensionPlot`, `FeatureAssayPlot` and `RowDataTable` for each single gene.
 
 - A `ComplexHeatmapPlot` with all genes in `feature.list`
 
@@ -168,13 +168,13 @@ This instance, generated with `iSEEinit()`, returns a combination of panels, lin
 Sometimes it is interesting to look at some specific feature sets and the associated genes. That's when the utility of iSEEnrich becomes apparent.
 We will need 4 elements to explore feature sets of interest:
 
-- `sce`	: A SingleCellExperiment object
+- `sce`: A SingleCellExperiment object
 
-- `collection`	: A character vector specifying the gene set collections of interest (it is possible to use GO or KEGG terms)
+- `collection`: A character vector specifying the gene set collections of interest (it is possible to use GO or KEGG terms)
 
-- `gene_identifer`	: A character string specifying the identifier to use to extract gene IDs for the organism package. This can be **"ENS"** for ENSEMBL ids, **"SYMBOL"** for gene names...
+- `gene_identifier`: A character string specifying the identifier to use to extract gene IDs for the organism package. This can be **"ENS"** for ENSEMBL ids, **"SYMBOL"** for gene names...
 
-- `organsim`	: A character string of the `org.*.eg.db` package to use to extract mappings of gene sets to gene IDs.
+- `organism`: A character string of the `org.*.eg.db` package to use to extract mappings of gene sets to gene IDs.
 
 ```{r set-param}
 GO_collection <- "GO"
