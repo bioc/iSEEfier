@@ -239,6 +239,18 @@ We can then preview the content of this initial configuration
 view_initial_tiles(merged_config)
 ```
 
+# Related work
+
+The idea of launching `iSEE()` with some specific configuration is not entirely new, and it was covered in some use cases by the `mode_` functions available in the `r BiocStyle::Biocpkg("iSEEu")` package.  
+There, the user has access to the following:
+
+* `iSEEu::modeEmpty()`
+* `iSEEu::modeGating()`
+* `iSEEu::modeReducedDim()`
+
+The `mode`s directly launch an instance of `iSEE`, whereas the functionality in `r BiocStyle::Biocpkg("iSEEfier")` is rather oriented to obtain more tailored-to-the-data-at-hand `initial` objects, that can subsequently be passed as an argument to the `iSEE()` call.
+
+We encourage users to submit suggestions about their "classical ways" of using `iSEE` on their data - be that by opening an issue or already proposing a Pull Request on GitHub.
 
 # Session info {.unnumbered}
 
