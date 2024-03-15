@@ -119,6 +119,7 @@ view_initial_tiles <- function(initial) {
 #' Title
 #'
 #' @param initial
+#' @param plot_format
 #'
 #' @return
 #' @export
@@ -187,6 +188,8 @@ view_initial_network <- function(initial,
 #'
 #' @param ...
 #' @param remove_duplicate_panels
+#' @param verbose
+#' @param custom_panels_allowed
 #'
 #' @return
 #' @export

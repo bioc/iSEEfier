@@ -12,7 +12,7 @@ glue_initials(
 )
 }
 \arguments{
-\item{remove_duplicate_panels}{}
+\item{custom_panels_allowed}{}
 }
 \description{
 Title

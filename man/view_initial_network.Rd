@@ -7,7 +7,7 @@
 view_initial_network(initial, plot_format = c("igraph", "visNetwork", "none"))
 }
 \arguments{
-\item{initial}{}
+\item{plot_format}{}
 }
 \description{
 Title
