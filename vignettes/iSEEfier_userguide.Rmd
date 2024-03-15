@@ -143,13 +143,13 @@ This instance, generated with `iSEEfier()`, returns a combination of panels, lin
 
 -  A `ReducedDimensionPlot`, `FeatureAssayPlot` and `RowDataTable` for each single gene.
 
-- A `ComplexHeatmapPlot`
+- A `ComplexHeatmapPlot` with all genes in `feature.list`
 
-- `DynamicMarkerTable`
+- A `DynamicMarkerTable` that identifies marker genes from a sample selection.
 
-- `ColumnDataPlot`
+- A `ColumnDataPlot`
 
-- `MarkdownBoard```
+- A `MarkdownBoard`
 
 # Create an initial state for feature sets exploration using `iSEEnrich()`
 
@@ -189,7 +189,7 @@ iSEE(results$sce1, initial = results$initial)
 
 Previously, we successfully generated two distinct initial configurations for iSEE. However, understanding the expected content of our iSEE instances is not always straightforward. That's when we can use `iSEEconfigviewer()`.
 
-We only need as an input the initial configuration to obtain a graphical visualization of the expected the corresponding iSEE insantance:
+We only need as an input the initial configuration to obtain a graphical visualization of the expected the corresponding iSEE instance:
 
 ```{r panelgraph}
 library(ggplot2)
