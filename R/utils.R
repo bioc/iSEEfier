@@ -124,7 +124,10 @@ iSEEconfigviewer <- function(initial) {
 #' @export
 #'
 #' @examples
-iSEEnetworkviewer <- function(initial) {
+iSEEnetworkviewer <- function(initial,
+                              plot_format = c("igraph", "visNetwork", "none")) {
+
+  plot_format <- match.arg(plot_format, c("igraph", "visNetwork", "none"))
 
   panel_widths <- vapply(initial,
                          function(arg) {
@@ -163,6 +166,17 @@ iSEEnetworkviewer <- function(initial) {
 
   V(g)$color <- iSEE_panel_colors[panel_types]
 
+  if (plot_format == "igraph") {
+    plot(g, vertex.label.family = "Helvetica")
+  } else if (plot_format == "visNetwork") {
+    gdata <- visNetwork::toVisNetworkData(g)
+    print(visNetwork(nodes = gdata$nodes,
+               edges = gdata$edges) |>
+      visEdges(arrows = "to",
+               smooth = TRUE))
+  } else if (plot_format == "none") {
+    message("Returning the graph object...")
+  }
   return(g)
 }
 
