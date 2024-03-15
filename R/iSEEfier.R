@@ -33,7 +33,9 @@ iSEEinit <- function(sce,
                      feature.list,
                      reddim.type = "TSNE",
                      clusters = colnames(colData(sce))[1],
-                     groups = colnames(colData(sce))[1]) {
+                     groups = colnames(colData(sce))[1],
+                     markdownboard = FALSE,
+                     dynamicMarkerTable = FALSE) {
   initial <- list()
   feature.list <- as.list(feature.list)
   clusters <- as.character(clusters)
@@ -92,14 +94,33 @@ iSEEinit <- function(sce,
   initial[["ColumnDataPlot1"]] <- new("ColumnDataPlot",
                                       YAxis = clusters,
                                       ColorBy = "Column data",
-                                      ColorByColumnData = clusters
+                                      ColorByColumnData = clusters,
+                                      PanelWidth = 6L
   )
   
-  initial[["DynamicMarkerTable1"]] <- new("DynamicMarkerTable",
-                                          ColumnSelectionSource = "ReducedDimensionPlot1")
+  if (markdownboard == TRUE) {
+    initial[["MarkdownBoard1"]] <- new("MarkdownBoard",
+                                       Content = "# Placeholder\n\nFill me with text!",
+                                       PanelWidth = 4L)
+  }
   
-  initial[["MarkdownBoard1"]] <- new("MarkdownBoard", Content = "# Placeholder\n\nFill me with text!",
-                                     PanelWidth = 3L)
+  if(dynamicMarkerTable == TRUE) {
+    initial[[paste0("ReducedDimensionPlot",length(feature.list)+2)]] <- new("ReducedDimensionPlot",
+                                                                            Type = reddim.type,
+                                                                            ColorByColumnData = clusters,
+                                                                            ColorBy = "Column data",
+                                                                            SelectionAlpha = 0.05,
+                                                                            ColumnSelectionSource = paste0("FeatureAssayPlot",length(feature.list)+2))
+    
+    
+    initial[["DynamicMarkerTable1"]] <- new("DynamicMarkerTable",
+                                            ColumnSelectionSource = paste0("ReducedDimensionPlot",length(feature.list)+2))
+    
+    initial[[paste0("FeatureAssayPlot",length(feature.list)+2)]] <- new("FeatureAssayPlot",
+                                                                        XAxis = "Column data",
+                                                                        XAxisColumnData = group,
+                                                                        YAxisFeatureSource = "DynamicMarkerTable1")
+  }
   
   return(initial)
   
