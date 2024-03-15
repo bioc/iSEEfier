@@ -197,30 +197,31 @@ To start the iSEE instance we run:
 iSEE(results$sce1, initial = results$initial)
 ```
 
-# Visualize a preview of the initial configurations with `iSEEconfiviewer()`
+# Visualize a preview of the initial configurations with `view_initial_tiles()`
 
-Previously, we successfully generated two distinct initial configurations for iSEE. However, understanding the expected content of our iSEE instances is not always straightforward. That's when we can use `iSEEconfigviewer()`.
+Previously, we successfully generated two distinct initial configurations for iSEE. However, understanding the expected content of our iSEE instances is not always straightforward. That's when we can use `view_initial_tiles()`.
 
 We only need as an input the initial configuration to obtain a graphical visualization of the expected the corresponding iSEE instance:
 
 ```{r panelgraph}
 library(ggplot2)
-iSEEconfigviewer(initial = initial1)
-iSEEconfigviewer(initial = results$initial)
+view_initial_tiles(initial = initial1)
+view_initial_tiles(initial = results$initial)
 ```
 
-# Visualize Network connections between panels with `iSEEnetworkviewer()`
+# Visualize Network connections between panels with `view_initial_network()`
 
-As some of these panels are linked to each other, we can visualize these networks with `iSEEnetworkviewer()`. Similar to `iSEEconfigviewer()`, this function takes the initial setup as input:
+As some of these panels are linked to each other, we can visualize these networks with `view_initial_network()`. Similar to `iSEEconfigviewer()`, this function takes the initial setup as input:
 
 ```{r networkviz}
 library("igraph")
-g1 <- iSEEnetworkviewer(initial1)
-visNetwork::visIgraph(g1) # visualisation for initial1
+library("visNetwork")
+
+g1 <- view_initial_network(initial1, plot_format = "igraph")
+g1
 
 initial2 <- results$initial
-g2 <- iSEEnetworkviewer(initial2)
-visNetwork::visIgraph(g2) # visualisation for initial2
+g2 <- view_initial_network(initial2, plot_format = "visNetwork")
 
 ```
 
