@@ -7,6 +7,8 @@
 #' @param reddim.type A string vector containing the dimensionality reduction type
 #' @param clusters A character string containing the name of the clusters/cell-type/state...(as listed in the colData of the sce)
 #' @param groups A character string of the groups/conditions...(as it appears in the colData of the sce)
+#' @param markdownboard A logical indicating whether or not to include the MarkdownBoard panel in the initial configuration
+#' @param dynamicMarkerTable A logical indicating whether or not the DynamicMarkerTable and linked panels should be included in the initial configuration
 #'
 #' @return A list of "Panel" objects specifying the initial state of iSEE instance
 #' @export
@@ -33,7 +35,9 @@ iSEEinit <- function(sce,
                      feature.list,
                      reddim.type = "TSNE",
                      clusters = colnames(colData(sce))[1],
-                     groups = colnames(colData(sce))[1]) {
+                     groups = colnames(colData(sce))[1],
+                     markdownboard = FALSE,
+                     dynamicMarkerTable = FALSE) {
   initial <- list()
   feature.list <- as.list(feature.list)
   clusters <- as.character(clusters)
@@ -92,14 +96,33 @@ iSEEinit <- function(sce,
   initial[["ColumnDataPlot1"]] <- new("ColumnDataPlot",
                                       YAxis = clusters,
                                       ColorBy = "Column data",
-                                      ColorByColumnData = clusters
+                                      ColorByColumnData = clusters,
+                                      PanelWidth = 6L
   )
   
-  initial[["DynamicMarkerTable1"]] <- new("DynamicMarkerTable",
-                                          ColumnSelectionSource = "ReducedDimensionPlot1")
+  if (markdownboard == TRUE) {
+    initial[["MarkdownBoard1"]] <- new("MarkdownBoard",
+                                       Content = "# Placeholder\n\nFill me with text!",
+                                       PanelWidth = 4L)
+  }
   
-  initial[["MarkdownBoard1"]] <- new("MarkdownBoard", Content = "# Placeholder\n\nFill me with text!",
-                                     PanelWidth = 3L)
+  if(dynamicMarkerTable == TRUE) {
+    initial[[paste0("ReducedDimensionPlot",length(feature.list)+2)]] <- new("ReducedDimensionPlot",
+                                                                            Type = reddim.type,
+                                                                            ColorByColumnData = clusters,
+                                                                            ColorBy = "Column data",
+                                                                            SelectionAlpha = 0.05,
+                                                                            ColumnSelectionSource = paste0("FeatureAssayPlot",length(feature.list)+2))
+    
+    
+    initial[["DynamicMarkerTable1"]] <- new("DynamicMarkerTable",
+                                            ColumnSelectionSource = paste0("ReducedDimensionPlot",length(feature.list)+2))
+    
+    initial[[paste0("FeatureAssayPlot",length(feature.list)+2)]] <- new("FeatureAssayPlot",
+                                                                        XAxis = "Column data",
+                                                                        XAxisColumnData = group,
+                                                                        YAxisFeatureSource = "DynamicMarkerTable1")
+  }
   
   return(initial)
   
