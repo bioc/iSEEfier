@@ -1,5 +1,6 @@
 ---
-title: "iSEEfier_userguide"
+title: >
+ The `iSEEfier` User's Guide
 output: 
   BiocStyle::html_document:
     toc: true
@@ -25,12 +26,10 @@ knitr::opts_chunk$set(
 
 This vignette describes how to use `r BiocStyle::Biocpkg("iSEEfier")` package to configure various initial states of iSEE instances, in order to simplify the task of visualizing RNAseq data in `r BiocStyle::Biocpkg("iSEE")`.
 
-In order to use `r BiocStyle::Biocpkg("iSEEfier")`, a `SingleCellExperiment` object is required.
-
-In the remainder of this vignette, we will illustrate the main features of `r BiocStyle::Biocpkg("iSEEfier")` on a publicly available dataset from Zhao et al., 2020 "Single-cell RNA sequencing reveals the heterogeneity of liver-resident immune cells in human", published in Nature Cell Discovery, April 2020 [@Zhao2020] [doi:10.1038/s41421-020-0157-z](https://doi.org/10.1038/s41421-020-0157-z).
+In the remainder of this vignette, we will illustrate the main features of `r BiocStyle::Biocpkg("iSEEfier")` on a publicly available dataset from Baron et al. "A Single-Cell Transcriptomic Map of the Human and Mouse Pancreas Reveals Inter- and Intra-cell Population Structure", published in Cell Systems in 2016. [doi:10.1016/j.cels.2016.08.011](https://doi.org/10.1016/j.cels.2016.08.011).
 
 The data is made available via the `r BiocStyle::Biocpkg("scRNAseq")` Bioconductor package.
-This data was retrieved from 3 adult donors who underwent liver transplantation, where each donor provided 3 tissue samples (blood, spleen and liver).
+We'll simply use the mouse dataset, consisting of islets isolated from five C57BL/6 and ICR mice.
 
 # Getting started {#gettingstarted}
 
@@ -63,13 +62,13 @@ iSEEfier(sce = sce_obj,
 
 To configure the initial state of our iSEE instance using `iSEEfier`, we need five parameters:
 
-1.  `sce` : A `SingleCellExperiment` object. This object stores information of different quantifications (counts, log-expression...), dimensionality reduction coordinates (t-SNE, UMAP...), as well as some metadata related to the samples.
+1.  `sce` : A `SingleCellExperiment` object. This object stores information of different quantifications (counts, log-expression...), dimensionality reduction coordinates (t-SNE, UMAP...), as well as some metadata related to the samples and features.
 
 We'll start by loading the `sce` object
 
 ```{r loaddata}
 library("scRNAseq")
-sce <- ZhaoImmuneLiverData()
+sce <- BaronPancreasData('mouse')
 sce
 ```
 
@@ -89,24 +88,19 @@ sce <- runTSNE(sce)
 sce <- runUMAP(sce)
 ```
 
-For simplicity purposes, we will convert the **ENSEMBL** `rownames` into **gene SYMBOL**
-
-```{r renamerowData}
-rownames(sce) <- rowData(sce)$Symbol
-```
-
 We can also directly load the the preprocessed object
 
 ```{r save-sce, eval=FALSE}
-# sce <- readRDS("./data/ZhaoImmuneLiverData_processed.RDS") #maybe dont with RDS?
+#> sce <- readRDS("./data/ZhaoImmuneLiverData_processed.RDS") #maybe dont with RDS?
 ```
 
 Now our `sce` is ready, we can move on to the next argument.
 
-2.  `feature.list` : which is a list of genes of interest. Let's say we would like to visualize the expression of some genes that were identified as unique to liver-derived immune cells.
+2.  `feature.list` : which is a list of genes/features of interest. Let's say we would like to visualize the expression of some genes that were identified as marker genes for different cell population.
 
 ```{r genelist}
-gene_list <- c("GZMA", "KLRB1", "MT2A", "MT1X","CCL4", "IER2", "NKG7")
+gene_list <- c("Gcg", # alpha
+               "Ins1") # beta
 ```
 
 3.  `reddim.type` : In this example we decided to plot our data as a t-SNE plot.
@@ -118,30 +112,44 @@ reddim_type <- "TSNE"
 4.  `clusters` : Now we specify what clusters/cell-types/states/samples we would like to color/split our data with
 
 ```{r cluster-id}
-cluster <- "sample" #the name should match what's in the colData names
+# cell populations
+cluster <- "label" #the name should match what's in the colData names
 ```
 
 5.  `groups` : Here we can add the groups/conditions/cell-types
 
 ```{r group-id}
-cell_types <- "broad" #the name should match what's in the colData names
+# ICR vs C57BL/6
+group <- "strain" #the name should match what's in the colData names
 ```
 
 At this point, all the elements are ready to be transferred into `iSEEfier()`
 
 ```{r initial1}
-initial <- iSEEfier(sce = sce,
+initial1 <- iSEEfier(sce = sce,
                     feature.list = gene_list,
                     clusters = cluster,
-                    groups = cell_types)
+                    groups = group)
 ```
 
 Now we are one step away from visualizing our list of genes of interest. All that's left to do is to run `iSEE` with the initial state created with `iSEEfier`
 
 ```{r iSEEviz1, eval=FALSE}
 library("iSEE")
-iSEE(sce= sce, initial= initial)
+iSEE(sce, initial= initial1)
 ```
+
+This instance, generated with `iSEEfier()`, returns a combination of panels, linked to each other, with the goal of visualizing the expression of certain marker genes in each cell population/group:
+
+-  A `ReducedDimensionPlot`, `FeatureAssayPlot` and `RowDataTable` for each single gene.
+
+- A `ComplexHeatmapPlot`
+
+- `DynamicMarkerTable`
+
+- `ColumnDataPlot`
+
+- `MarkdownBoard```
 
 # Create an initial state for feature sets exploration using `iSEEnrich()`
 
@@ -158,7 +166,7 @@ We will need 4 elements to explore feature sets of interest:
 
 ```{r set-param}
 GO_collection <- "GO"
-Hs_organism <- "org.Hs.eg.db"
+Hs_organism <- "org.Mm.eg.db"
 gene_id <- "SYMBOL"
 ```
 
@@ -167,7 +175,7 @@ Now let's create this initial setup for `iSEE` using `iSEEnrich()`
 ```{r initial2}
 results <- iSEEnrich(sce = sce,
                      collection = GO_collection,
-                     organism = Hs_organism, 
+                     organism = Hs_organism,
                      gene_identifer = gene_id)
 ```
 
@@ -176,6 +184,48 @@ To start the iSEE instance we run:
 ```{r iSEEviz2,  eval=FALSE}
 iSEE(results$sce1, initial = results$initial)
 ```
+
+# Visualize a preview of the initial configurations with `iSEEconfiviewer()`
+
+Previously, we successfully generated two distinct initial configurations for iSEE. However, understanding the expected content of our iSEE instances is not always straightforward. That's when we can use `iSEEconfigviewer()`.
+
+We only need as an input the initial configuration to obtain a graphical visualization of the expected the corresponding iSEE insantance:
+
+```{r panelgraph}
+library(ggplot2)
+iSEEconfigviewer(initial = initial1)
+iSEEconfigviewer(initial = results$initial)
+```
+
+# Visualize Network connections between panels with `iSEEnetworkviewer()`
+
+As some of these panels are linked to each other, we can visualize these networks with `iSEEnetworkviewer()`. Similar to `iSEEconfigviewer()`, this function takes the initial setup as input:
+
+```{r networkviz}
+library("igraph")
+g1 <- iSEEnetworkviewer(initial1)
+visNetwork::visIgraph(g1) # visualisation for initial1
+
+initial2 <- results$initial
+g2 <- iSEEnetworkviewer(initial2)
+visNetwork::visIgraph(g2) # visualisation for initial2
+
+```
+
+# Merge different initial configurations with `glue_configs()`
+
+Sometimes, it would be interesting to merge different iSEE initial configurations to visualize all different panel in the same iSEE instance.
+
+```{r glueconfig}
+merged_config <- glue_configs(initial1,initial2)
+```
+
+We can then preview the content of this initial configuration
+
+```{r preview}
+iSEEconfigviewer(merged_config)
+```
+
 
 # Session info {.unnumbered}
 
