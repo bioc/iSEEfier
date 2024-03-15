@@ -116,6 +116,14 @@ iSEEconfigviewer <- function(initial) {
 }
 
 
+#' Title
+#'
+#' @param initial
+#'
+#' @return
+#' @export
+#'
+#' @examples
 iSEEnetworkviewer <- function(initial) {
 
   panel_widths <- vapply(initial,
