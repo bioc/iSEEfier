@@ -27,7 +27,12 @@ Imports:
     iSEE,
     iSEEu,
     methods,
-    SummarizedExperiment
+    ggplot2,
+    igraph,
+    rlang,
+    stats,
+    SummarizedExperiment,
+    visNetwork
 Suggests:
     knitr,
     rmarkdown,

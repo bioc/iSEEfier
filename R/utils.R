@@ -5,6 +5,11 @@
 #' @return
 #' @export
 #'
+#' @importFrom stats na.omit
+#' @importFrom ggplot2 ggplot aes geom_tile scale_fill_manual scale_y_discrete
+#' theme theme_void
+#' @importFrom rlang .data
+#'
 #' @examples
 view_initial_tiles <- function(initial) {
 
@@ -101,9 +106,9 @@ view_initial_tiles <- function(initial) {
 
 
   p <- ggplot(na.omit(waffled_matrix_long),
-              aes(x=.data$Var1,
-                  y=.data$Var2)) +
-    geom_tile(aes(fill = panel_type), col = "white") +
+              aes(x = .data$Var1,
+                  y = .data$Var2)) +
+    geom_tile(aes(fill = .data$panel_type), col = "white") +
     scale_y_discrete(limits = rev(levels(waffled_matrix_long$Var2))) +
     theme_void() +
     scale_fill_manual(
@@ -123,6 +128,8 @@ view_initial_tiles <- function(initial) {
 #'
 #' @return
 #' @export
+#' @importFrom igraph graph_from_data_frame graph.empty V V<-
+#' @importFrom visNetwork visNetwork visEdges toVisNetworkData
 #'
 #' @examples
 view_initial_network <- function(initial,
