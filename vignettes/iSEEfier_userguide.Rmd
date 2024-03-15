@@ -36,7 +36,7 @@ knitr::opts_chunk$set(
 
 # Introduction {#introduction}
 
-This vignette describes how to use `r BiocStyle::Biocpkg("iSEEfier")` package to configure various initial states of iSEE instances, in order to simplify the task of visualizing RNAseq data in `r BiocStyle::Biocpkg("iSEE")`.
+This vignette describes how to use `r BiocStyle::Biocpkg("iSEEfier")` package to configure various initial states of iSEE instances, in order to simplify the task of visualizing single-cell RNA-seq, bulk RNA-seq data, or even your proteomics data in `r BiocStyle::Biocpkg("iSEE")`.
 
 In the remainder of this vignette, we will illustrate the main features of `r BiocStyle::Biocpkg("iSEEfier")` on a publicly available dataset from Baron et al. "A Single-Cell Transcriptomic Map of the Human and Mouse Pancreas Reveals Inter- and Intra-cell Population Structure", published in Cell Systems in 2016. [doi:10.1016/j.cels.2016.08.011](https://doi.org/10.1016/j.cels.2016.08.011).
 
@@ -225,18 +225,18 @@ g2 <- view_initial_network(initial2, plot_format = "visNetwork")
 
 ```
 
-# Merge different initial configurations with `glue_configs()`
+# Merge different initial configurations with `glue_initials()`
 
 Sometimes, it would be interesting to merge different iSEE initial configurations to visualize all different panel in the same iSEE instance.
 
 ```{r glueconfig}
-merged_config <- glue_configs(initial1,initial2)
+merged_config <- glue_initials(initial1,initial2)
 ```
 
 We can then preview the content of this initial configuration
 
 ```{r preview}
-iSEEconfigviewer(merged_config)
+view_initial_tiles(merged_config)
 ```
 
 
