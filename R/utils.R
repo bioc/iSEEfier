@@ -272,6 +272,14 @@ glue_initials <- function(...,
 }
 
 
+
+#' Constant values used throughout iSEEfier
+#'
+#' @name constants-iSEEfier
+#'
+#' @section Panel colors:
+#' * color values (as string character or hex value) for the panels included by
+#'   default in `iSEE` and `iSEEu`
 iSEE_panel_colors <- c(
   ReducedDimensionPlot = "#3565AA",
   FeatureAssayPlot = "#7BB854",
