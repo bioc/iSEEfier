@@ -1,17 +1,24 @@
 Package: iSEEfier
-Title: Create an initial state of an iSEE instance to visualize RNA-seq data
-Version: 0.1.0
+Title: Streamlining the creation of initial states for starting an iSEE instance
+Version: 0.2.0
 Authors@R:
     c(
-    person("Najla", "Abassi", , "najla.abassi@uni-mainz.de", role = c("aut"),
-           comment = c(ORCID = "0000-0001-8357-0938")
+    person(given = "Najla", family = "Abassi", role = c("aut", "cre"),
+           email = "abassi.nejla96@gmail.com", comment = c(ORCID = "0000-0001-8357-0938")
            ),
-    person(
-            given = "Federico", family = "Marini", role = c("aut", "cre"), 
-            email = "marinif@uni-mainz.de", comment = c(ORCID = "0000-0003-3252-7758")
-            )
+    person(given = "Federico", family = "Marini", role = c("aut"), 
+           email = "marinif@uni-mainz.de", comment = c(ORCID = "0000-0003-3252-7758")
+           )
     )
-Description: Enhance the visualization of gene expression in RNA-seq data using iSEE, making it more intuitive and straightforward by creating various initial states. This will save time defining the appropriate panels and settings from a default iSEE instance.
+Description: 
+    iSEEfier provides a set of functionality to quickly and intuitively create, 
+    inspect, and combine initial configuration objects. 
+    These can be conveniently passed in a straightforward manner to the function
+    call to launch iSEE() with the specified configuration. 
+    This package currently works seamlessly with the sets of panels provided by 
+    the iSEE and iSEEu packages, but can be extended to accommodate the usage of
+    any custom panel (e.g. from iSEEde, iSEEpathways, or any panel developed 
+    independently by the user).
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
@@ -20,7 +27,12 @@ Imports:
     iSEE,
     iSEEu,
     methods,
-    SummarizedExperiment
+    ggplot2,
+    igraph,
+    rlang,
+    stats,
+    SummarizedExperiment,
+    visNetwork
 Suggests:
     knitr,
     rmarkdown,
@@ -29,5 +41,11 @@ Suggests:
     scuttle,
     BiocStyle,
     testthat (>= 3.0.0)
+biocViews:
+    CellBasedAssays, Clustering, DimensionReduction, FeatureExtraction, GUI, 
+    GeneExpression, ImmunoOncology, ShinyApps, SingleCell, Software, 
+    Transcription, Transcriptomics, Visualization
+URL: https://github.com/NajlaAbassi/iSEEfier
+BugReports: https://github.com/NajlaAbassi/iSEEfier/issues
 Config/testthat/edition: 3
 VignetteBuilder: knitr

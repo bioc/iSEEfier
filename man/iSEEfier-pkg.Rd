@@ -16,12 +16,20 @@ packages, but can be extended to accommodate the usage of any custom panel
 (e.g. from \code{iSEEde}, \code{iSEEpathways}, or any panel developed independently by the
 user).
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/NajlaAbassi/iSEEfier}
+  \item Report bugs at \url{https://github.com/NajlaAbassi/iSEEfier/issues}
+}
+
+}
 \author{
-\strong{Maintainer}: Federico Marini \email{marinif@uni-mainz.de} (\href{https://orcid.org/0000-0003-3252-7758}{ORCID})
+\strong{Maintainer}: Najla Abassi \email{abassi.nejla96@gmail.com} (\href{https://orcid.org/0000-0001-8357-0938}{ORCID})
 
 Authors:
 \itemize{
-  \item Najla Abassi \email{najla.abassi@uni-mainz.de} (\href{https://orcid.org/0000-0001-8357-0938}{ORCID})
+  \item Federico Marini \email{marinif@uni-mainz.de} (\href{https://orcid.org/0000-0003-3252-7758}{ORCID})
 }
 
 }
