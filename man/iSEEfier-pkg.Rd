@@ -2,6 +2,7 @@
 % Please edit documentation in R/iSEEfier-pkg.R
 \docType{package}
 \name{iSEEfier-pkg}
+\alias{iSEEfier}
 \alias{iSEEfier-package}
 \alias{iSEEfier-pkg}
 \title{iSEEfier: a very convenient way to fire up your iSEE instance}
@@ -16,7 +17,12 @@ packages, but can be extended to accommodate the usage of any custom panel
 user).
 }
 \author{
-\strong{Maintainer}: Najla Abassi \email{najla.abassi@uni-mainz.de} (\href{https://orcid.org/0000-0001-8357-0938}{ORCID})
+\strong{Maintainer}: Federico Marini \email{marinif@uni-mainz.de} (\href{https://orcid.org/0000-0003-3252-7758}{ORCID})
+
+Authors:
+\itemize{
+  \item Najla Abassi \email{najla.abassi@uni-mainz.de} (\href{https://orcid.org/0000-0001-8357-0938}{ORCID})
+}
 
 }
 \keyword{internal}

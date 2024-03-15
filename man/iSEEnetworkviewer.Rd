@@ -4,7 +4,7 @@
 \alias{iSEEnetworkviewer}
 \title{Title}
 \usage{
-iSEEnetworkviewer(initial)
+iSEEnetworkviewer(initial, plot_format = c("igraph", "visNetwork", "none"))
 }
 \arguments{
 \item{initial}{}

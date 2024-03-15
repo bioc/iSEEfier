@@ -2,7 +2,7 @@
 
 export(glue_configs)
 export(iSEEconfigviewer)
-export(iSEEfier)
+export(iSEEinit)
 export(iSEEnetworkviewer)
 export(iSEEnrich)
 importClassesFrom(iSEE,ColumnDataPlot)
