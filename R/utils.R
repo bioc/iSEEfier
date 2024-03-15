@@ -120,6 +120,85 @@ iSEEconfigviewer <- function(initial) {
 
 
 
+#' Title
+#'
+#' @param ...
+#' @param remove_duplicate_panels
+#'
+#' @return
+#' @export
+#'
+#' @examples
+glue_configs <- function(...,
+                         remove_duplicate_panels = TRUE,
+                         verbose = TRUE,
+                         custom_panels_allowed = NULL) {
+
+  config_as_list <- list(...)
+
+  allowed_panels <- names(iSEE_panel_colors)
+
+  if (!is.null(custom_panels_allowed)) {
+    stopifnot(is.character(custom_panels_allowed))
+    allowed_panels <- c(allowed_panels, custom_panels_allowed)
+  }
+
+  # all things to be concatenated need to be lists ("initial" lists)
+  if (!all(unlist(lapply(config_as_list, is.list))))
+    stop("You need to provide a set of `initial` configuration lists for iSEE")
+
+  nr_configs <- length(config_as_list)
+  nr_panels <- lengths(config_as_list)
+
+  if (verbose) {
+    message(
+      "Merging together ",
+      nr_configs,
+      " `initial` configuration objects...\n",
+      "Combining sets of ",
+      paste(nr_panels, collapse = ", "),
+      " different panels."
+    )
+  }
+
+  # checking that all the components are legit panel configurations
+  concatenated_configs <- c(...)
+  panel_types <- vapply(concatenated_configs, class, character(1))
+
+  if (!all(panel_types %in% allowed_panels))
+    stop("Some elements included in the provided input are not recognized as iSEE panels!")
+
+  if (remove_duplicate_panels) {
+    dupe_panels <- duplicated(concatenated_configs)
+    glued_configs <- concatenated_configs[!dupe_panels]
+    if (verbose)
+      message("\nDropping ",
+              sum(dupe_panels), " of the original list of ",
+              length(concatenated_configs), " (detected as duplicated entries)"
+      )
+  } else {
+    glued_configs <- concatenated_configs
+  }
+
+  if (verbose) {
+    if (any(duplicated(names(glued_configs)))) {
+      message("\nSome names of the panels were specified by the same name, ",
+              "but this situation can be handled at runtime by iSEE\n",
+              "(This is just a non-critical message)")
+    }
+
+    message("\nReturning an `initial` configuration including ",
+            length(glued_configs),
+            " different panels. Enjoy!\n",
+            "If you want to obtain a preview of the panels configuration, ",
+            "you can call `iSEEconfigviewer()` on the output of this function"
+    )
+  }
+
+  return(glued_configs)
+}
+
+
 iSEE_panel_colors <- c(
   ReducedDimensionPlot = "#3565AA",
   FeatureAssayPlot = "#7BB854",
