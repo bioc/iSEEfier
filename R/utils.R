@@ -233,14 +233,41 @@ view_initial_network <- function(initial,
 
 
 
-#' Title
+#' Glue together initial objects into one
 #'
-#' @param ...
-#' @param remove_duplicate_panels
-#' @param verbose
-#' @param custom_panels_allowed
+#' Glue a set of `initial` configuration objects, combining them into a single
+#' valid `initial` set.
 #'
-#' @return
+#' @param ... A set of `initial` list objects (in the format that is required to
+#' be passed as a parameter in the call to [iSEE::iSEE()]) - just as in the
+#' behavior of the `c()`/`paste()` function
+#' @param remove_duplicate_panels Logical, defaults to `TRUE`. Defines the behavior
+#' to remove panels detected as duplicated. Can be relevant upon concatenating
+#' mid to large sets of panels.
+#' @param verbose Logical, defaults to `TRUE`. If on, prints out a series of
+#' informative messages to describe the actions undertaken upon running.
+#' @param custom_panels_allowed Character vector, defaults to `NULL`. Can be used
+#' to specify additional panels to be allowed in the concatenation.
+#'
+#' @details
+#' The usage of `custom_panels_allowed` can be especially relevant when one creates
+#' one or more custom panels, with a specific name that needs to be indicated in
+#' this parameter.
+#' For example, if using a panel of class `FancyPlotPanel` and one called
+#' `FancyTablePanel`, the value for `custom_panels_allowed` should be set to
+#' `c("FancyPlotPanel", "FancyTablePanel")`.
+#'
+#' It is worth mentioning that [iSEE::iSEE()] is actually able to handle the
+#' automatic renaming of panels that could be detected as duplicated. This can
+#' basically relax the requirement on the "unicity" of the configured panels, with
+#' the only caveat of having to think of how the *transmissions* between panels
+#' will be handled; nevertheless, most users might not even need to face this
+#' situation.
+#'
+#' @return A single `initial` list object, in the format that is required to
+#' be passed as a parameter in the call to [iSEE::iSEE()], concatenating the
+#' values provided as input.
+#'
 #' @export
 #'
 #' @examples
