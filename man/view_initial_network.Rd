@@ -2,13 +2,38 @@
 % Please edit documentation in R/utils.R
 \name{view_initial_network}
 \alias{view_initial_network}
-\title{Title}
+\title{View an initial object as a network}
 \usage{
 view_initial_network(initial, plot_format = c("igraph", "visNetwork", "none"))
 }
 \arguments{
-\item{plot_format}{}
+\item{initial}{An \code{initial} list object, in the format that is required to
+be passed as a parameter in the call to \code{\link[iSEE:iSEE]{iSEE::iSEE()}}.}
+
+\item{plot_format}{Character string, one of \code{igraph}, \code{visNetwork}, or \code{none}.
+Defaults to \code{igraph}. Determines the format of the visual representation
+generated as a side effect of this function - it can be the output of the
+\code{plot()} function for \code{igraph} objects, or an interactive widget created
+via \code{visNetwork::visNetwork()}.}
+}
+\value{
+An \code{igraph} object, underlying the visual representation provided.
 }
 \description{
-Title
+Translates the layout of the \code{initial} configuration object as a networks,
+representing panels as nodes and links between them as edges.
+}
+\details{
+Panels are the nodes, with color and names to identify them easily.
+The connections among panels are represented through directed edges.
+This can be a compact visualization to obtain an overview for the configuration,
+without the need of fully launching the app and loading the content of all
+panels
+
+This function is particularly useful with mid-to-large \code{initial} objects, as
+they can be quickly generated in a programmatic manner via the \code{iSEEinit()}
+provided in this package.
+}
+\seealso{
+\code{\link[=view_initial_tiles]{view_initial_tiles()}}
 }

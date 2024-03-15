@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils.R
 \name{glue_initials}
 \alias{glue_initials}
-\title{Title}
+\title{Glue together initial objects into one}
 \usage{
 glue_initials(
   ...,
@@ -12,8 +12,41 @@ glue_initials(
 )
 }
 \arguments{
-\item{custom_panels_allowed}{}
+\item{...}{A set of \code{initial} list objects (in the format that is required to
+be passed as a parameter in the call to \code{\link[iSEE:iSEE]{iSEE::iSEE()}}) - just as in the
+behavior of the \code{c()}/\code{paste()} function}
+
+\item{remove_duplicate_panels}{Logical, defaults to \code{TRUE}. Defines the behavior
+to remove panels detected as duplicated. Can be relevant upon concatenating
+mid to large sets of panels.}
+
+\item{verbose}{Logical, defaults to \code{TRUE}. If on, prints out a series of
+informative messages to describe the actions undertaken upon running.}
+
+\item{custom_panels_allowed}{Character vector, defaults to \code{NULL}. Can be used
+to specify additional panels to be allowed in the concatenation.}
+}
+\value{
+A single \code{initial} list object, in the format that is required to
+be passed as a parameter in the call to \code{\link[iSEE:iSEE]{iSEE::iSEE()}}, concatenating the
+values provided as input.
 }
 \description{
-Title
+Glue a set of \code{initial} configuration objects, combining them into a single
+valid \code{initial} set.
+}
+\details{
+The usage of \code{custom_panels_allowed} can be especially relevant when one creates
+one or more custom panels, with a specific name that needs to be indicated in
+this parameter.
+For example, if using a panel of class \code{FancyPlotPanel} and one called
+\code{FancyTablePanel}, the value for \code{custom_panels_allowed} should be set to
+\code{c("FancyPlotPanel", "FancyTablePanel")}.
+
+It is worth mentioning that \code{\link[iSEE:iSEE]{iSEE::iSEE()}} is actually able to handle the
+automatic renaming of panels that could be detected as duplicated. This can
+basically relax the requirement on the "unicity" of the configured panels, with
+the only caveat of having to think of how the \emph{transmissions} between panels
+will be handled; nevertheless, most users might not even need to face this
+situation.
 }

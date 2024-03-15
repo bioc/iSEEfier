@@ -2,13 +2,32 @@
 % Please edit documentation in R/utils.R
 \name{view_initial_tiles}
 \alias{view_initial_tiles}
-\title{Title}
+\title{View an initial object as a set of tiles}
 \usage{
 view_initial_tiles(initial)
 }
 \arguments{
-\item{initial}{}
+\item{initial}{An \code{initial} list object, in the format that is required to
+be passed as a parameter in the call to \code{\link[iSEE:iSEE]{iSEE::iSEE()}}.}
+}
+\value{
+A \code{ggplot} object, representing a schematic view for the \code{initial}
+object.
 }
 \description{
-Title
+Previews the layout of the \code{initial} configuration object in a graphical form.
+}
+\details{
+Tiles are used to represent the panel types, and reflect the values of their
+width.
+This can be a compact visualization to obtain an overview for the configuration,
+without the need of fully launching the app and loading the content of all
+panels
+
+This function is particularly useful with mid-to-large \code{initial} objects, as
+they can be quickly generated in a programmatic manner via the \code{iSEEinit()}
+provided in this package.
+}
+\seealso{
+\code{\link[=view_initial_network]{view_initial_network()}}
 }
