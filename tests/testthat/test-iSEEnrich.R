@@ -7,5 +7,7 @@ test_that("test iSEEnrich", {
   results <- iSEEnrich(sce = sce_allen, collection = GO_collection,
                        organism = Hs_organism,
                        gene_identifer = gene_id)
-  expect_true(class(results)== "list")
+  expect_true(is.list(results))
+  expect_true(is.list(results$initial))
+  expect_true(is(results$sce1, "SingleCellExperiment"))
 })
