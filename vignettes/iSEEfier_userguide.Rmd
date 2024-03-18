@@ -176,7 +176,7 @@ We will need 4 elements to explore feature sets of interest:
 
 ```{r set-param}
 GO_collection <- "GO"
-Hs_organism <- "org.Mm.eg.db"
+Mm_organism <- "org.Mm.eg.db"
 gene_id <- "SYMBOL"
 ```
 
@@ -185,15 +185,15 @@ Now let's create this initial setup for `iSEE` using `iSEEnrich()`
 ```{r initial2}
 results <- iSEEnrich(sce = sce,
                      collection = GO_collection,
-                     organism = Hs_organism,
-                     gene_identifer = gene_id)
+                     organism = Mm_organism,
+                     gene_identifier = gene_id)
 ```
 
 `iSEEnrich` will specifically return a list with the updated `sce` object and its associated `initial` configuration.
 To start the `iSEE` instance we run:
 
 ```{r iSEEviz2,  eval=FALSE}
-iSEE(results$sce1, initial = results$initial)
+iSEE(results$sce, initial = results$initial)
 ```
 
 # Visualize a preview of the initial configurations with `view_initial_tiles()`
