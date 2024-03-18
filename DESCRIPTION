@@ -32,6 +32,7 @@ Imports:
     rlang,
     stats,
     SummarizedExperiment,
+    SingleCellExperiment,
     visNetwork
 Suggests:
     knitr,

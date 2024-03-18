@@ -14,6 +14,8 @@
 #' @export
 #' @importFrom methods new
 #' @importFrom SummarizedExperiment colData
+#' @importFrom SingleCellExperiment reducedDimNames
+#' @importFrom methods is
 #' @importClassesFrom iSEE ColumnDataPlot
 #' @importClassesFrom iSEE ReducedDimensionPlot
 #' @importClassesFrom iSEE FeatureAssayPlot
