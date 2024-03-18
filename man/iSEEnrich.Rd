@@ -8,7 +8,7 @@ iSEEnrich(
   sce,
   collection = c("GO", "KEGG"),
   organism = "org.Hs.eg.db",
-  gene_identifer = "ENTREZID"
+  gene_identifier = "ENTREZID"
 )
 }
 \arguments{
@@ -18,7 +18,7 @@ iSEEnrich(
 
 \item{organism}{A character string of the org.*.eg.db package to use to extract mappings of gene sets to gene IDs.}
 
-\item{gene_identifer}{A character string specifying the identifier to use to extract gene IDs for the organism package}
+\item{gene_identifier}{A character string specifying the identifier to use to extract gene IDs for the organism package}
 }
 \value{
 A list of "Panel" objects specifying the initial state of iSEE instance
@@ -28,13 +28,15 @@ A list of "Panel" objects specifying the initial state of iSEE instance
 displaying all associated genes in a \code{RowDataTable} panel.
 }
 \examples{
-sce <- scRNAseq::BacherTCellData()
+sce <- scRNAseq::RichardTCellData()
 sce <- scuttle::logNormCounts(sce)
 sce <- scater::runPCA(sce)
 GO_collection <- "GO"
-Hs_organism <- "org.Hs.eg.db"
+Mm_organism <- "org.Mm.eg.db"
 gene_id <- "SYMBOL"
-results <- iSEEnrich(sce = sce, collection = GO_collection,
-organism = Hs_organism, gene_identifer = gene_id)
+results <- iSEEnrich(sce = sce,
+                     collection = GO_collection,
+                     organism = Mm_organism,
+                     gene_identifier = gene_id)
 
 }
