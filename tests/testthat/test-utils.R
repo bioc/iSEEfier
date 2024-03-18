@@ -1,6 +1,6 @@
 test_that("iSEEfier utils work", {
   init_1 <- iSEEinit(sce = sce_allen,
-                      feature.list = c("IL2rb",
+                      feature.list = c("Il2rb",
                                        "Klre1"),
                       clusters = "Primary.Type",
                       groups = "Secondary.Type")
