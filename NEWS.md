@@ -1,3 +1,7 @@
+# iSEEfier 0.99.0
+
+* Ready for Bioconductor submission!
+
 # iSEEfier 0.3.0
 
 * Main functions are equipped with extra parameters determining their behavior
