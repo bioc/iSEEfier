@@ -1,12 +1,62 @@
 test_that("test iSEEnrich", {
-  sce <- scRNAseq::BacherTCellData()
-  sce <- scuttle::logNormCounts(sce)
-  sce <- scater::runPCA(sce)
+
   GO_collection <- "GO"
-  Hs_organism <- "org.Hs.eg.db"
+  Mm_organism <- "org.Mm.eg.db"
   gene_id <- "SYMBOL"
-  results <- iSEEnrich(sce = sce, collection = GO_collection,
-                       organism = Hs_organism,
-                       gene_identifer = gene_id)
-  expect_true(class(results)== "list")
+
+  results <- iSEEnrich(sce = sce_allen,
+                       collection = GO_collection,
+                       organism = Mm_organism,
+                       gene_identifier = gene_id)
+  expect_true(is.list(results))
+  expect_true(is.list(results$initial))
+  expect_true(is(results$sce, "SingleCellExperiment"))
+
+  ## This is to trigger the argument checks
+  expect_error({
+    iSEEnrich(sce = "Pippo",
+              collection = GO_collection,
+              organism = Mm_organism,
+              gene_identifier = gene_id)
+  })
+
+  expect_error({
+    iSEEnrich(sce = sce_allen,
+              collection = "MSIGDB",
+              organism = Mm_organism,
+              gene_identifier = gene_id)
+  })
+
+  expect_error({
+    iSEEnrich(sce = sce_allen,
+              collection = c("MSIGDB", "GO"),
+              organism = Mm_organism,
+              gene_identifier = gene_id)
+  })
+
+  expect_error({
+    iSEEnrich(sce = sce_allen,
+              collection = GO_collection,
+              organism = TRUE,
+              gene_identifier = gene_id)
+  })
+
+  expect_error({
+    iSEEnrich(sce = sce_allen,
+              collection = GO_collection,
+              organism = c("org.Mm.eg.db", "mouse"),
+              gene_identifier = gene_id)
+  })
+
+  expect_error({
+    iSEEnrich(sce = sce_allen,
+              collection = GO_collection,
+              organism = c("mouse"),
+              gene_identifier = gene_id)
+  })
+
+
+
+
+
 })

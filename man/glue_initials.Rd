@@ -45,7 +45,7 @@ For example, if using a panel of class \code{FancyPlotPanel} and one called
 
 It is worth mentioning that \code{\link[iSEE:iSEE]{iSEE::iSEE()}} is actually able to handle the
 automatic renaming of panels that could be detected as duplicated. This can
-basically relax the requirement on the "unicity" of the configured panels, with
+basically relax the requirement on the "uniqueness" of the configured panels, with
 the only caveat of having to think of how the \emph{transmissions} between panels
 will be handled; nevertheless, most users might not even need to face this
 situation.

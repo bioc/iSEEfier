@@ -1,6 +1,6 @@
 Package: iSEEfier
 Title: Streamlining the creation of initial states for starting an iSEE instance
-Version: 0.2.0
+Version: 0.99.0
 Authors@R:
     c(
     person(given = "Najla", family = "Abassi", role = c("aut", "cre"),
@@ -32,12 +32,14 @@ Imports:
     rlang,
     stats,
     SummarizedExperiment,
+    SingleCellExperiment,
     visNetwork
 Suggests:
     knitr,
     rmarkdown,
     scater,
     scRNAseq,
+    org.Mm.eg.db,
     scuttle,
     BiocStyle,
     testthat (>= 3.0.0)
