@@ -48,6 +48,10 @@ iSEEnrich <- function(sce,
   stopifnot(is.character(gene_identifier))
   stopifnot(length(gene_identifier) == 1)
 
+  if (!requireNamespace(organism, quietly = TRUE))
+    stop("Please check the value of the provided orgDb package ",
+         "(it needs to be installed)...")
+
 
   initial <- list()
 
