@@ -9,5 +9,5 @@ test_that("test iSEEnrich", {
                        gene_identifer = gene_id)
   expect_true(is.list(results))
   expect_true(is.list(results$initial))
-  expect_true(is(results$sce1, "SingleCellExperiment"))
+  expect_true(is(results$sce, "SingleCellExperiment"))
 })
