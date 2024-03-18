@@ -113,83 +113,94 @@ iSEEinit <- function(sce,
 
 
   for (j in feature.list) {
-    initial[[paste0("ReducedDimensionPlot", which(feature.list == j))]] <- new("ReducedDimensionPlot",
-                                                                               Type = reddim.type,
-                                                                               ColorBy = "Feature name",
-                                                                               ColorByFeatureName = j,
-                                                                               ColorByFeatureSource = paste0("RowDataTable", which(feature.list == j)),
-                                                                               ColumnSelectionSource = "ColumnDataPlot1",
-                                                                               SelectionAlpha = 0.05
+    initial[[paste0("ReducedDimensionPlot", which(feature.list == j))]] <- new(
+      "ReducedDimensionPlot",
+      Type = reddim.type,
+      ColorBy = "Feature name",
+      ColorByFeatureName = j,
+      ColorByFeatureSource = paste0("RowDataTable", which(feature.list == j)),
+      ColumnSelectionSource = "ColumnDataPlot1",
+      SelectionAlpha = 0.05
     )
 
-    initial[[paste0("FeatureAssayPlot", which(feature.list == j))]] <- new("FeatureAssayPlot",
-                                                                           XAxis = "Column data",
-                                                                           XAxisColumnData = clusters,
-                                                                           YAxisFeatureName = j,
-                                                                           YAxisFeatureSource = paste0("RowDataTable", which(feature.list == j)),
-                                                                           ColorBy = "Column data",
-                                                                           ColorByColumnData = clusters
+    initial[[paste0("FeatureAssayPlot", which(feature.list == j))]] <- new(
+      "FeatureAssayPlot",
+      XAxis = "Column data",
+      XAxisColumnData = clusters,
+      YAxisFeatureName = j,
+      YAxisFeatureSource = paste0("RowDataTable", which(feature.list == j)),
+      ColorBy = "Column data",
+      ColorByColumnData = clusters
     )
 
-    initial[[paste0("RowDataTable", which(feature.list == j))]] <- new("RowDataTable",
-                                                                       Selected = j,
-                                                                       Search = j
+    initial[[paste0("RowDataTable", which(feature.list == j))]] <- new(
+      "RowDataTable",
+      Selected = j,
+      Search = j
     )
   }
 
   if (length(feature.list) > 1) {
-    initial[[paste0("FeatureAssayPlot", length(feature.list) + 1)]] <- new("FeatureAssayPlot",
-                                                                           XAxis = "Feature name",
-                                                                           XAxisFeatureName = feature.list[[1]],
-                                                                           YAxisFeatureName = feature.list[[2]]
+    initial[[paste0("FeatureAssayPlot", length(feature.list) + 1)]] <- new(
+      "FeatureAssayPlot",
+      XAxis = "Feature name",
+      XAxisFeatureName = feature.list[[1]],
+      YAxisFeatureName = feature.list[[2]]
     )
   }
 
-  initial[[paste0("ReducedDimensionPlot", length(feature.list) + 1)]] <- new("ReducedDimensionPlot",
-                                                                             Type = reddim.type,
-                                                                             ColorByColumnData = clusters,
-                                                                             ColorBy = "Column data",
-                                                                             ColumnSelectionSource = paste0("FeatureAssayPlot", length(feature.list) + 1),
-                                                                             FacetColumnBy = "Column data",
-                                                                             FacetColumnByColData = groups,
-                                                                             SelectionAlpha = 0.05
+  initial[[paste0("ReducedDimensionPlot", length(feature.list) + 1)]] <- new(
+    "ReducedDimensionPlot",
+    Type = reddim.type,
+    ColorByColumnData = clusters,
+    ColorBy = "Column data",
+    ColumnSelectionSource = paste0("FeatureAssayPlot", length(feature.list) + 1),
+    FacetColumnBy = "Column data",
+    FacetColumnByColData = groups,
+    SelectionAlpha = 0.05
   )
 
 
-  initial[["ComplexHeatmapPlot1"]] <- new("ComplexHeatmapPlot",
-                                          CustomRowsText = paste(feature.list, collapse = "\n"),
-                                          ColumnData = clusters
+  initial[["ComplexHeatmapPlot1"]] <- new(
+    "ComplexHeatmapPlot",
+    CustomRowsText = paste(feature.list, collapse = "\n"),
+    ColumnData = clusters
   )
 
-  initial[["ColumnDataPlot1"]] <- new("ColumnDataPlot",
-                                      YAxis = clusters,
-                                      ColorBy = "Column data",
-                                      ColorByColumnData = clusters,
-                                      PanelWidth = 6L
+  initial[["ColumnDataPlot1"]] <- new(
+    "ColumnDataPlot",
+    YAxis = clusters,
+    ColorBy = "Column data",
+    ColorByColumnData = clusters,
+    PanelWidth = 6L
   )
 
   if (markdownboard == TRUE) {
-    initial[["MarkdownBoard1"]] <- new("MarkdownBoard",
-                                       Content = "# Placeholder\n\nFill me with text!",
-                                       PanelWidth = 4L)
+    initial[["MarkdownBoard1"]] <- new(
+      "MarkdownBoard",
+      Content = "# Placeholder\n\nFill me with text!",
+      PanelWidth = 4L)
   }
 
   if(dynamicMarkerTable == TRUE) {
-    initial[[paste0("ReducedDimensionPlot",length(feature.list)+2)]] <- new("ReducedDimensionPlot",
-                                                                            Type = reddim.type,
-                                                                            ColorByColumnData = clusters,
-                                                                            ColorBy = "Column data",
-                                                                            SelectionAlpha = 0.05,
-                                                                            ColumnSelectionSource = paste0("FeatureAssayPlot",length(feature.list)+2))
+    initial[[paste0("ReducedDimensionPlot",length(feature.list)+2)]] <- new(
+      "ReducedDimensionPlot",
+      Type = reddim.type,
+      ColorByColumnData = clusters,
+      ColorBy = "Column data",
+      SelectionAlpha = 0.05,
+      ColumnSelectionSource = paste0("FeatureAssayPlot",length(feature.list)+2))
 
 
-    initial[["DynamicMarkerTable1"]] <- new("DynamicMarkerTable",
-                                            ColumnSelectionSource = paste0("ReducedDimensionPlot",length(feature.list)+2))
+    initial[["DynamicMarkerTable1"]] <- new(
+      "DynamicMarkerTable",
+      ColumnSelectionSource = paste0("ReducedDimensionPlot",length(feature.list)+2))
 
-    initial[[paste0("FeatureAssayPlot",length(feature.list)+2)]] <- new("FeatureAssayPlot",
-                                                                        XAxis = "Column data",
-                                                                        XAxisColumnData = groups,
-                                                                        YAxisFeatureSource = "DynamicMarkerTable1")
+    initial[[paste0("FeatureAssayPlot",length(feature.list)+2)]] <- new(
+      "FeatureAssayPlot",
+      XAxis = "Column data",
+      XAxisColumnData = groups,
+      YAxisFeatureSource = "DynamicMarkerTable1")
   }
 
   return(initial)
