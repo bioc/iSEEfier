@@ -39,6 +39,7 @@ Suggests:
     rmarkdown,
     scater,
     scRNAseq,
+    org.Mm.eg.db,
     scuttle,
     BiocStyle,
     testthat (>= 3.0.0)
