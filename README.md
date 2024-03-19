@@ -28,7 +28,7 @@ remotes::install_github("NajlaAbassi/iSEEfier",
 ## Example
 
 This is a basic example which shows you how to use `iSEEfier` on a demo
-dataset (the one included in the `macrophage` package).
+dataset (the one included in the `scRNAseq` package).
 
 ``` r
 library(iSEEfier)
