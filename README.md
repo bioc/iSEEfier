@@ -1,5 +1,9 @@
 # iSEEfier
 
+<!-- badges: start -->
+  [![R-CMD-check](https://github.com/NajlaAbassi/iSEEfier/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/NajlaAbassi/iSEEfier/actions/workflows/R-CMD-check.yaml)
+<!-- badges: end -->
+
 The goal of `iSEEfier` is to provides a set of functionality to quickly and intuitively create, 
 inspect, and combine initial configuration objects for the `iSEE` package. 
 
