@@ -1,32 +1,32 @@
 test_that("test iSEEinit",{
   initial <- iSEEinit(sce = sce_allen,
-                      feature.list = c("Il2rb",
+                      features = c("Il2rb",
                                        "Klre1"),
                       clusters = "Primary.Type",
                       groups = "Secondary.Type")
   expect_true(is.list(initial))
 
   initial_with_board <- iSEEinit(sce = sce_allen,
-                                 feature.list = c("Il2rb",
+                                 features = c("Il2rb",
                                                   "Klre1"),
                                  clusters = "Primary.Type",
                                  groups = "Secondary.Type",
-                                 markdownboard = TRUE)
+                                 add_dynamicTable_panel = TRUE)
   expect_true(is.list(initial_with_board))
 
   initial_with_dynamictable <- iSEEinit(sce = sce_allen,
-                                        reddim.type = "PCA",
-                                        feature.list = c("Il2rb",
+                                        reddim_type = "PCA",
+                                        features = c("Il2rb",
                                                          "Klre1"),
                                         clusters = "Primary.Type",
                                         groups = "Secondary.Type",
-                                        dynamicMarkerTable = TRUE)
+                                        add_dynamicTable_panel = TRUE)
   expect_true(is.list(initial_with_dynamictable))
 
   ## This is to trigger the argument checks
   expect_error({
     iSEEinit(sce = "Pippo",
-             feature.list = c("Il2rb",
+             features = c("Il2rb",
                               "Klre1"),
              clusters = "Primary.Type",
              groups = "Secondary.Type")
@@ -34,24 +34,24 @@ test_that("test iSEEinit",{
 
   expect_error({
     iSEEinit(sce = sce_allen,
-             reddim.type = "PCA",
-             feature.list = TRUE,
+             reddim_type = "PCA",
+             features = TRUE,
              clusters = "Primary.Type",
              groups = "Secondary.Type")
   })
 
   expect_error({
     iSEEinit(sce = sce_allen,
-             reddim.type = "PCA",
-             feature.list = character(0L),
+             reddim_type = "PCA",
+             features = character(0L),
              clusters = "Primary.Type",
              groups = "Secondary.Type")
   })
 
   expect_error({
     iSEEinit(sce = sce_allen,
-             reddim.type = TRUE,
-             feature.list = c("Il2rb",
+             reddim_type = TRUE,
+             features = c("Il2rb",
                               "Klre1"),
              clusters = "Primary.Type",
              groups = "Secondary.Type")
@@ -59,8 +59,8 @@ test_that("test iSEEinit",{
 
   expect_error({
     iSEEinit(sce = sce_allen,
-             reddim.type = "pca",
-             feature.list = c("Il2rb",
+             reddim_type = "pca",
+             features = c("Il2rb",
                               "Klre1"),
              clusters = "Primary.Type",
              groups = "Secondary.Type")
@@ -68,8 +68,8 @@ test_that("test iSEEinit",{
 
   expect_error({
     iSEEinit(sce = sce_allen,
-             reddim.type = c("PCA", "TSNE"),
-             feature.list = c("Il2rb",
+             reddim_type = c("PCA", "TSNE"),
+             features = c("Il2rb",
                               "Klre1"),
              clusters = "Primary.Type",
              groups = "Secondary.Type")
@@ -77,8 +77,8 @@ test_that("test iSEEinit",{
 
   expect_error({
     iSEEinit(sce = sce_allen,
-             reddim.type = "PCA",
-             feature.list = c("Il2rb",
+             reddim_type = "PCA",
+             features = c("Il2rb",
                               "Klre1"),
              clusters = TRUE,
              groups = "Secondary.Type")
@@ -86,8 +86,8 @@ test_that("test iSEEinit",{
 
   expect_error({
     iSEEinit(sce = sce_allen,
-             reddim.type = "PCA",
-             feature.list = c("Il2rb",
+             reddim_type = "PCA",
+             features = c("Il2rb",
                               "Klre1"),
              clusters = c("JaneDoe", "JohnDoe"),
              groups = "Secondary.Type")
@@ -95,8 +95,8 @@ test_that("test iSEEinit",{
 
   expect_error({
     iSEEinit(sce = sce_allen,
-             reddim.type = "PCA",
-             feature.list = c("Il2rb",
+             reddim_type = "PCA",
+             features = c("Il2rb",
                               "Klre1"),
              clusters = "Primary.Type",
              groups = FALSE)
@@ -104,8 +104,8 @@ test_that("test iSEEinit",{
 
   expect_error({
     iSEEinit(sce = sce_allen,
-             reddim.type = "PCA",
-             feature.list = c("Il2rb",
+             reddim_type = "PCA",
+             features = c("Il2rb",
                               "Klre1"),
              clusters = "Primary.Type",
              groups = c("Primary.Type", "Secondary.Type"))
@@ -113,47 +113,47 @@ test_that("test iSEEinit",{
 
   expect_error({
     iSEEinit(sce = sce_allen,
-             reddim.type = "PCA",
-             feature.list = c("Il2rb",
+             reddim_type = "PCA",
+             features = c("Il2rb",
                               "Klre1"),
              clusters = "Primary.Type",
              groups = "Secondary.Type",
-             markdownboard = "yes")
+             add_markdown_panel = "yes")
   })
   expect_error({
     iSEEinit(sce = sce_allen,
-             reddim.type = "PCA",
-             feature.list = c("Il2rb",
+             reddim_type = "PCA",
+             features = c("Il2rb",
                               "Klre1"),
              clusters = "Primary.Type",
              groups = "Secondary.Type",
-             markdownboard = c(TRUE, TRUE))
-  })
-
-  expect_error({
-    iSEEinit(sce = sce_allen,
-             reddim.type = "PCA",
-             feature.list = c("Il2rb",
-                              "Klre1"),
-             clusters = "Primary.Type",
-             groups = "Secondary.Type",
-             dynamicMarkerTable= "no")
+             add_markdown_panel = c(TRUE, TRUE))
   })
 
   expect_error({
     iSEEinit(sce = sce_allen,
-             reddim.type = "PCA",
-             feature.list = c("Il2rb",
+             reddim_type = "PCA",
+             features = c("Il2rb",
                               "Klre1"),
              clusters = "Primary.Type",
              groups = "Secondary.Type",
-             dynamicMarkerTable= c(FALSE, FALSE))
+             add_dynamicTable_panel = "no")
+  })
+
+  expect_error({
+    iSEEinit(sce = sce_allen,
+             reddim_type = "PCA",
+             features = c("Il2rb",
+                              "Klre1"),
+             clusters = "Primary.Type",
+             groups = "Secondary.Type",
+             add_dynamicTable_panel= c(FALSE, FALSE))
   })
 
   expect_message({
     init_pippo <- iSEEinit(sce = sce_allen,
-                           reddim.type = "PCA",
-                           feature.list = c("Il2rb",
+                           reddim_type = "PCA",
+                           features = c("Il2rb",
                                             "Klre1",
                                             "Pippo"),
                            clusters = "Primary.Type",
@@ -161,8 +161,8 @@ test_that("test iSEEinit",{
   })
   expect_error({
     init_pippo_pluto <- iSEEinit(sce = sce_allen,
-                                 reddim.type = "PCA",
-                                 feature.list = c("Pluto",
+                                 reddim_type = "PCA",
+                                 features = c("Pluto",
                                                   "Pippo"),
                                  clusters = "Primary.Type",
                                  groups = "Secondary.Type")
@@ -173,7 +173,7 @@ test_that("test iSEEinit",{
 
   expect_message({
     initial_cluster_fallback <- iSEEinit(sce = sce_allen,
-                                         feature.list = c("Il2rb",
+                                         features = c("Il2rb",
                                                           "Klre1"),
                                          clusters = "Primary_Type",
                                          groups = "Secondary.Type")
@@ -181,7 +181,7 @@ test_that("test iSEEinit",{
 
   expect_error({
     initial <- iSEEinit(sce = sce_nocd,
-                        feature.list = c("Il2rb",
+                        features = c("Il2rb",
                                          "Klre1"),
                         clusters = "anything",
                         groups = "Secondary.Type")
@@ -189,7 +189,7 @@ test_that("test iSEEinit",{
 
   expect_message({
     initial_group_fallback <- iSEEinit(sce = sce_allen,
-                                         feature.list = c("Il2rb",
+                                         features = c("Il2rb",
                                                           "Klre1"),
                                          clusters = "Primary.Type",
                                          groups = "Secondary_Type")
@@ -197,7 +197,7 @@ test_that("test iSEEinit",{
 
   expect_error({
     initial <- iSEEinit(sce = sce_nocd,
-                        feature.list = c("Il2rb",
+                        features = c("Il2rb",
                                          "Klre1"),
                         clusters = "Primary.Type",
                         groups = "anything_else")
