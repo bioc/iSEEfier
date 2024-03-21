@@ -77,7 +77,7 @@ To configure the initial state of our `iSEE` instance using `iSEEinit()`, we nee
 
 1.  `sce` : A `SingleCellExperiment` object. This object stores information of different quantifications (counts, log-expression...), dimensionality reduction coordinates (t-SNE, UMAP...), as well as some metadata related to the samples and features.
 
-We'll start by loading the `sce` object
+We'll start by loading the `sce` object:
 
 ```{r loaddata}
 library("scRNAseq")
