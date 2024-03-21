@@ -40,8 +40,7 @@ This vignette describes how to use the `r BiocStyle::Biocpkg("iSEEfier")` packag
 
 In the remainder of this vignette, we will illustrate the main features of `r BiocStyle::Biocpkg("iSEEfier")` on a publicly available dataset from Baron et al. "A Single-Cell Transcriptomic Map of the Human and Mouse Pancreas Reveals Inter- and Intra-cell Population Structure", published in Cell Systems in 2016. [doi:10.1016/j.cels.2016.08.011](https://doi.org/10.1016/j.cels.2016.08.011).
 
-The data is made available via the `r BiocStyle::Biocpkg("scRNAseq")` Bioconductor package.
-We'll simply use the mouse dataset, consisting of islets isolated from five C57BL/6 and ICR mice.
+The data is made available via the `r BiocStyle::Biocpkg("scRNAseq")` Bioconductor package. We'll simply use the mouse dataset, consisting of islets isolated from five C57BL/6 and ICR mice.
 
 # Getting started {#gettingstarted}
 
@@ -66,12 +65,12 @@ When we have all input elements ready, we can create an `iSEE` initial state by 
 
 ```{r runfunc, eval=FALSE}
 iSEEinit(sce = sce_obj,
-         feature.list = feature_list,
+         features = feature_list,
          reddim.type = reduced_dim,
          clusters = cluster,
          groups = group,
-         markdownboard = FALSE,
-         dynamicMarkerTable = FALSE)
+         add_markdown_panel = FALSE,
+         add_dynamicTable_panel = FALSE)
 ```
 
 To configure the initial state of our `iSEE` instance using `iSEEinit()`, we need five parameters:
@@ -104,14 +103,14 @@ sce <- runUMAP(sce)
 
 Now our `sce` is ready, we can move on to the next argument.
 
-2.  `feature.list` : which is a list of genes/features of interest. Let's say we would like to visualize the expression of some genes that were identified as marker genes for different cell population.
+2.  `features` : which is a list or a vector of genes/features of interest. Let's say we would like to visualize the expression of some genes that were identified as marker genes for different cell population.
 
 ```{r genelist}
 gene_list <- c("Gcg", # alpha
                "Ins1") # beta
 ```
 
-3.  `reddim.type` : In this example we decided to plot our data as a t-SNE plot.
+3.  `reddim_type` : In this example we decided to plot our data as a t-SNE plot.
 
 ```{r reddim-type}
 reddim_type <- "TSNE"
@@ -131,15 +130,17 @@ cluster <- "label" #the name should match what's in the colData names
 group <- "strain" #the name should match what's in the colData names
 ```
 
+We can choose to include in this initial step a `MarkdownBoard` and a `DynamicMarkerTable`, along with its linked panels by setting the arguments `add_markdown_panel` and `add_dynamicTable_panel` to `TRUE`.
+
 At this point, all the elements are ready to be transferred into `iSEEinit()`
 
 ```{r initial1}
 initial1 <- iSEEinit(sce = sce,
-                    feature.list = gene_list,
+                    features = gene_list,
                     clusters = cluster,
                     groups = group,
-                    markdownboard = TRUE,
-                    dynamicMarkerTable = TRUE)
+                    add_markdown_panel = TRUE,
+                    add_dynamicTable_panel = TRUE)
 ```
 
 Now we are one step away from visualizing our list of genes of interest. All that's left to do is to run `iSEE` with the initial state created with `iSEEinit()`
@@ -151,28 +152,27 @@ iSEE(sce, initial= initial1)
 
 This instance, generated with `iSEEinit()`, returns a combination of panels, linked to each other, with the goal of visualizing the expression of certain marker genes in each cell population/group:
 
-- A `ReducedDimensionPlot`, `FeatureAssayPlot` and `RowDataTable` for each single gene in `feature.list`.
+-   A `ReducedDimensionPlot`, `FeatureAssayPlot` and `RowDataTable` for each single gene in `features`.
 
-- A `ComplexHeatmapPlot` with all genes in `feature.list`
+-   A `ComplexHeatmapPlot` with all genes in `features`
 
-- A `DynamicMarkerTable` that identifies marker genes from a sample selection.
+-   A `DynamicMarkerTable` that identifies marker genes from a sample selection.
 
-- A `ColumnDataPlot`
+-   A `ColumnDataPlot` panel
 
-- A `MarkdownBoard`
+-   A `MarkdownBoard` panel
 
 # Create an initial state for feature sets exploration using `iSEEnrich()`
 
-Sometimes it is interesting to look at some specific feature sets and the associated genes. That's when the utility of `iSEEnrich` becomes apparent.
-We will need 4 elements to explore feature sets of interest:
+Sometimes it is interesting to look at some specific feature sets and the associated genes. That's when the utility of `iSEEnrich` becomes apparent. We will need 4 elements to explore feature sets of interest:
 
-- `sce`: A SingleCellExperiment object
+-   `sce`: A SingleCellExperiment object
 
-- `collection`: A character vector specifying the gene set collections of interest (it is possible to use GO or KEGG terms)
+-   `collection`: A character vector specifying the gene set collections of interest (it is possible to use GO or KEGG terms)
 
-- `gene_identifier`: A character string specifying the identifier to use to extract gene IDs for the organism package. This can be **"ENS"** for ENSEMBL ids, **"SYMBOL"** for gene names...
+-   `gene_identifier`: A character string specifying the identifier to use to extract gene IDs for the organism package. This can be **"ENS"** for ENSEMBL ids, **"SYMBOL"** for gene names...
 
-- `organism`: A character string of the `org.*.eg.db` package to use to extract mappings of gene sets to gene IDs.
+-   `organism`: A character string of the `org.*.eg.db` package to use to extract mappings of gene sets to gene IDs.
 
 ```{r set-param}
 GO_collection <- "GO"
@@ -189,8 +189,7 @@ results <- iSEEnrich(sce = sce,
                      gene_identifier = gene_id)
 ```
 
-`iSEEnrich` will specifically return a list with the updated `sce` object and its associated `initial` configuration.
-To start the `iSEE` instance we run:
+`iSEEnrich` will specifically return a list with the updated `sce` object and its associated `initial` configuration. To start the `iSEE` instance we run:
 
 ```{r iSEEviz2,  eval=FALSE}
 iSEE(results$sce, initial = results$initial)
@@ -241,12 +240,12 @@ view_initial_tiles(merged_config)
 
 # Related work
 
-The idea of launching `iSEE()` with some specific configuration is not entirely new, and it was covered in some use cases by the `mode_` functions available in the `r BiocStyle::Biocpkg("iSEEu")` package.  
+The idea of launching `iSEE()` with some specific configuration is not entirely new, and it was covered in some use cases by the `mode_` functions available in the `r BiocStyle::Biocpkg("iSEEu")` package.\
 There, the user has access to the following:
 
-* `iSEEu::modeEmpty()` - this will launch `iSEE` without any panels, and let you build up the configuration from the scratch. Easy to start, easy to build.
-* `iSEEu::modeGating()` - this will open `iSEE` with multiple chain-linked FeatureExpressionPlot panels, just like when doing some in silico gating. This could be a very good fit if working with mass cytometry data.
-* `iSEEu::modeReducedDim()` - `iSEE` will be ready to compare multiple ReducedDimensionPlot panels, which is a suitable option to compare the views resulting from different embeddings (and/or embeddings generated with slightly different parameter configurations).
+-   `iSEEu::modeEmpty()` - this will launch `iSEE` without any panels, and let you build up the configuration from the scratch. Easy to start, easy to build.
+-   `iSEEu::modeGating()` - this will open `iSEE` with multiple chain-linked FeatureExpressionPlot panels, just like when doing some in silico gating. This could be a very good fit if working with mass cytometry data.
+-   `iSEEu::modeReducedDim()` - `iSEE` will be ready to compare multiple ReducedDimensionPlot panels, which is a suitable option to compare the views resulting from different embeddings (and/or embeddings generated with slightly different parameter configurations).
 
 The `mode`s directly launch an instance of `iSEE`, whereas the functionality in `r BiocStyle::Biocpkg("iSEEfier")` is rather oriented to obtain more tailored-to-the-data-at-hand `initial` objects, that can subsequently be passed as an argument to the `iSEE()` call.
 
