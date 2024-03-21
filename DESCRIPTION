@@ -1,6 +1,6 @@
 Package: iSEEfier
 Title: Streamlining the creation of initial states for starting an iSEE instance
-Version: 0.99.0
+Version: 0.99.1
 Authors@R:
     c(
     person(given = "Najla", family = "Abassi", role = c("aut", "cre"),

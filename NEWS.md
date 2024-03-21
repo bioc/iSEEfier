@@ -1,3 +1,7 @@
+# iSEEfier 0.99.1
+
+* Ready for Bioconductor review
+
 # iSEEfier 0.99.0
 
 * Ready for Bioconductor submission!
