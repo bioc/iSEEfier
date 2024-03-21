@@ -1,15 +1,16 @@
 test_that("iSEEfier utils work", {
   init_1 <- iSEEinit(sce = sce_allen,
-                      feature.list = c("Il2rb",
+                      features = c("Il2rb",
                                        "Klre1"),
                       clusters = "Primary.Type",
                       groups = "Secondary.Type")
   expect_true(is.list(init_1))
 
   init_2 <- iSEEinit(sce = sce_allen,
-                     feature.list = c("Actb", "Gapdh"),
+                     features = c("Actb", "Gapdh"),
                      clusters = "Primary.Type",
-                     groups = "Secondary.Type", markdownboard = TRUE)
+                     groups = "Secondary.Type",
+                     add_markdown_panel = TRUE)
   expect_true(is.list(init_2))
 
   expect_true(length(init_1) == 10)

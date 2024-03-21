@@ -40,7 +40,7 @@
 #' cluster <- "stimulus"
 #' group <- "single cell quality"
 #' initial <- iSEEinit(sce = sce,
-#'                     feature.list = gene_list,
+#'                     features = gene_list,
 #'                     clusters = cluster,
 #'                     groups = group)
 #'
@@ -183,7 +183,7 @@ view_initial_tiles <- function(initial) {
 #' cluster <- "stimulus"
 #' group <- "single cell quality"
 #' initial <- iSEEinit(sce = sce,
-#'                     feature.list = gene_list,
+#'                     features = gene_list,
 #'                     clusters = cluster,
 #'                     groups = group)
 #'
@@ -302,11 +302,11 @@ view_initial_network <- function(initial,
 #' cluster <- "stimulus"
 #' group <- "single cell quality"
 #' initial1 <- iSEEinit(sce = sce,
-#'                      feature.list = gene_list_1,
+#'                      features = gene_list_1,
 #'                      clusters = cluster,
 #'                      groups = group)
 #' initial2 <- iSEEinit(sce = sce,
-#'                      feature.list = gene_list_2,
+#'                      features = gene_list_2,
 #'                      clusters = cluster,
 #'                      groups = group)
 #' initials_merged <- glue_initials(initial1,

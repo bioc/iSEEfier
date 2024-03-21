@@ -39,7 +39,7 @@ gene_list <- c("ENSMUSG00000026581", "ENSMUSG00000005087", "ENSMUSG00000015437")
 cluster <- "stimulus"
 group <- "single cell quality"
 initial <- iSEEinit(sce = sce,
-                    feature.list = gene_list,
+                    features = gene_list,
                     clusters = cluster,
                     groups = group)
 
