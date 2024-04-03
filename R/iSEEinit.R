@@ -45,22 +45,17 @@ iSEEinit <- function(sce,
   if (!is(sce, "SingleCellExperiment"))
     stop("Please provide a SingleCellExperiment as input!")
 
-  stopifnot(is.character(features))
-  stopifnot(length(features) > 0)
+  stopifnot(is.character(features), length(features) > 0)
 
-  stopifnot(is.character(reddim_type))
-  stopifnot(length(reddim_type) == 1)
+  stopifnot(isScalarCharacter(reddim_type))
 
-  stopifnot(is.character(clusters))
-  stopifnot(length(clusters) == 1)
+  stopifnot(isScalarCharacter(clusters))
 
-  stopifnot(is.character(groups))
-  stopifnot(length(groups) == 1)
+  stopifnot(isScalarCharacter(groups))
 
-  stopifnot(is.logical(add_markdown_panel))
-  stopifnot(length(add_markdown_panel) == 1)
-  stopifnot(is.logical(add_dynamicTable_panel))
-  stopifnot(length(add_dynamicTable_panel) == 1)
+  stopifnot(isTRUEorFALSE(add_markdown_panel))
+  
+  stopifnot(isTRUEorFALSE(add_dynamicTable_panel))
 
   if (!(reddim_type %in% reducedDimNames(sce))) {
     available_reddims <- reducedDimNames(sce)

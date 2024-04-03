@@ -328,7 +328,7 @@ glue_initials <- function(...,
   allowed_panels <- names(iSEE_panel_colors)
 
   if (!is.null(custom_panels_allowed)) {
-    stopifnot(is.character(custom_panels_allowed))
+    stopifnot(isCharacter(custom_panels_allowed))
     allowed_panels <- c(allowed_panels, custom_panels_allowed)
   }
 

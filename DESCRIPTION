@@ -33,7 +33,8 @@ Imports:
     stats,
     SummarizedExperiment,
     SingleCellExperiment,
-    visNetwork
+    visNetwork,
+    BiocBaseUtils
 Suggests:
     knitr,
     rmarkdown,

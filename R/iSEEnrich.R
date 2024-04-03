@@ -27,7 +27,7 @@
 #'                      collection = GO_collection,
 #'                      organism = Mm_organism,
 #'                      gene_identifier = gene_id)
-#'
+#' 
 iSEEnrich <- function(sce,
                       collection = c("GO", "KEGG"),
                       organism = "org.Hs.eg.db",
@@ -37,20 +37,19 @@ iSEEnrich <- function(sce,
   if (!is(sce, "SingleCellExperiment"))
     stop("Please provide a SingleCellExperiment as input!")
 
-  stopifnot(is.character(collection))
-  stopifnot(length(collection) == 1)
+  stopifnot(isScalarCharacter(collection))
 
   collection <- match.arg(collection, c("GO", "KEGG"))
 
-  stopifnot(is.character(organism))
-  stopifnot(length(organism) == 1)
+  stopifnot(isScalarCharacter(organism))
 
-  stopifnot(is.character(gene_identifier))
-  stopifnot(length(gene_identifier) == 1)
+  stopifnot(isScalarCharacter(gene_identifier))
 
   if (!requireNamespace(organism, quietly = TRUE))
     stop("Please check the value of the provided orgDb package ",
-         "(it needs to be installed)...")
+         "(the package needs to be installed)...",
+         "If you want to install it run the following line:\n",
+         "BiocManager::install('", organism,"')")
 
 
   initial <- list()
