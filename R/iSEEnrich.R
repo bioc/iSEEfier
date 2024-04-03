@@ -1,19 +1,25 @@
 #' iSEEnrich
 #'
-#' `iSEEnrich()` creates an initial state of an iSEE instance for interactive exploration of feature sets extracted from GO and KEGG database,
-#' displaying all associated genes in a `RowDataTable` panel.
+#' `iSEEnrich()` creates an initial state of an iSEE instance for interactive
+#' exploration of feature sets extracted from GO and KEGG database, displaying
+#' all associated genes in a `RowDataTable` panel.
 #'
 #' @param sce SingleCellExperiment object
-#' @param collection A character vector specifying the gene set collections of interest (GO,KEGG)
-#' @param organism A character string of the org.*.eg.db package to use to extract mappings of gene sets to gene IDs.
-#' @param gene_identifier A character string specifying the identifier to use to extract gene IDs for the organism package
+#' @param collection A character vector specifying the gene set collections of
+#'   interest (GO,KEGG)
+#' @param organism A character string of the org.*.eg.db package to use to
+#'   extract mappings of gene sets to gene IDs.
+#' @param gene_identifier A character string specifying the identifier to use to
+#'   extract gene IDs for the organism package
 #'
-#' @return A list of "Panel" objects specifying the initial state of iSEE instance
+#' @return A list of "Panel" objects specifying the initial state of iSEE
+#'   instance
 #' @export iSEEnrich
 #' @importFrom iSEE RowDataTable
 #' @importFrom iSEEu createGeneSetCommands
 #' @importFrom iSEEu registerFeatureSetCommands
 #' @importFrom iSEEu FeatureSetTable
+#' @importFrom BiocBaseUtils isScalarCharacter
 #'
 #'
 #' @examples
@@ -61,7 +67,8 @@ iSEEnrich <- function(sce,
 
   initial[["FeatureSetTable1"]] <- FeatureSetTable()
 
-  initial[["RowDataTable1"]] <- RowDataTable(RowSelectionSource="FeatureSetTable1")
+  initial[["RowDataTable1"]] <- RowDataTable(
+    RowSelectionSource = "FeatureSetTable1")
 
   return(
     list(

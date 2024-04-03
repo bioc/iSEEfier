@@ -1,16 +1,26 @@
-#' iSEEinit: Create an initial state of an iSEE instance for gene expression visualization
+#' iSEEinit: Create an initial state of an iSEE instance for gene expression
+#' visualization
 #'
-#' `iSEEinit()` defines the initial setup of an iSEE instance, recommending tailored visual elements to effortlessly illustrate the expression of a gene list in a single view.
+#' `iSEEinit()` defines the initial setup of an iSEE instance, recommending
+#' tailored visual elements to effortlessly illustrate the expression of a gene
+#' list in a single view.
 #'
 #' @param sce SingleCellExperiment object
 #' @param features A character vector containing a list of genes
-#' @param reddim_type A string vector containing the dimensionality reduction type
-#' @param clusters A character string containing the name of the clusters/cell-type/state...(as listed in the colData of the sce)
-#' @param groups A character string of the groups/conditions...(as it appears in the colData of the sce)
-#' @param add_markdown_panel A logical indicating whether or not to include the MarkdownBoard panel in the initial configuration
-#' @param add_dynamicTable_panel A logical indicating whether or not the DynamicMarkerTable and linked panels should be included in the initial configuration
+#' @param reddim_type A string vector containing the dimensionality reduction
+#'   type
+#' @param clusters A character string containing the name of the
+#'   clusters/cell-type/state...(as listed in the colData of the sce)
+#' @param groups A character string of the groups/conditions...(as it appears in
+#'   the colData of the sce)
+#' @param add_markdown_panel A logical indicating whether or not to include the
+#'   MarkdownBoard panel in the initial configuration
+#' @param add_dynamicTable_panel A logical indicating whether or not the
+#'   DynamicMarkerTable and linked panels should be included in the initial
+#'   configuration
 #'
-#' @return A list of "Panel" objects specifying the initial state of iSEE instance
+#' @return A list of "Panel" objects specifying the initial state of iSEE
+#'   instance
 #' @export
 #' @importFrom methods new
 #' @importFrom SummarizedExperiment colData
@@ -22,6 +32,7 @@
 #' @importClassesFrom iSEE RowDataTable
 #' @importClassesFrom iSEE ComplexHeatmapPlot
 #' @importClassesFrom iSEEu MarkdownBoard
+#' @importFrom BiocBaseUtils isCharacter isScalarCharacter isTRUEorFALSE
 #'
 #'
 #' @examples
@@ -29,7 +40,9 @@
 #' sce <- scuttle::logNormCounts(sce)
 #' sce <- scater::runPCA(sce)
 #' sce <- scater::runTSNE(sce)
-#' gene_list <- c("ENSMUSG00000026581", "ENSMUSG00000005087", "ENSMUSG00000015437")
+#' gene_list <- c("ENSMUSG00000026581",
+#'                "ENSMUSG00000005087",
+#'                "ENSMUSG00000015437")
 #' cluster <- "stimulus"
 #' group <- "single cell quality"
 #' initial <- iSEEinit(sce = sce, features = gene_list, clusters = cluster, groups = group)
@@ -174,21 +187,21 @@ iSEEinit <- function(sce,
       PanelWidth = 4L)
   }
 
-  if(add_dynamicTable_panel == TRUE) {
-    initial[[paste0("ReducedDimensionPlot",length(features)+2)]] <- new(
+  if (add_dynamicTable_panel == TRUE) {
+    initial[[paste0("ReducedDimensionPlot",length(features) + 2)]] <- new(
       "ReducedDimensionPlot",
       Type = reddim_type,
       ColorByColumnData = clusters,
       ColorBy = "Column data",
       SelectionAlpha = 0.05,
-      ColumnSelectionSource = paste0("FeatureAssayPlot",length(features)+2))
+      ColumnSelectionSource = paste0("FeatureAssayPlot",length(features) + 2))
 
 
     initial[["DynamicMarkerTable1"]] <- new(
       "DynamicMarkerTable",
-      ColumnSelectionSource = paste0("ReducedDimensionPlot",length(features)+2))
+      ColumnSelectionSource = paste0("ReducedDimensionPlot",length(features) + 2))
 
-    initial[[paste0("FeatureAssayPlot",length(features)+2)]] <- new(
+    initial[[paste0("FeatureAssayPlot",length(features) + 2)]] <- new(
       "FeatureAssayPlot",
       XAxis = "Column data",
       XAxisColumnData = groups,
