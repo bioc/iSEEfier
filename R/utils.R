@@ -26,6 +26,7 @@
 #' @importFrom ggplot2 ggplot aes geom_tile scale_fill_manual scale_y_discrete
 #' theme theme_void
 #' @importFrom rlang .data
+#' @importFrom BiocBaseUtils isCharacter
 #'
 #' @seealso [view_initial_network()]
 #'
@@ -36,7 +37,9 @@
 #' sce <- scater::runPCA(sce)
 #' sce <- scater::runTSNE(sce)
 #' ## Select some features and aspects to focus on
-#' gene_list <- c("ENSMUSG00000026581", "ENSMUSG00000005087", "ENSMUSG00000015437")
+#' gene_list <- c("ENSMUSG00000026581",
+#'                "ENSMUSG00000005087",
+#'                "ENSMUSG00000015437")
 #' cluster <- "stimulus"
 #' group <- "single cell quality"
 #' initial <- iSEEinit(sce = sce,
@@ -73,7 +76,7 @@ view_initial_tiles <- function(initial) {
   cur_row <- 1
 
   # fill in the tiles vector "with the rule of 12"
-  for(i in seq_len(length(initial))) {
+  for (i in seq_len(length(initial))) {
     this_width <- panel_widths[i]
     this_paneltype <- panel_types[i]
     this_color <- iSEE_panel_colors[this_paneltype]
@@ -133,7 +136,7 @@ view_initial_tiles <- function(initial) {
       name = "iSEE Panel type",
       values = iSEE_panel_colors
     ) +
-    theme(legend.position="bottom")
+    theme(legend.position = "bottom")
 
   return(p)
 }
@@ -328,7 +331,7 @@ glue_initials <- function(...,
   allowed_panels <- names(iSEE_panel_colors)
 
   if (!is.null(custom_panels_allowed)) {
-    stopifnot(is.character(custom_panels_allowed))
+    stopifnot(isCharacter(custom_panels_allowed))
     allowed_panels <- c(allowed_panels, custom_panels_allowed)
   }
 

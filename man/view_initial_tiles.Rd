@@ -35,7 +35,9 @@ sce <- scuttle::logNormCounts(sce)
 sce <- scater::runPCA(sce)
 sce <- scater::runTSNE(sce)
 ## Select some features and aspects to focus on
-gene_list <- c("ENSMUSG00000026581", "ENSMUSG00000005087", "ENSMUSG00000015437")
+gene_list <- c("ENSMUSG00000026581",
+               "ENSMUSG00000005087",
+               "ENSMUSG00000015437")
 cluster <- "stimulus"
 group <- "single cell quality"
 initial <- iSEEinit(sce = sce,

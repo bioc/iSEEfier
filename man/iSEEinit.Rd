@@ -2,7 +2,8 @@
 % Please edit documentation in R/iSEEinit.R
 \name{iSEEinit}
 \alias{iSEEinit}
-\title{iSEEinit: Create an initial state of an iSEE instance for gene expression visualization}
+\title{iSEEinit: Create an initial state of an iSEE instance for gene expression
+visualization}
 \usage{
 iSEEinit(
   sce,
@@ -19,28 +20,39 @@ iSEEinit(
 
 \item{features}{A character vector containing a list of genes}
 
-\item{reddim_type}{A string vector containing the dimensionality reduction type}
+\item{reddim_type}{A string vector containing the dimensionality reduction
+type}
 
-\item{clusters}{A character string containing the name of the clusters/cell-type/state...(as listed in the colData of the sce)}
+\item{clusters}{A character string containing the name of the
+clusters/cell-type/state...(as listed in the colData of the sce)}
 
-\item{groups}{A character string of the groups/conditions...(as it appears in the colData of the sce)}
+\item{groups}{A character string of the groups/conditions...(as it appears in
+the colData of the sce)}
 
-\item{add_markdown_panel}{A logical indicating whether or not to include the MarkdownBoard panel in the initial configuration}
+\item{add_markdown_panel}{A logical indicating whether or not to include the
+MarkdownBoard panel in the initial configuration}
 
-\item{add_dynamicTable_panel}{A logical indicating whether or not the DynamicMarkerTable and linked panels should be included in the initial configuration}
+\item{add_dynamicTable_panel}{A logical indicating whether or not the
+DynamicMarkerTable and linked panels should be included in the initial
+configuration}
 }
 \value{
-A list of "Panel" objects specifying the initial state of iSEE instance
+A list of "Panel" objects specifying the initial state of iSEE
+instance
 }
 \description{
-\code{iSEEinit()} defines the initial setup of an iSEE instance, recommending tailored visual elements to effortlessly illustrate the expression of a gene list in a single view.
+\code{iSEEinit()} defines the initial setup of an iSEE instance, recommending
+tailored visual elements to effortlessly illustrate the expression of a gene
+list in a single view.
 }
 \examples{
 sce <- scRNAseq::RichardTCellData()
 sce <- scuttle::logNormCounts(sce)
 sce <- scater::runPCA(sce)
 sce <- scater::runTSNE(sce)
-gene_list <- c("ENSMUSG00000026581", "ENSMUSG00000005087", "ENSMUSG00000015437")
+gene_list <- c("ENSMUSG00000026581",
+               "ENSMUSG00000005087",
+               "ENSMUSG00000015437")
 cluster <- "stimulus"
 group <- "single cell quality"
 initial <- iSEEinit(sce = sce, features = gene_list, clusters = cluster, groups = group)

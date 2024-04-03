@@ -14,18 +14,23 @@ iSEEnrich(
 \arguments{
 \item{sce}{SingleCellExperiment object}
 
-\item{collection}{A character vector specifying the gene set collections of interest (GO,KEGG)}
+\item{collection}{A character vector specifying the gene set collections of
+interest (GO,KEGG)}
 
-\item{organism}{A character string of the org.*.eg.db package to use to extract mappings of gene sets to gene IDs.}
+\item{organism}{A character string of the org.*.eg.db package to use to
+extract mappings of gene sets to gene IDs.}
 
-\item{gene_identifier}{A character string specifying the identifier to use to extract gene IDs for the organism package}
+\item{gene_identifier}{A character string specifying the identifier to use to
+extract gene IDs for the organism package}
 }
 \value{
-A list of "Panel" objects specifying the initial state of iSEE instance
+A list of "Panel" objects specifying the initial state of iSEE
+instance
 }
 \description{
-\code{iSEEnrich()} creates an initial state of an iSEE instance for interactive exploration of feature sets extracted from GO and KEGG database,
-displaying all associated genes in a \code{RowDataTable} panel.
+\code{iSEEnrich()} creates an initial state of an iSEE instance for interactive
+exploration of feature sets extracted from GO and KEGG database, displaying
+all associated genes in a \code{RowDataTable} panel.
 }
 \examples{
 sce <- scRNAseq::RichardTCellData()

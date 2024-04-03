@@ -1,19 +1,25 @@
 #' iSEEnrich
 #'
-#' `iSEEnrich()` creates an initial state of an iSEE instance for interactive exploration of feature sets extracted from GO and KEGG database,
-#' displaying all associated genes in a `RowDataTable` panel.
+#' `iSEEnrich()` creates an initial state of an iSEE instance for interactive
+#' exploration of feature sets extracted from GO and KEGG database, displaying
+#' all associated genes in a `RowDataTable` panel.
 #'
 #' @param sce SingleCellExperiment object
-#' @param collection A character vector specifying the gene set collections of interest (GO,KEGG)
-#' @param organism A character string of the org.*.eg.db package to use to extract mappings of gene sets to gene IDs.
-#' @param gene_identifier A character string specifying the identifier to use to extract gene IDs for the organism package
+#' @param collection A character vector specifying the gene set collections of
+#'   interest (GO,KEGG)
+#' @param organism A character string of the org.*.eg.db package to use to
+#'   extract mappings of gene sets to gene IDs.
+#' @param gene_identifier A character string specifying the identifier to use to
+#'   extract gene IDs for the organism package
 #'
-#' @return A list of "Panel" objects specifying the initial state of iSEE instance
+#' @return A list of "Panel" objects specifying the initial state of iSEE
+#'   instance
 #' @export iSEEnrich
 #' @importFrom iSEE RowDataTable
 #' @importFrom iSEEu createGeneSetCommands
 #' @importFrom iSEEu registerFeatureSetCommands
 #' @importFrom iSEEu FeatureSetTable
+#' @importFrom BiocBaseUtils isScalarCharacter
 #'
 #'
 #' @examples
@@ -27,7 +33,7 @@
 #'                      collection = GO_collection,
 #'                      organism = Mm_organism,
 #'                      gene_identifier = gene_id)
-#'
+#' 
 iSEEnrich <- function(sce,
                       collection = c("GO", "KEGG"),
                       organism = "org.Hs.eg.db",
@@ -37,20 +43,19 @@ iSEEnrich <- function(sce,
   if (!is(sce, "SingleCellExperiment"))
     stop("Please provide a SingleCellExperiment as input!")
 
-  stopifnot(is.character(collection))
-  stopifnot(length(collection) == 1)
+  stopifnot(isScalarCharacter(collection))
 
   collection <- match.arg(collection, c("GO", "KEGG"))
 
-  stopifnot(is.character(organism))
-  stopifnot(length(organism) == 1)
+  stopifnot(isScalarCharacter(organism))
 
-  stopifnot(is.character(gene_identifier))
-  stopifnot(length(gene_identifier) == 1)
+  stopifnot(isScalarCharacter(gene_identifier))
 
   if (!requireNamespace(organism, quietly = TRUE))
     stop("Please check the value of the provided orgDb package ",
-         "(it needs to be installed)...")
+         "(the package needs to be installed)...",
+         "If you want to install it run the following line:\n",
+         "BiocManager::install('", organism,"')")
 
 
   initial <- list()
@@ -62,7 +67,8 @@ iSEEnrich <- function(sce,
 
   initial[["FeatureSetTable1"]] <- FeatureSetTable()
 
-  initial[["RowDataTable1"]] <- RowDataTable(RowSelectionSource="FeatureSetTable1")
+  initial[["RowDataTable1"]] <- RowDataTable(
+    RowSelectionSource = "FeatureSetTable1")
 
   return(
     list(

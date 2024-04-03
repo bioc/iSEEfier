@@ -1,3 +1,9 @@
+# iSEEfier 0.99.2
+
+* Addressing the points raised in the Bioc review
+* Better checks of the arguments - more compact and robust
+* Explicitly suggesting the instructions to install potentially missing packages for `iSEEnrich()`
+
 # iSEEfier 0.99.1
 
 * Ready for Bioconductor review
