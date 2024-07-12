@@ -11,17 +11,9 @@ test_that("test iSEEinit",{
                                                   "Klre1"),
                                  clusters = "Primary.Type",
                                  groups = "Secondary.Type",
-                                 add_dynamicTable_panel = TRUE)
+                                 add_markdown_panel = TRUE)
   expect_true(is.list(initial_with_board))
-
-  initial_with_dynamictable <- iSEEinit(sce = sce_allen,
-                                        reddim_type = "PCA",
-                                        features = c("Il2rb",
-                                                         "Klre1"),
-                                        clusters = "Primary.Type",
-                                        groups = "Secondary.Type",
-                                        add_dynamicTable_panel = TRUE)
-  expect_true(is.list(initial_with_dynamictable))
+  expect_true(is.list(initial_with_board))
 
   ## This is to trigger the argument checks
   expect_error({
@@ -130,25 +122,6 @@ test_that("test iSEEinit",{
              add_markdown_panel = c(TRUE, TRUE))
   })
 
-  expect_error({
-    iSEEinit(sce = sce_allen,
-             reddim_type = "PCA",
-             features = c("Il2rb",
-                              "Klre1"),
-             clusters = "Primary.Type",
-             groups = "Secondary.Type",
-             add_dynamicTable_panel = "no")
-  })
-
-  expect_error({
-    iSEEinit(sce = sce_allen,
-             reddim_type = "PCA",
-             features = c("Il2rb",
-                              "Klre1"),
-             clusters = "Primary.Type",
-             groups = "Secondary.Type",
-             add_dynamicTable_panel= c(FALSE, FALSE))
-  })
 
   expect_message({
     init_pippo <- iSEEinit(sce = sce_allen,
