@@ -9,7 +9,7 @@ iSEEmarker(
   reddim_type = "TSNE",
   clusters = colnames(colData(sce))[1],
   groups = colnames(colData(sce))[1],
-  selection_plot = "ColumnDataPlot"
+  selection_plot_format = c("ColumnDataPlot", "ReducedDimensionPlot")
 )
 }
 \arguments{
@@ -23,7 +23,7 @@ clusters/cell-type/state...(as listed in the colData of the sce)}
 \item{groups}{A character string of the groups/conditions...(as it appears in
 the colData of the sce)}
 
-\item{selection_plot}{A string character containing the class of the panel.
+\item{selection_plot_format}{A string character containing the class of the panel.
 It can be either \code{ColumnDataPlot} or \code{ReducedDimensionPlot}}
 }
 \value{
@@ -32,8 +32,9 @@ instance
 }
 \description{
 \code{iSEEmarker()} creates an initial state of an iSEE instance for interactive
-exploration of marker genes using the \code{DynamicMarkerTable} panel, sending
-back the selection to a \code{ReducedDimensionPlot}.
+exploration of marker genes through the \code{DynamicMarkerTable} panel, synchronizing
+selections with a \code{ReducedDimensionPlot} and a \code{FeatureAssayPlot} to visualize
+the expression of selected marker genes
 }
 \examples{
 sce <- scRNAseq::RichardTCellData()
@@ -42,7 +43,8 @@ sce <- scater::runPCA(sce)
 sce <- scater::runTSNE(sce)
 cluster <- "stimulus"
 group <- "single cell quality"
-initial <- iSEEmarker(sce = sce, clusters = cluster, groups = group)
+initial <- iSEEmarker(sce = sce, clusters = cluster, groups = group,
+selection_plot_format = "ColumnDataPlot")
 
 
 }
