@@ -1,3 +1,8 @@
+# iSEEfier 1.1.0
+
+* Adding in a new function `iSEEmarker()`, more focused on finding marker genes
+* A new `iSEEinit()` version without the `DynamiMarkerTable` panel
+
 # iSEEfier 0.99.2
 
 * Addressing the points raised in the Bioc review
