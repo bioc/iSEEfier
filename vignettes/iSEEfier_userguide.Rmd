@@ -75,8 +75,7 @@ iSEEinit(sce = sce_obj,
          reddim.type = reduced_dim,
          clusters = cluster,
          groups = group,
-         add_markdown_panel = FALSE,
-         add_dynamicTable_panel = FALSE)
+         add_markdown_panel = FALSE)
 ```
 
 To configure the initial state of our `iSEE` instance using `iSEEinit()`, we
@@ -142,9 +141,8 @@ cluster <- "label" #the name should match what's in the colData names
 group <- "strain" #the name should match what's in the colData names
 ```
 
-We can choose to include in this initial step a `MarkdownBoard` and a
-`DynamicMarkerTable`, along with its linked panels by setting the arguments
-`add_markdown_panel` and `add_dynamicTable_panel` to `TRUE`.
+We can choose to include in this initial step a `MarkdownBoard` by setting the arguments
+`add_markdown_panel` to `TRUE`.
 At this point, all the elements are ready to be transferred into `iSEEinit()`
 
 ```{r initial1}
@@ -152,8 +150,7 @@ initial1 <- iSEEinit(sce = sce,
                     features = gene_list,
                     clusters = cluster,
                     groups = group,
-                    add_markdown_panel = TRUE,
-                    add_dynamicTable_panel = TRUE)
+                    add_markdown_panel = TRUE)
 ```
 
 Now we are one step away from visualizing our list of genes of interest. All
@@ -171,7 +168,6 @@ marker genes in each cell population/group:
 
 -   A `ReducedDimensionPlot`, `FeatureAssayPlot` and `RowDataTable` for each single gene in `features`.
 -   A `ComplexHeatmapPlot` with all genes in `features`
--   A `DynamicMarkerTable` that identifies marker genes from a sample selection.
 -   A `ColumnDataPlot` panel
 -   A `MarkdownBoard` panel
 
@@ -208,9 +204,34 @@ its associated `initial` configuration. To start the `iSEE` instance we run:
 iSEE(results$sce, initial = results$initial)
 ```
 
+# Create an initial state for marker gene exploration using `iSEEmarker()`
+
+In many cases, we are interested in determining the identity of our clusters, or further subset our cells types. That's where `iSEEmarker()` comes in handy. Similar to `iSEEinit()`, we need the following parameters:
+
+- `sce`: a `SingleCellExperiment` object
+- `clusters`: the name of the clusters/cell-type/state
+- `groups`: the groups/conditions
+- `selection_plot_format`: the class of the panel that we will be using to select the clusters of interest.
+
+```{r initial3}
+initial3 <- iSEEmarker(
+  sce = sce,
+  clusters = cluster,
+  groups = group,
+  selection_plot_format = "ColumnDataPlot")
+```
+
+This function returns a list of panels, with the goal of visualizing the expression of
+marker genes selected from the `DynamicMarkerTable`in each cell cell type. Unlike `iSEEinit()`, which requires us to specify a list of genes, `iSEEmarker()` utilizes the `DynamicMarkerTable` that performs statistical testing through the `findMarkers()` function from the `scran` package.
+To start exploring the marker genes of each cell type with `iSEE`, we run:
+
+```{r iSEEviz3,  eval=FALSE}
+iSEE(sce, initial = initial3)
+```
+
 # Visualize a preview of the initial configurations with `view_initial_tiles()`
 
-Previously, we successfully generated two distinct initial configurations for
+Previously, we successfully generated three distinct initial configurations for
 iSEE. However, understanding the expected content of our iSEE instances is not
 always straightforward. That's when we can use `view_initial_tiles()`.
 We only need as an input the initial configuration to obtain a graphical
