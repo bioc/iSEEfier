@@ -1,8 +1,9 @@
 #' iSEEmarker
 #'
 #' `iSEEmarker()` creates an initial state of an iSEE instance for interactive
-#' exploration of marker genes using the `DynamicMarkerTable` panel, sending
-#' back the selection to a `ReducedDimensionPlot`.
+#' exploration of marker genes through the `DynamicMarkerTable` panel, synchronizing
+#' selections with a `ReducedDimensionPlot` and a `FeatureAssayPlot` to visualize
+#' the expression of selected marker genes
 #'
 #' @param sce SingleCellExperiment object
 #' @param reddim_type A string vector containing the dimensionality reduction
@@ -10,7 +11,7 @@
 #'   clusters/cell-type/state...(as listed in the colData of the sce)
 #' @param groups A character string of the groups/conditions...(as it appears in
 #'   the colData of the sce)
-#' @param selection_plot A string character containing the class of the panel.
+#' @param selection_plot_format A string character containing the class of the panel.
 #'  It can be either `ColumnDataPlot` or `ReducedDimensionPlot`
 #'
 #' @return A list of "Panel" objects specifying the initial state of iSEE
@@ -31,15 +32,21 @@
 #' sce <- scater::runTSNE(sce)
 #' cluster <- "stimulus"
 #' group <- "single cell quality"
-#' initial <- iSEEmarker(sce = sce, clusters = cluster, groups = group)
+#' initial <- iSEEmarker(sce = sce, clusters = cluster, groups = group,
+#' selection_plot_format = "ColumnDataPlot")
 #'
 #'
 iSEEmarker <- function(sce,
                        reddim_type = "TSNE",
                        clusters = colnames(colData(sce))[1],
                        groups = colnames(colData(sce))[1],
-                       selection_plot = "ColumnDataPlot") {
+                       selection_plot_format = c("ColumnDataPlot",
+                                                 "ReducedDimensionPlot")) {
   ## Checks on arguments
+  selection_plot_format <- match.arg(selection_plot_format,
+                                     c("ColumnDataPlot", "ReducedDimensionPlot"))
+  
+  
   if (!is(sce, "SingleCellExperiment"))
     stop("Please provide a SingleCellExperiment as input!")
   
@@ -49,6 +56,8 @@ iSEEmarker <- function(sce,
   
   stopifnot(isScalarCharacter(groups))
   
+  stopifnot(isScalarCharacter(selection_plot_format))
+  
   if (!(reddim_type %in% reducedDimNames(sce))) {
     available_reddims <- reducedDimNames(sce)
     stop(
@@ -57,7 +66,6 @@ iSEEmarker <- function(sce,
       paste(available_reddims, collapse = ", ")
     )
   }
-  
   
   if (!(clusters %in% colnames(colData(sce)))) {
     if (ncol(colData(sce)) > 0) {
@@ -84,6 +92,7 @@ iSEEmarker <- function(sce,
       fallback_groups
     )
   }
+  
   
   
   initial <- list()
@@ -114,11 +123,11 @@ iSEEmarker <- function(sce,
     )
   )
   
-  config <- plots[[selection_plot]]
+  config <- plots[[selection_plot_format]]
   
   initial[["DynamicMarkerTable1"]] <- new(
     "DynamicMarkerTable",
-    ColumnSelectionSource = paste0(selection_plot, config$marker_table_suffix)
+    ColumnSelectionSource = paste0(selection_plot_format, config$marker_table_suffix)
   )
   
   initial[["ReducedDimensionPlot1"]] <- new(
