@@ -148,7 +148,7 @@ iSEEinit <- function(sce,
     )
   }
   
-  if (add_markdown_panel == TRUE){
+  if (add_markdown_panel == TRUE) {
     initial[[paste0("ReducedDimensionPlot", length(features) + 1)]] <- new(
       "ReducedDimensionPlot",
       Type = reddim_type,
