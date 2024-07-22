@@ -13,7 +13,6 @@ test_that("test iSEEinit",{
                                  groups = "Secondary.Type",
                                  add_markdown_panel = TRUE)
   expect_true(is.list(initial_with_board))
-  expect_true(is.list(initial_with_board))
 
   ## This is to trigger the argument checks
   expect_error({
