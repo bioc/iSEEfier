@@ -222,7 +222,7 @@ initial3 <- iSEEmarker(
 ```
 
 This function returns a list of panels, with the goal of visualizing the expression of
-marker genes selected from the `DynamicMarkerTable`in each cell cell type. Unlike `iSEEinit()`, which requires us to specify a list of genes, `iSEEmarker()` utilizes the `DynamicMarkerTable` that performs statistical testing through the `findMarkers()` function from the `scran` package.
+marker genes selected from the `DynamicMarkerTable` in each cell cell type. Unlike `iSEEinit()`, which requires us to specify a list of genes, `iSEEmarker()` utilizes the `DynamicMarkerTable` that performs statistical testing through the `findMarkers()` function from the `r BiocStyle::Biocpkg("scran")` package.
 To start exploring the marker genes of each cell type with `iSEE`, we run:
 
 ```{r iSEEviz3,  eval=FALSE}
