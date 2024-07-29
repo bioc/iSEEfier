@@ -1,9 +1,9 @@
 test_that("iSEEfier utils work", {
   init_1 <- iSEEinit(sce = sce_allen,
-                      features = c("Il2rb",
-                                       "Klre1"),
-                      clusters = "Primary.Type",
-                      groups = "Secondary.Type")
+                     features = c("Il2rb",
+                                  "Klre1"),
+                     clusters = "Primary.Type",
+                     groups = "Secondary.Type")
   expect_true(is.list(init_1))
 
   init_2 <- iSEEinit(sce = sce_allen,
