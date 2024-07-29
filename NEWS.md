@@ -2,7 +2,6 @@
 
 * Adding in a new function `iSEEmarker()`, more focused on finding marker genes
 * A new `iSEEinit()` version without the `DynamicMarkerTable` panel
-* These features and fixes are included in the 1.2.0 release version.
 
 # iSEEfier 1.0.0
 
