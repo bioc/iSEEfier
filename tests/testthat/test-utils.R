@@ -1,9 +1,9 @@
 test_that("iSEEfier utils work", {
   init_1 <- iSEEinit(sce = sce_allen,
-                      features = c("Il2rb",
-                                       "Klre1"),
-                      clusters = "Primary.Type",
-                      groups = "Secondary.Type")
+                     features = c("Il2rb",
+                                  "Klre1"),
+                     clusters = "Primary.Type",
+                     groups = "Secondary.Type")
   expect_true(is.list(init_1))
 
   init_2 <- iSEEinit(sce = sce_allen,
@@ -35,7 +35,7 @@ test_that("iSEEfier utils work", {
     init_combined <- glue_initials(init_1, init_2, remove_duplicate_panels = TRUE),
     "Dropping"
   )
-  expect_true(length(init_combined) == 19)
+  expect_true(length(init_combined) == 20)
 
   p_tiles_combined <- view_initial_tiles(init_combined)
   expect_true(is(p_tiles_combined, "gg"))

@@ -11,8 +11,7 @@ iSEEinit(
   reddim_type = "TSNE",
   clusters = colnames(colData(sce))[1],
   groups = colnames(colData(sce))[1],
-  add_markdown_panel = FALSE,
-  add_dynamicTable_panel = FALSE
+  add_markdown_panel = FALSE
 )
 }
 \arguments{
@@ -31,10 +30,6 @@ the colData of the sce)}
 
 \item{add_markdown_panel}{A logical indicating whether or not to include the
 MarkdownBoard panel in the initial configuration}
-
-\item{add_dynamicTable_panel}{A logical indicating whether or not the
-DynamicMarkerTable and linked panels should be included in the initial
-configuration}
 }
 \value{
 A list of "Panel" objects specifying the initial state of iSEE

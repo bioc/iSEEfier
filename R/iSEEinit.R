@@ -15,9 +15,6 @@
 #'   the colData of the sce)
 #' @param add_markdown_panel A logical indicating whether or not to include the
 #'   MarkdownBoard panel in the initial configuration
-#' @param add_dynamicTable_panel A logical indicating whether or not the
-#'   DynamicMarkerTable and linked panels should be included in the initial
-#'   configuration
 #'
 #' @return A list of "Panel" objects specifying the initial state of iSEE
 #'   instance
@@ -51,8 +48,7 @@ iSEEinit <- function(sce,
                      reddim_type = "TSNE",
                      clusters = colnames(colData(sce))[1],
                      groups = colnames(colData(sce))[1],
-                     add_markdown_panel = FALSE,
-                     add_dynamicTable_panel = FALSE) {
+                     add_markdown_panel = FALSE) {
 
   ## Checks on arguments
   if (!is(sce, "SingleCellExperiment"))
@@ -67,8 +63,7 @@ iSEEinit <- function(sce,
   stopifnot(isScalarCharacter(groups))
 
   stopifnot(isTRUEorFALSE(add_markdown_panel))
-  
-  stopifnot(isTRUEorFALSE(add_dynamicTable_panel))
+
 
   if (!(reddim_type %in% reducedDimNames(sce))) {
     available_reddims <- reducedDimNames(sce)
@@ -116,7 +111,6 @@ iSEEinit <- function(sce,
   initial <- list()
   
   
-
   for (j in features) {
     initial[[paste0("ReducedDimensionPlot", which(features == j))]] <- new(
       "ReducedDimensionPlot",
@@ -127,7 +121,7 @@ iSEEinit <- function(sce,
       ColumnSelectionSource = "ColumnDataPlot1",
       SelectionAlpha = 0.05
     )
-
+    
     initial[[paste0("FeatureAssayPlot", which(features == j))]] <- new(
       "FeatureAssayPlot",
       XAxis = "Column data",
@@ -137,14 +131,14 @@ iSEEinit <- function(sce,
       ColorBy = "Column data",
       ColorByColumnData = clusters
     )
-
+    
     initial[[paste0("RowDataTable", which(features == j))]] <- new(
       "RowDataTable",
       Selected = j,
       Search = j
     )
   }
-
+  
   if (length(features) > 1) {
     initial[[paste0("FeatureAssayPlot", length(features) + 1)]] <- new(
       "FeatureAssayPlot",
@@ -153,25 +147,45 @@ iSEEinit <- function(sce,
       YAxisFeatureName = features[[2]]
     )
   }
-
-  initial[[paste0("ReducedDimensionPlot", length(features) + 1)]] <- new(
-    "ReducedDimensionPlot",
-    Type = reddim_type,
-    ColorByColumnData = clusters,
-    ColorBy = "Column data",
-    ColumnSelectionSource = paste0("FeatureAssayPlot", length(features) + 1),
-    FacetColumnBy = "Column data",
-    FacetColumnByColData = groups,
-    SelectionAlpha = 0.05
-  )
-
-
+  
+  if (add_markdown_panel == TRUE) {
+    initial[[paste0("ReducedDimensionPlot", length(features) + 1)]] <- new(
+      "ReducedDimensionPlot",
+      Type = reddim_type,
+      ColorByColumnData = clusters,
+      ColorBy = "Column data",
+      ColumnSelectionSource = paste0("FeatureAssayPlot", length(features) + 1),
+      FacetColumnBy = "Column data",
+      FacetColumnByColData = groups,
+      SelectionAlpha = 0.05
+    )
+    
+    initial[["MarkdownBoard1"]] <- new(
+      "MarkdownBoard",
+      Content = "# Placeholder\n\nFill me with text!",
+      PanelWidth = 4L)
+  } else {
+    initial[[paste0("ReducedDimensionPlot", length(features) + 1)]] <- new(
+      "ReducedDimensionPlot",
+      Type = reddim_type,
+      ColorByColumnData = clusters,
+      ColorBy = "Column data",
+      ColumnSelectionSource = paste0("FeatureAssayPlot", length(features) + 1),
+      FacetColumnBy = "Column data",
+      FacetColumnByColData = groups,
+      SelectionAlpha = 0.05,
+      PanelWidth = 7L
+    )
+  }
+  
+  
   initial[["ComplexHeatmapPlot1"]] <- new(
     "ComplexHeatmapPlot",
     CustomRowsText = paste(features, collapse = "\n"),
-    ColumnData = clusters
+    ColumnData = clusters,
+    PanelWidth = 6L
   )
-
+  
   initial[["ColumnDataPlot1"]] <- new(
     "ColumnDataPlot",
     YAxis = clusters,
@@ -180,33 +194,6 @@ iSEEinit <- function(sce,
     PanelWidth = 6L
   )
 
-  if (add_markdown_panel == TRUE) {
-    initial[["MarkdownBoard1"]] <- new(
-      "MarkdownBoard",
-      Content = "# Placeholder\n\nFill me with text!",
-      PanelWidth = 4L)
-  }
-
-  if (add_dynamicTable_panel == TRUE) {
-    initial[[paste0("ReducedDimensionPlot",length(features) + 2)]] <- new(
-      "ReducedDimensionPlot",
-      Type = reddim_type,
-      ColorByColumnData = clusters,
-      ColorBy = "Column data",
-      SelectionAlpha = 0.05,
-      ColumnSelectionSource = paste0("FeatureAssayPlot",length(features) + 2))
-
-
-    initial[["DynamicMarkerTable1"]] <- new(
-      "DynamicMarkerTable",
-      ColumnSelectionSource = paste0("ReducedDimensionPlot",length(features) + 2))
-
-    initial[[paste0("FeatureAssayPlot",length(features) + 2)]] <- new(
-      "FeatureAssayPlot",
-      XAxis = "Column data",
-      XAxisColumnData = groups,
-      YAxisFeatureSource = "DynamicMarkerTable1")
-  }
 
   return(initial)
 

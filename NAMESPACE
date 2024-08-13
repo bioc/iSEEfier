@@ -2,6 +2,7 @@
 
 export(glue_initials)
 export(iSEEinit)
+export(iSEEmarker)
 export(iSEEnrich)
 export(view_initial_network)
 export(view_initial_tiles)
