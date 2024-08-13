@@ -1,6 +1,10 @@
 Package: iSEEfier
 Title: Streamlining the creation of initial states for starting an iSEE instance
+<<<<<<< HEAD
 Version: 1.1.1
+=======
+Version: 1.1.0
+>>>>>>> upstream/devel
 Authors@R:
     c(
     person(given = "Najla", family = "Abassi", role = c("aut", "cre"),
