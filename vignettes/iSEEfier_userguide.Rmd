@@ -186,6 +186,9 @@ will need 4 elements to explore feature sets of interest:
 GO_collection <- "GO"
 Mm_organism <- "org.Mm.eg.db"
 gene_id <- "SYMBOL"
+cluster <- "Primary.Type"
+group <- "Secondary.Type"
+reddim_type <- "PCA"
 ```
 
 Now let's create this initial setup for `iSEE` using `iSEEnrich()`
@@ -194,7 +197,10 @@ Now let's create this initial setup for `iSEE` using `iSEEnrich()`
 results <- iSEEnrich(sce = sce,
                      collection = GO_collection,
                      organism = Mm_organism,
-                     gene_identifier = gene_id)
+                     gene_identifier = gene_id,
+                     clusters = cluster,
+                     groups = group,
+                     reddim_type = reddim_type)
 ```
 
 `iSEEnrich` will specifically return a list with the updated `sce` object and
