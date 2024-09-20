@@ -111,50 +111,54 @@ iSEEinit <- function(sce,
   initial <- list()
   
   
-  for (j in features) {
-    initial[[paste0("ReducedDimensionPlot", which(features == j))]] <- new(
+  for (j in 1:NROW(features)) {
+    feature_name <- if (is.data.frame(features)) features[j, ] else features[[j]]
+    initial[[paste0("ReducedDimensionPlot", j)]] <- new(
       "ReducedDimensionPlot",
       Type = reddim_type,
       ColorBy = "Feature name",
-      ColorByFeatureName = j,
-      ColorByFeatureSource = paste0("RowDataTable", which(features == j)),
+      ColorByFeatureName = feature_name,
+      ColorByFeatureSource = paste0("RowDataTable", j),
       ColumnSelectionSource = "ColumnDataPlot1",
       SelectionAlpha = 0.05
     )
-    
-    initial[[paste0("FeatureAssayPlot", which(features == j))]] <- new(
+
+    initial[[paste0("FeatureAssayPlot", j)]] <- new(
       "FeatureAssayPlot",
       XAxis = "Column data",
       XAxisColumnData = clusters,
-      YAxisFeatureName = j,
-      YAxisFeatureSource = paste0("RowDataTable", which(features == j)),
+      YAxisFeatureName = feature_name,
+      YAxisFeatureSource = paste0("RowDataTable", j),
       ColorBy = "Column data",
       ColorByColumnData = clusters
     )
     
-    initial[[paste0("RowDataTable", which(features == j))]] <- new(
+    initial[[paste0("RowDataTable", j)]] <- new(
       "RowDataTable",
-      Selected = j,
-      Search = j
+      Selected = feature_name,
+      Search = feature_name
     )
   }
   
-  if (length(features) > 1) {
-    initial[[paste0("FeatureAssayPlot", length(features) + 1)]] <- new(
+  if (NROW(features) > 1) {
+    feature1 <- if (is.data.frame(features)) features[1, ] else features[[1]]
+    feature2 <- if (is.data.frame(features)) features[2, ] else features[[2]]
+    
+    initial[[paste0("FeatureAssayPlot", NROW(features) + 1)]] <- new(
       "FeatureAssayPlot",
       XAxis = "Feature name",
-      XAxisFeatureName = features[[1]],
-      YAxisFeatureName = features[[2]]
+      XAxisFeatureName = feature1,
+      YAxisFeatureName = feature2
     )
   }
   
   if (add_markdown_panel == TRUE) {
-    initial[[paste0("ReducedDimensionPlot", length(features) + 1)]] <- new(
+    initial[[paste0("ReducedDimensionPlot", NROW(features) + 1)]] <- new(
       "ReducedDimensionPlot",
       Type = reddim_type,
       ColorByColumnData = clusters,
       ColorBy = "Column data",
-      ColumnSelectionSource = paste0("FeatureAssayPlot", length(features) + 1),
+      ColumnSelectionSource = paste0("FeatureAssayPlot", NROW(features) + 1),
       FacetColumnBy = "Column data",
       FacetColumnByColData = groups,
       SelectionAlpha = 0.05
@@ -165,12 +169,12 @@ iSEEinit <- function(sce,
       Content = "# Placeholder\n\nFill me with text!",
       PanelWidth = 4L)
   } else {
-    initial[[paste0("ReducedDimensionPlot", length(features) + 1)]] <- new(
+    initial[[paste0("ReducedDimensionPlot", NROW(features) + 1)]] <- new(
       "ReducedDimensionPlot",
       Type = reddim_type,
       ColorByColumnData = clusters,
       ColorBy = "Column data",
-      ColumnSelectionSource = paste0("FeatureAssayPlot", length(features) + 1),
+      ColumnSelectionSource = paste0("FeatureAssayPlot", NROW(features) + 1),
       FacetColumnBy = "Column data",
       FacetColumnByColData = groups,
       SelectionAlpha = 0.05,
