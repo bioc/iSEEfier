@@ -186,9 +186,9 @@ will need 4 elements to explore feature sets of interest:
 GO_collection <- "GO"
 Mm_organism <- "org.Mm.eg.db"
 gene_id <- "SYMBOL"
-cluster <- "Primary.Type"
-group <- "Secondary.Type"
 reddim_type <- "PCA"
+cluster <- "label"
+group <- "strain"
 ```
 
 Now let's create this initial setup for `iSEE` using `iSEEnrich()`
