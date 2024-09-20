@@ -25,10 +25,8 @@
 #' @return A list of "Panel" objects specifying the initial state of iSEE
 #'   instance
 #' @export iSEEnrich
-#' @importFrom iSEE RowDataTable
 #' @importFrom iSEEu createGeneSetCommands
 #' @importFrom iSEEu registerFeatureSetCommands
-#' @importFrom iSEEu FeatureSetTable
 #' @importFrom BiocBaseUtils isScalarCharacter
 #'
 #'
@@ -88,10 +86,11 @@ iSEEnrich <- function(sce,
                                 identifier = gene_identifier)
   sce1 <- registerFeatureSetCommands(sce, cmds)
   
-  initial[["FeatureSetTable1"]] <- FeatureSetTable(Collection = collection)
+  initial[["FeatureSetTable1"]] <- new(
+    "FeatureSetTable", Collection = collection)
   
-  initial[["RowDataTable1"]] <- RowDataTable(
-    RowSelectionSource = "FeatureSetTable1")
+  initial[["RowDataTable1"]] <- new(
+    "RowDataTable", RowSelectionSource = "FeatureSetTable1")
   
   initial[["FeatureAssayPlot1"]] <- new(
     "FeatureAssayPlot",
