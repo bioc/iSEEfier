@@ -54,7 +54,7 @@ iSEEinit <- function(sce,
   if (!is(sce, "SingleCellExperiment"))
     stop("Please provide a SingleCellExperiment as input!")
 
-  stopifnot(is.character(features), length(features) > 0)
+  stopifnot(is.character(features), NROW(features) > 0)
 
   stopifnot(isScalarCharacter(reddim_type))
 
