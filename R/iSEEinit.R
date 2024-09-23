@@ -6,7 +6,8 @@
 #' list in a single view.
 #'
 #' @param sce SingleCellExperiment object
-#' @param features A character vector containing a list of genes
+#' @param features A character vector, a list, or a data.frame containing a list of genes.
+#' If `features` is a data.frame, the column containing the gene names must be named "id"
 #' @param reddim_type A string vector containing the dimensionality reduction
 #'   type
 #' @param clusters A character string containing the name of the
@@ -54,8 +55,6 @@ iSEEinit <- function(sce,
   if (!is(sce, "SingleCellExperiment"))
     stop("Please provide a SingleCellExperiment as input!")
 
-  stopifnot(is.character(features), NROW(features) > 0)
-
   stopifnot(isScalarCharacter(reddim_type))
 
   stopifnot(isScalarCharacter(clusters))
@@ -71,6 +70,18 @@ iSEEinit <- function(sce,
          "Please select one of these: ",
          paste(available_reddims, collapse = ", "))
   }
+  
+  if (is.data.frame(features)) {
+    features <- as.character(features[["id"]])
+  } else if (is.list(features)) {
+    features <- as.character(unlist(features))
+  } else if (is.vector(features)) {
+    features <- as.character(features)
+  } else {
+    stop("Unsupported feature type. Must be a character vector, list, or data.frame!")
+  }
+  
+  stopifnot(is.character(features), NROW(features) > 0)
 
   if (!all(features %in% rownames(sce))) {
     not_available_features <- features[!features %in% rownames(sce)]
@@ -79,7 +90,7 @@ iSEEinit <- function(sce,
             paste(not_available_features, collapse = ", "))
 
     features <- features[features %in% rownames(sce)]
-    if (length(features) == 0)
+    if (NROW(features) == 0)
       stop("No features available!")
   }
 

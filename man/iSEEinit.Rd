@@ -17,7 +17,8 @@ iSEEinit(
 \arguments{
 \item{sce}{SingleCellExperiment object}
 
-\item{features}{A character vector containing a list of genes}
+\item{features}{A character vector, a list, or a data.frame containing a list of genes.
+If \code{features} is a data.frame, the column containing the gene names must be named "id"}
 
 \item{reddim_type}{A string vector containing the dimensionality reduction
 type}
