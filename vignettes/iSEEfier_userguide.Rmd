@@ -111,7 +111,8 @@ sce <- runUMAP(sce)
 
 Now our `sce` is ready, we can move on to the next argument.
 
-2.  `features` : which is a list or a vector of genes/features of interest.
+2.  `features` : which is a list, a vector or a dataframe containing the genes/features
+of interest.
 Let's say we would like to visualize the expression of some genes that were
 identified as marker genes for different cell population.
 
