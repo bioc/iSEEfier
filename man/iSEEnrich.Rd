@@ -51,8 +51,8 @@ sce <- scater::runPCA(sce)
 GO_collection <- "GO"
 Mm_organism <- "org.Mm.eg.db"
 gene_id <- "SYMBOL"
-clusters <- "Primary.Type"
-groups <- "Secondary.Type"
+clusters <- "stimulus"
+groups <- "single cell quality"
 reddim_type <- "PCA"
 results <- iSEEnrich(sce = sce,
                      collection = GO_collection,
