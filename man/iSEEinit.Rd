@@ -11,13 +11,13 @@ iSEEinit(
   reddim_type = "TSNE",
   clusters = colnames(colData(sce))[1],
   groups = colnames(colData(sce))[1],
-  add_markdown_panel = FALSE
+  add_markdown_panel = FALSE,
 )
 }
 \arguments{
 \item{sce}{SingleCellExperiment object}
 
-\item{features}{A character vector, a list, or a data.frame containing a list of genes.
+\item{features}{A character vector or a data.frame containing a list of genes.
 If \code{features} is a data.frame, the column containing the gene names must be named "id"}
 
 \item{reddim_type}{A string vector containing the dimensionality reduction
@@ -30,7 +30,7 @@ clusters/cell-type/state...(as listed in the colData of the sce)}
 the colData of the sce)}
 
 \item{add_markdown_panel}{A logical indicating whether or not to include the
-MarkdownBoard panel in the initial configuration}
+MarkdownBoard panel in the initial configuration
 }
 \value{
 A list of "Panel" objects specifying the initial state of iSEE

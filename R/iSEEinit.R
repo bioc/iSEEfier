@@ -6,7 +6,7 @@
 #' list in a single view.
 #'
 #' @param sce SingleCellExperiment object
-#' @param features A character vector, a list, or a data.frame containing a list of genes.
+#' @param features A character vector or a data.frame containing a list of genes.
 #' If `features` is a data.frame, the column containing the gene names must be named "id"
 #' @param reddim_type A string vector containing the dimensionality reduction
 #'   type
@@ -72,15 +72,8 @@ iSEEinit <- function(sce,
   }
   
   if (is.data.frame(features)) {
-    features <- as.character(features[["id"]])
-  } else if (is.list(features)) {
-    features <- as.character(unlist(features))
-  } else if (is.vector(features)) {
     features <- as.character(features)
   } else {
-    stop("Unsupported feature type. Must be a character vector, list, or data.frame!")
-  }
-  
   stopifnot(is.character(features), NROW(features) > 0)
 
   if (!all(features %in% rownames(sce))) {
@@ -115,8 +108,7 @@ iSEEinit <- function(sce,
     message("colData column not found for the `groups` parameter, defaulting to ",
             fallback_groups)
   }
-
-
+  
 
 
   initial <- list()
@@ -211,5 +203,6 @@ iSEEinit <- function(sce,
 
 
   return(initial)
+  
 
 }
