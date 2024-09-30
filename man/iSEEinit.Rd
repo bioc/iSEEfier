@@ -12,6 +12,7 @@ iSEEinit(
   clusters = colnames(colData(sce))[1],
   groups = colnames(colData(sce))[1],
   add_markdown_panel = FALSE,
+  gene_id
 )
 }
 \arguments{
@@ -31,6 +32,8 @@ the colData of the sce)}
 
 \item{add_markdown_panel}{A logical indicating whether or not to include the
 MarkdownBoard panel in the initial configuration
+@param gene_id A character string containing the name of the column name containing
+gene names/ids, when 'features' is a data.frame}
 }
 \value{
 A list of "Panel" objects specifying the initial state of iSEE

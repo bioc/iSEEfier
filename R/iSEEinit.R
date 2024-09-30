@@ -16,6 +16,8 @@
 #'   the colData of the sce)
 #' @param add_markdown_panel A logical indicating whether or not to include the
 #'   MarkdownBoard panel in the initial configuration
+#'  @param gene_id A character string containing the name of the column name containing
+#'  gene names/ids, when 'features' is a data.frame
 #'
 #' @return A list of "Panel" objects specifying the initial state of iSEE
 #'   instance
@@ -49,6 +51,7 @@ iSEEinit <- function(sce,
                      reddim_type = "TSNE",
                      clusters = colnames(colData(sce))[1],
                      groups = colnames(colData(sce))[1],
+                     gene_id="id",
                      add_markdown_panel = FALSE) {
 
   ## Checks on arguments
@@ -62,6 +65,8 @@ iSEEinit <- function(sce,
   stopifnot(isScalarCharacter(groups))
 
   stopifnot(isTRUEorFALSE(add_markdown_panel))
+  
+  stopifnot(isScalarCharacter(gene_id))
 
 
   if (!(reddim_type %in% reducedDimNames(sce))) {
@@ -72,8 +77,20 @@ iSEEinit <- function(sce,
   }
   
   if (is.data.frame(features)) {
+    if ((gene_id %in% colnames(features))) {
+      
+      features <- as.character(features[[gene_id]])
+    } else {
+      stop("The column name '", gene_id,"' does not exist in the 'features' data.frame!")
+    }
+  }
+    
+  else if (is.vector(features)) {
     features <- as.character(features)
   } else {
+    stop("Unsupported feature type. Must be a character vector, or data.frame!")
+    }
+    
   stopifnot(is.character(features), NROW(features) > 0)
 
   if (!all(features %in% rownames(sce))) {
