@@ -11,8 +11,8 @@ iSEEinit(
   reddim_type = "TSNE",
   clusters = colnames(colData(sce))[1],
   groups = colnames(colData(sce))[1],
-  add_markdown_panel = FALSE,
-  gene_id
+  gene_id = "id",
+  add_markdown_panel = FALSE
 )
 }
 \arguments{
@@ -30,10 +30,11 @@ clusters/cell-type/state...(as listed in the colData of the sce)}
 \item{groups}{A character string of the groups/conditions...(as it appears in
 the colData of the sce)}
 
-\item{add_markdown_panel}{A logical indicating whether or not to include the
-MarkdownBoard panel in the initial configuration
-@param gene_id A character string containing the name of the column name containing
+\item{gene_id}{A character string containing the name of the column name containing
 gene names/ids, when 'features' is a data.frame}
+
+\item{add_markdown_panel}{A logical indicating whether or not to include the
+MarkdownBoard panel in the initial configuration}
 }
 \value{
 A list of "Panel" objects specifying the initial state of iSEE

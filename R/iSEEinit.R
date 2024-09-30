@@ -14,10 +14,11 @@
 #'   clusters/cell-type/state...(as listed in the colData of the sce)
 #' @param groups A character string of the groups/conditions...(as it appears in
 #'   the colData of the sce)
+#' @param gene_id A character string containing the name of the column name containing
+#'  gene names/ids, when 'features' is a data.frame
 #' @param add_markdown_panel A logical indicating whether or not to include the
 #'   MarkdownBoard panel in the initial configuration
-#'  @param gene_id A character string containing the name of the column name containing
-#'  gene names/ids, when 'features' is a data.frame
+
 #'
 #' @return A list of "Panel" objects specifying the initial state of iSEE
 #'   instance
