@@ -111,7 +111,7 @@ sce <- runUMAP(sce)
 
 Now our `sce` is ready, we can move on to the next argument.
 
-2.  `features` : which is a list, a vector or a dataframe containing the genes/features
+2.  `features` : which is a vector or a dataframe containing the genes/features
 of interest.
 Let's say we would like to visualize the expression of some genes that were
 identified as marker genes for different cell population.
@@ -154,6 +154,8 @@ initial1 <- iSEEinit(sce = sce,
                     add_markdown_panel = TRUE)
 ```
 
+In case our `features` parameter was a data.frame, we could assign the name of the column containing the features to the `gene_id` parameter.
+
 Now we are one step away from visualizing our list of genes of interest. All
 that's left to do is to run `iSEE` with the initial state created with
 `iSEEinit()`
@@ -182,14 +184,18 @@ will need 4 elements to explore feature sets of interest:
 -   `collection`: A character vector specifying the gene set collections of interest (it is possible to use GO or KEGG terms)
 -   `gene_identifier`: A character string specifying the identifier to use to extract gene IDs for the organism package. This can be **"ENS"** for ENSEMBL ids, **"SYMBOL"** for gene names...
 -   `organism`: A character string of the `org.*.eg.db` package to use to extract mappings of gene sets to gene IDs.
+-   `reddim_type`: A string vector containing the dimensionality reduction type
+-   `clusters`: A character string containing the name of the clusters/cell-type/state...(as listed in the colData of the sce)
+-   `groups`: A character string of the groups/conditions...(as it appears in the colData of the sce)
+
 
 ```{r set-param}
 GO_collection <- "GO"
 Mm_organism <- "org.Mm.eg.db"
 gene_id <- "SYMBOL"
-reddim_type <- "PCA"
 cluster <- "label"
 group <- "strain"
+reddim_type <- "PCA"
 ```
 
 Now let's create this initial setup for `iSEE` using `iSEEnrich()`
