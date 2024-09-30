@@ -13,6 +13,14 @@ test_that("test iSEEinit",{
                                  groups = "Secondary.Type",
                                  add_markdown_panel = TRUE)
   expect_true(is.list(initial_with_board))
+  
+  initial_with_df <- iSEEinit(sce = sce_allen,
+                                 features = as.data.frame(c("Il2rb",
+                                              "Klre1"),nm = "features"),
+                                 clusters = "Primary.Type",
+                                 groups = "Secondary.Type",
+                                 gene_id = "features")
+  expect_true(is.list(initial_with_df))
 
   ## This is to trigger the argument checks
   expect_error({
@@ -173,6 +181,24 @@ test_that("test iSEEinit",{
                                      "Klre1"),
                         clusters = "Primary.Type",
                         groups = "anything_else")
+  })
+  
+  expect_error({
+    initial <- iSEEinit(sce = sce_allen,
+                        features = c("Il2rb",
+                                     "Klre1"),
+                        clusters = "Primary.Type",
+                        groups = "Secondary_Type",
+                        gene_id = TRUE)
+  })
+  
+  expect_error({
+    initial <- iSEEinit(sce = sce_allen,
+                        features = as.data.frame(c("Il2rb",
+                                                   "Klre1"),nm = "features"),
+                        clusters = "Primary.Type",
+                        groups = "Secondary_Type",
+                        gene_id = "gene_name")
   })
 
 })
