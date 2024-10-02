@@ -23,12 +23,14 @@ test_that("test iSEEinit",{
              groups = "Secondary.Type")
   }, "Please provide a SingleCellExperiment as input!")
 
-  expect_error({
-    iSEEinit(sce = sce_allen,
-             reddim_type = "PCA",
-             features = TRUE,
-             clusters = "Primary.Type",
-             groups = "Secondary.Type")
+  expect_message({
+    expect_error({
+      iSEEinit(sce = sce_allen,
+               reddim_type = "PCA",
+               features = TRUE,
+               clusters = "Primary.Type",
+               groups = "Secondary.Type")
+    })
   })
 
   expect_error({
@@ -131,13 +133,16 @@ test_that("test iSEEinit",{
                            clusters = "Primary.Type",
                            groups = "Secondary.Type")
   })
-  expect_error({
-    init_pippo_pluto <- iSEEinit(sce = sce_allen,
-                                 reddim_type = "PCA",
-                                 features = c("Pluto",
-                                              "Pippo"),
-                                 clusters = "Primary.Type",
-                                 groups = "Secondary.Type")
+
+  expect_message({
+    expect_error({
+      init_pippo_pluto <- iSEEinit(sce = sce_allen,
+                                   reddim_type = "PCA",
+                                   features = c("Pluto",
+                                                "Pippo"),
+                                   clusters = "Primary.Type",
+                                   groups = "Secondary.Type")
+    })
   })
 
   sce_nocd <- sce_allen
@@ -176,3 +181,4 @@ test_that("test iSEEinit",{
   })
 
 })
+

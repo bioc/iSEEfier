@@ -28,13 +28,18 @@ test_that("iSEEfier utils work", {
   expect_true(is(g_tiles_2, "igraph"))
 
   init_chopped <- init_1[c(3,6)]
-  g_tiles_noedges <- view_initial_network(init_chopped, plot_format = "none")
+  expect_message({
+    g_tiles_noedges <- view_initial_network(init_chopped, plot_format = "none")
+  }, "Returning the graph object")
+
   expect_true(length(igraph::E(g_tiles_noedges)) == 0)
 
-  expect_message(
-    init_combined <- glue_initials(init_1, init_2, remove_duplicate_panels = TRUE),
-    "Dropping"
-  )
+  expect_message({
+    expect_message({
+      init_combined <- glue_initials(init_1, init_2, remove_duplicate_panels = TRUE)
+      }, "Dropping"
+    )}, "Merging together")
+
   expect_true(length(init_combined) == 20)
 
   p_tiles_combined <- view_initial_tiles(init_combined)
@@ -49,14 +54,19 @@ test_that("iSEEfier utils work", {
   init_mod <- init_1
   names(init_mod)[1] <- "ImaginaryPanel1"
   class(init_mod[[1]]) <- "ImaginaryPanel"
-  expect_error(
-    glue_initials(init_mod, init_2),
-    "Some elements included in the provided input are not recognized as iSEE panels!"
-  )
+  expect_message({
+    expect_error(
+      glue_initials(init_mod, init_2),
+      "Some elements included in the provided input are not recognized as iSEE panels!"
+    )}, "Combining sets of 10, 11 different panels")
+
   ## This one works by enabling the specific panel
-  glued_custom <- glue_initials(init_mod, init_2,
-                                custom_panels_allowed = "ImaginaryPanel",
-                                remove_duplicate_panels = FALSE)
+  expect_message({
+    glued_custom <- glue_initials(init_mod, init_2,
+                                  custom_panels_allowed = "ImaginaryPanel",
+                                  remove_duplicate_panels = FALSE)},
+    "Returning an `initial` configuration including 21 different panels. Enjoy!")
+
   expect_true(length(glued_custom) == 21)
 
 })
