@@ -6,7 +6,7 @@
 #' list in a single view.
 #'
 #' @param sce SingleCellExperiment object
-#' @param features A character vector, a list, or a data.frame containing a list of genes.
+#' @param features A character vector or a data.frame containing a list of genes.
 #' If `features` is a data.frame, the column containing the gene names must be named "id"
 #' @param reddim_type A string vector containing the dimensionality reduction
 #'   type
@@ -14,8 +14,11 @@
 #'   clusters/cell-type/state...(as listed in the colData of the sce)
 #' @param groups A character string of the groups/conditions...(as it appears in
 #'   the colData of the sce)
+#' @param gene_id A character string containing the name of the column name containing
+#'  gene names/ids, when 'features' is a data.frame
 #' @param add_markdown_panel A logical indicating whether or not to include the
 #'   MarkdownBoard panel in the initial configuration
+
 #'
 #' @return A list of "Panel" objects specifying the initial state of iSEE
 #'   instance
@@ -49,6 +52,7 @@ iSEEinit <- function(sce,
                      reddim_type = "TSNE",
                      clusters = colnames(colData(sce))[1],
                      groups = colnames(colData(sce))[1],
+                     gene_id="id",
                      add_markdown_panel = FALSE) {
 
   ## Checks on arguments
@@ -62,6 +66,8 @@ iSEEinit <- function(sce,
   stopifnot(isScalarCharacter(groups))
 
   stopifnot(isTRUEorFALSE(add_markdown_panel))
+  
+  stopifnot(isScalarCharacter(gene_id))
 
 
   if (!(reddim_type %in% reducedDimNames(sce))) {
@@ -72,15 +78,20 @@ iSEEinit <- function(sce,
   }
   
   if (is.data.frame(features)) {
-    features <- as.character(features[["id"]])
-  } else if (is.list(features)) {
-    features <- as.character(unlist(features))
-  } else if (is.vector(features)) {
+    if ((gene_id %in% colnames(features))) {
+      
+      features <- as.character(features[[gene_id]])
+    } else {
+      stop("The column name '", gene_id,"' does not exist in the 'features' data.frame!")
+    }
+  }
+    
+  else if (is.vector(features)) {
     features <- as.character(features)
   } else {
-    stop("Unsupported feature type. Must be a character vector, list, or data.frame!")
-  }
-  
+    stop("Unsupported feature type. Must be a character vector, or data.frame!")
+    }
+    
   stopifnot(is.character(features), NROW(features) > 0)
 
   if (!all(features %in% rownames(sce))) {
@@ -115,8 +126,7 @@ iSEEinit <- function(sce,
     message("colData column not found for the `groups` parameter, defaulting to ",
             fallback_groups)
   }
-
-
+  
 
 
   initial <- list()
@@ -211,5 +221,6 @@ iSEEinit <- function(sce,
 
 
   return(initial)
+  
 
 }

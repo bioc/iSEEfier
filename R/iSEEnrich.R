@@ -71,7 +71,36 @@ iSEEnrich <- function(sce,
   stopifnot(isScalarCharacter(clusters))
   
   stopifnot(isScalarCharacter(groups))
-
+  
+  if (!(clusters %in% colnames(colData(sce)))) {
+    if (ncol(colData(sce)) > 0) {
+      fallback_clusters <- colnames(colData(sce))[1]
+    } else {
+      stop("No colData provided for the `clusters`!")
+    }
+    
+    message("colData column not found for the `clusters` parameter, defaulting to ",
+            fallback_clusters)
+  }
+  
+  if (!(groups %in% colnames(colData(sce)))) {
+    if (ncol(colData(sce)) > 0) {
+      fallback_groups <- colnames(colData(sce))[1]
+    } else {
+      stop("No colData provided for the `groups`!")
+    }
+    
+    message("colData column not found for the `groups` parameter, defaulting to ",
+            fallback_groups)
+  }
+  
+  if (!(reddim_type %in% reducedDimNames(sce))) {
+    available_reddims <- reducedDimNames(sce)
+    stop("The selected reduced dimensionality embedding is not available!\n",
+         "Please select one of these: ",
+         paste(available_reddims, collapse = ", "))
+  }
+  
   if (!requireNamespace(organism, quietly = TRUE))
     stop("Please check the value of the provided orgDb package ",
          "(the package needs to be installed)...",

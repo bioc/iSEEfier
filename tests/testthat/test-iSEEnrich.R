@@ -95,7 +95,27 @@ test_that("test iSEEnrich", {
               collection = GO_collection,
               organism = Mm_organism,
               gene_identifier = gene_id,
+              clusters = c("zina","aziza"),
+              groups = groups,
+              reddim_type = reddim_type)
+  })
+  
+  expect_error({
+    iSEEnrich(sce = sce_allen,
+              collection = GO_collection,
+              organism = Mm_organism,
+              gene_identifier = gene_id,
               clusters = TRUE,
+              groups = c("Primary.Type", "Secondary.Type"),
+              reddim_type = reddim_type)
+  })
+  
+  expect_error({
+    iSEEnrich(sce = sce_allen,
+              collection = GO_collection,
+              organism = Mm_organism,
+              gene_identifier = gene_id,
+              clusters = clusters,
               groups = c("Primary.Type", "Secondary.Type"),
               reddim_type = reddim_type)
   })
@@ -110,5 +130,24 @@ test_that("test iSEEnrich", {
               reddim_type = TRUE)
   })
   
-
+  expect_error({
+    iSEEnrich(sce = sce_allen,
+              collection = GO_collection,
+              organism = Mm_organism,
+              gene_identifier = gene_id,
+              clusters = clusters,
+              groups = groups,
+              reddim_type = "UMAP")
+  })
+  
+  expect_error({
+    iSEEnrich(sce = sce_allen,
+              collection = GO_collection,
+              organism = Mm_organism,
+              gene_identifier = gene_id,
+              clusters = clusters,
+              groups = groups,
+              reddim_type = "pca")
+  })
+  
 })
