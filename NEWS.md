@@ -2,6 +2,8 @@
 
 * Adding in a new function `iSEEmarker()`, more focused on finding marker genes
 * A new `iSEEinit()` version without the `DynamicMarkerTable` panel
+* Expanding the input of `iSEEinit()` to accept features as `data.frame` in addition to `vector`
+* Adding visualization plots to `iSEEnrich()`
 
 # iSEEfier 1.0.0
 
