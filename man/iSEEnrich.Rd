@@ -8,7 +8,10 @@ iSEEnrich(
   sce,
   collection = c("GO", "KEGG"),
   organism = "org.Hs.eg.db",
-  gene_identifier = "ENTREZID"
+  gene_identifier = "ENTREZID",
+  clusters = colnames(colData(sce))[1],
+  groups = colnames(colData(sce))[1],
+  reddim_type = "PCA"
 )
 }
 \arguments{
@@ -22,6 +25,15 @@ extract mappings of gene sets to gene IDs.}
 
 \item{gene_identifier}{A character string specifying the identifier to use to
 extract gene IDs for the organism package}
+
+\item{clusters}{A character string containing the name of the
+clusters/cell-type/state...(as listed in the colData of the sce)}
+
+\item{groups}{A character string of the groups/conditions...(as it appears in
+the colData of the sce)}
+
+\item{reddim_type}{A string vector containing the dimensionality reduction
+type}
 }
 \value{
 A list of "Panel" objects specifying the initial state of iSEE
@@ -39,9 +51,15 @@ sce <- scater::runPCA(sce)
 GO_collection <- "GO"
 Mm_organism <- "org.Mm.eg.db"
 gene_id <- "SYMBOL"
+clusters <- "stimulus"
+groups <- "single cell quality"
+reddim_type <- "PCA"
 results <- iSEEnrich(sce = sce,
                      collection = GO_collection,
                      organism = Mm_organism,
-                     gene_identifier = gene_id)
+                     gene_identifier = gene_id,
+                     clusters = clusters,
+                     groups = groups,
+                     reddim_type = reddim_type)
 
 }

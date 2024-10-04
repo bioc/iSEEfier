@@ -6,15 +6,19 @@
 #' list in a single view.
 #'
 #' @param sce SingleCellExperiment object
-#' @param features A character vector containing a list of genes
+#' @param features A character vector or a data.frame containing a list of genes.
+#' If `features` is a data.frame, the column containing the gene names must be named "id"
 #' @param reddim_type A string vector containing the dimensionality reduction
 #'   type
 #' @param clusters A character string containing the name of the
 #'   clusters/cell-type/state...(as listed in the colData of the sce)
 #' @param groups A character string of the groups/conditions...(as it appears in
 #'   the colData of the sce)
+#' @param gene_id A character string containing the name of the column name containing
+#'  gene names/ids, when 'features' is a data.frame
 #' @param add_markdown_panel A logical indicating whether or not to include the
 #'   MarkdownBoard panel in the initial configuration
+
 #'
 #' @return A list of "Panel" objects specifying the initial state of iSEE
 #'   instance
@@ -48,13 +52,12 @@ iSEEinit <- function(sce,
                      reddim_type = "TSNE",
                      clusters = colnames(colData(sce))[1],
                      groups = colnames(colData(sce))[1],
+                     gene_id="id",
                      add_markdown_panel = FALSE) {
 
   ## Checks on arguments
   if (!is(sce, "SingleCellExperiment"))
     stop("Please provide a SingleCellExperiment as input!")
-
-  stopifnot(is.character(features), length(features) > 0)
 
   stopifnot(isScalarCharacter(reddim_type))
 
@@ -63,6 +66,8 @@ iSEEinit <- function(sce,
   stopifnot(isScalarCharacter(groups))
 
   stopifnot(isTRUEorFALSE(add_markdown_panel))
+  
+  stopifnot(isScalarCharacter(gene_id))
 
 
   if (!(reddim_type %in% reducedDimNames(sce))) {
@@ -71,6 +76,23 @@ iSEEinit <- function(sce,
          "Please select one of these: ",
          paste(available_reddims, collapse = ", "))
   }
+  
+  if (is.data.frame(features)) {
+    if ((gene_id %in% colnames(features))) {
+      
+      features <- as.character(features[[gene_id]])
+    } else {
+      stop("The column name '", gene_id,"' does not exist in the 'features' data.frame!")
+    }
+  }
+    
+  else if (is.vector(features)) {
+    features <- as.character(features)
+  } else {
+    stop("Unsupported feature type. Must be a character vector, or data.frame!")
+    }
+    
+  stopifnot(is.character(features), NROW(features) > 0)
 
   if (!all(features %in% rownames(sce))) {
     not_available_features <- features[!features %in% rownames(sce)]
@@ -79,7 +101,7 @@ iSEEinit <- function(sce,
             paste(not_available_features, collapse = ", "))
 
     features <- features[features %in% rownames(sce)]
-    if (length(features) == 0)
+    if (NROW(features) == 0)
       stop("No features available!")
   }
 
@@ -104,57 +126,60 @@ iSEEinit <- function(sce,
     message("colData column not found for the `groups` parameter, defaulting to ",
             fallback_groups)
   }
-
-
+  
 
 
   initial <- list()
   
   
-  for (j in features) {
-    initial[[paste0("ReducedDimensionPlot", which(features == j))]] <- new(
+  for (j in 1:NROW(features)) {
+    feature_name <- if (is.data.frame(features)) features[j, ] else features[[j]]
+    initial[[paste0("ReducedDimensionPlot", j)]] <- new(
       "ReducedDimensionPlot",
       Type = reddim_type,
       ColorBy = "Feature name",
-      ColorByFeatureName = j,
-      ColorByFeatureSource = paste0("RowDataTable", which(features == j)),
+      ColorByFeatureName = feature_name,
+      ColorByFeatureSource = paste0("RowDataTable", j),
       ColumnSelectionSource = "ColumnDataPlot1",
       SelectionAlpha = 0.05
     )
-    
-    initial[[paste0("FeatureAssayPlot", which(features == j))]] <- new(
+
+    initial[[paste0("FeatureAssayPlot", j)]] <- new(
       "FeatureAssayPlot",
       XAxis = "Column data",
       XAxisColumnData = clusters,
-      YAxisFeatureName = j,
-      YAxisFeatureSource = paste0("RowDataTable", which(features == j)),
+      YAxisFeatureName = feature_name,
+      YAxisFeatureSource = paste0("RowDataTable", j),
       ColorBy = "Column data",
       ColorByColumnData = clusters
     )
     
-    initial[[paste0("RowDataTable", which(features == j))]] <- new(
+    initial[[paste0("RowDataTable", j)]] <- new(
       "RowDataTable",
-      Selected = j,
-      Search = j
+      Selected = feature_name,
+      Search = feature_name
     )
   }
   
-  if (length(features) > 1) {
-    initial[[paste0("FeatureAssayPlot", length(features) + 1)]] <- new(
+  if (NROW(features) > 1) {
+    feature1 <- if (is.data.frame(features)) features[1, ] else features[[1]]
+    feature2 <- if (is.data.frame(features)) features[2, ] else features[[2]]
+    
+    initial[[paste0("FeatureAssayPlot", NROW(features) + 1)]] <- new(
       "FeatureAssayPlot",
       XAxis = "Feature name",
-      XAxisFeatureName = features[[1]],
-      YAxisFeatureName = features[[2]]
+      XAxisFeatureName = feature1,
+      YAxisFeatureName = feature2
     )
   }
   
   if (add_markdown_panel == TRUE) {
-    initial[[paste0("ReducedDimensionPlot", length(features) + 1)]] <- new(
+    initial[[paste0("ReducedDimensionPlot", NROW(features) + 1)]] <- new(
       "ReducedDimensionPlot",
       Type = reddim_type,
       ColorByColumnData = clusters,
       ColorBy = "Column data",
-      ColumnSelectionSource = paste0("FeatureAssayPlot", length(features) + 1),
+      ColumnSelectionSource = paste0("FeatureAssayPlot", NROW(features) + 1),
       FacetColumnBy = "Column data",
       FacetColumnByColData = groups,
       SelectionAlpha = 0.05
@@ -165,12 +190,12 @@ iSEEinit <- function(sce,
       Content = "# Placeholder\n\nFill me with text!",
       PanelWidth = 4L)
   } else {
-    initial[[paste0("ReducedDimensionPlot", length(features) + 1)]] <- new(
+    initial[[paste0("ReducedDimensionPlot", NROW(features) + 1)]] <- new(
       "ReducedDimensionPlot",
       Type = reddim_type,
       ColorByColumnData = clusters,
       ColorBy = "Column data",
-      ColumnSelectionSource = paste0("FeatureAssayPlot", length(features) + 1),
+      ColumnSelectionSource = paste0("FeatureAssayPlot", NROW(features) + 1),
       FacetColumnBy = "Column data",
       FacetColumnByColData = groups,
       SelectionAlpha = 0.05,
@@ -196,5 +221,6 @@ iSEEinit <- function(sce,
 
 
   return(initial)
+  
 
 }
