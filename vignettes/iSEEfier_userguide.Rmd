@@ -201,13 +201,15 @@ reddim_type <- "PCA"
 Now let's create this initial setup for `iSEE` using `iSEEnrich()`
 
 ```{r initial2}
-results <- iSEEnrich(sce = sce,
-                     collection = GO_collection,
-                     organism = Mm_organism,
-                     gene_identifier = gene_id,
-                     clusters = cluster,
-                     groups = group,
-                     reddim_type = reddim_type)
+results <- iSEEnrich(
+  sce = sce,
+  collection = GO_collection,
+  gene_identifier = gene_id,
+  organism = Mm_organism,
+  clusters = cluster,
+  reddim_type = reddim_type,
+  groups = group
+)
 ```
 
 `iSEEnrich` will specifically return a list with the updated `sce` object and
