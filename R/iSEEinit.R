@@ -38,7 +38,7 @@
 #'
 #' @examples
 #' sce <- scRNAseq::RichardTCellData()
-#' sce <- scuttle::logNormCounts(sce)
+#' sce <- scrapper::normalizeRnaCounts.se(sce)
 #' sce <- scater::runPCA(sce)
 #' sce <- scater::runTSNE(sce)
 #' gene_list <- c("ENSMUSG00000026581",
@@ -132,7 +132,7 @@ iSEEinit <- function(sce,
   initial <- list()
   
   
-  for (j in 1:NROW(features)) {
+  for (j in seq_len(NROW(features))) {
     feature_name <- if (is.data.frame(features)) features[j, ] else features[[j]]
     initial[[paste0("ReducedDimensionPlot", j)]] <- new(
       "ReducedDimensionPlot",

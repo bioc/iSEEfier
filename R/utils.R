@@ -24,7 +24,7 @@
 #'
 #' @importFrom stats na.omit
 #' @importFrom ggplot2 ggplot aes geom_tile scale_fill_manual scale_y_discrete
-#' theme theme_void
+#'  theme theme_void
 #' @importFrom rlang .data
 #' @importFrom BiocBaseUtils isCharacter
 #'
@@ -33,7 +33,7 @@
 #' @examples
 #' ## Load a dataset and preprocess this quickly
 #' sce <- scRNAseq::RichardTCellData()
-#' sce <- scuttle::logNormCounts(sce)
+#' sce <- scrapper::normalizeRnaCounts.se(sce)
 #' sce <- scater::runPCA(sce)
 #' sce <- scater::runTSNE(sce)
 #' ## Select some features and aspects to focus on
@@ -170,7 +170,7 @@ view_initial_tiles <- function(initial) {
 #'
 #' @export
 #'
-#' @importFrom igraph graph_from_data_frame graph.empty V V<-
+#' @importFrom igraph graph_from_data_frame make_empty_graph V V<-
 #' @importFrom visNetwork visNetwork visEdges toVisNetworkData
 #'
 #' @seealso [view_initial_tiles()]
@@ -178,7 +178,7 @@ view_initial_tiles <- function(initial) {
 #' @examples
 #' ## Load a dataset and preprocess this quickly
 #' sce <- scRNAseq::RichardTCellData()
-#' sce <- scuttle::logNormCounts(sce)
+#' sce <- scrapper::normalizeRnaCounts.se(sce)
 #' sce <- scater::runPCA(sce)
 #' sce <- scater::runTSNE(sce)
 #' ## Select some features and aspects to focus on
@@ -233,7 +233,7 @@ view_initial_network <- function(initial,
     )
     g <- graph_from_data_frame(graph_edges_df, vertices = graph_nodes_df)
   } else {
-    g <- graph.empty(n = length(panel_ids))
+    g <- make_empty_graph(n = length(panel_ids))
     V(g)$name <- panel_ids
   }
 
@@ -296,7 +296,7 @@ view_initial_network <- function(initial,
 #' @examples
 #' ## Load a dataset and preprocess this quickly
 #' sce <- scRNAseq::RichardTCellData()
-#' sce <- scuttle::logNormCounts(sce)
+#' sce <- scrapper::normalizeRnaCounts.se(sce)
 #' sce <- scater::runPCA(sce)
 #' sce <- scater::runTSNE(sce)
 #' ## Select some features and aspects to focus on
@@ -395,6 +395,9 @@ glue_initials <- function(...,
 #' Constant values used throughout iSEEfier
 #'
 #' @name constants-iSEEfier
+#' 
+#' @return A character vector of length 17 containing color values used for
+#'   iSEE and iSEEu panels
 #'
 #' @section Panel colors:
 #' * color values (as string character or hex value) for the panels included by
