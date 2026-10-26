@@ -25,7 +25,16 @@ by the user).
 
 ## Installation
 
-You can install the development version of `iSEEfier` from GitHub with:
+You can install the release version of `iSEEfier` from Bioconductor with:
+
+``` r
+if (!requireNamespace("BiocManager", quietly = TRUE)) {
+  install.packages("BiocManager")}
+
+BiocManager::install("iSEEfier")
+```
+
+and the development version from GitHub with:
 
 ``` r
 library("remotes")
