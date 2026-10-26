@@ -41,7 +41,7 @@ Suggests:
     scater,
     scRNAseq,
     org.Mm.eg.db,
-    scuttle,
+    scrapper,
     BiocStyle,
     testthat (>= 3.0.0)
 biocViews:
